@@ -1,16 +1,109 @@
+// Unshuffled deck
 let deck = [
-    {twoC: 2}, {threeC: 3}, {fourC: 4}, {fiveC: 5}, {sixC: 6}, {sevenC: 7}, {eightC: 8}, {nineC: 9}, {tenC: 10}, {jackC: 10}, {queenC: 10}, {kingC: 10}, {aceC: 11},
-    {twoD: 2}, {threeD: 3}, {fourD: 4}, {fiveD: 5}, {sixD: 6}, {sevenD: 7}, {eightD: 8}, {nineD: 9}, {tenD: 10}, {jackD: 10}, {queenD: 10}, {kingD: 10}, {aceD: 11},
-    {twoH: 2}, {threeH: 3}, {fourH: 4}, {fiveH: 5}, {sixH: 6}, {sevenH: 7}, {eightH: 8}, {nineH: 9}, {tenH: 10}, {jackH: 10}, {queenH: 10}, {kingH: 10}, {aceH: 11},
-    {twoS: 2}, {threeS: 3}, {fourS: 4}, {fiveS: 5}, {sixS: 6}, {sevenS: 7}, {eightS: 8}, {nineS: 9}, {tenS: 10}, {jackS: 10}, {queenS: 10}, {kingS: 10}, {aceS: 11}
+    { twoClubs: 2 },
+    { threeClubs: 3 },
+    { fourClubs: 4 },
+    { fiveClubs: 5 },
+    { sixClubs: 6 },
+    { sevenClubs: 7 },
+    { eightClubs: 8 },
+    { nineClubs: 9 },
+    { tenClubs: 10 },
+    { jackClubs: 10 },
+    { queenClubs: 10 },
+    { kingClubs: 10 },
+    { aceClubs: 11 },
+    { twoDiamonds: 2 },
+    { threeDiamonds: 3 },
+    { fourDiamonds: 4 },
+    { fiveDiamonds: 5 },
+    { sixDiamonds: 6 },
+    { sevenDiamonds: 7 },
+    { eightDiamonds: 8 },
+    { nineDiamonds: 9 },
+    { tenDiamonds: 10 },
+    { jackDiamonds: 10 },
+    { queenDiamonds: 10 },
+    { kingDiamonds: 10 },
+    { aceDiamonds: 11 },
+    { twoHearts: 2 },
+    { threeHearts: 3 },
+    { fourHearts: 4 },
+    { fiveHearts: 5 },
+    { sixHearts: 6 },
+    { sevenHearts: 7 },
+    { eightHearts: 8 },
+    { nineHearts: 9 },
+    { tenHearts: 10 },
+    { jackHearts: 10 },
+    { queenHearts: 10 },
+    { kingHearts: 10 },
+    { aceHearts: 11 },
+    { twoSpades: 2 },
+    { threeSpades: 3 },
+    { fourSpades: 4 },
+    { fiveSpades: 5 },
+    { sixSpades: 6 },
+    { sevenSpades: 7 },
+    { eightSpades: 8 },
+    { nineSpades: 9 },
+    { tenSpades: 10 },
+    { jackSpades: 10 },
+    { queenSpades: 10 },
+    { kingSpades: 10 },
+    { aceSpades: 11 }
 ];
 
-// Fisher-Yates shuffle
+// SHUFFLE function (Fisher-Yates shuffle)
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
-        console.log(i);
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
 }
+
+// DEAL function
+let i = -1;
+
+function deal() {
+    i++;
+    return deck[i];
+}
+
+// SHOW function
+function show(cards) {
+    const hand = cards.map((card) => {
+        return Object.keys(card);
+    });
+
+    console.log(hand);
+}
+
+// SUM function
+function sum(cards) {
+    const cardValues = cards.map((card) => {
+        return Object.values(card);
+    });
+
+    const handValue = cardValues.reduce((accumulator, currentValue) => {
+        return accumulator + parseInt(currentValue);
+    }, 0);
+
+    console.log(handValue);
+}
+
+// Shuffle + initial deal
+shuffle(deck);
+
+let playerCards = [deal(), deal()];
+let dealerCards = [deal(), deal()];
+
+console.log("Player's cards:");
+show(playerCards);
+console.log("Player's score:");
+sum(playerCards);
+console.log("Dealer's cards:");
+show(dealerCards);
+console.log("Dealer's score:");
+sum(dealerCards);
