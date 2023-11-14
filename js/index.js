@@ -89,20 +89,22 @@ function sum(cards) {
         return accumulator + currentValue;
     }, 0);
 
-    return handValue;
+    return resolveAces(handValue, show(cards));
 }
 
-// CHECK SCORE function
-// function checkScore(handValue, cards) {
-//     if (handValue > 21) {
-//         let hand = show(cards);
-//         console.log(hand);
-//         const findAce = hand.find(card => card.includes('ace'));
-//         console.log(findAce);
-//     }
+// RESOLVE ACES function
+function resolveAces(handValue, hand) {
+    if (handValue > 21) {
+        const aceIndex = hand.findIndex(card => card.includes('ace'));
+        if (aceIndex !== -1) {
+            handValue -= 10;
+            hand.splice(aceIndex, 1);
+            return resolveAces(handValue, hand);
+        }
+    }
 
-//     return handValue;
-// }
+    return handValue;
+}
 
 // Shuffle + initial deal
 shuffle(deck);
@@ -118,5 +120,3 @@ console.log("Dealer's cards:");
 console.log(show(dealerCards));
 console.log("Dealer's score:");
 console.log(sum(dealerCards));
-
-// checkScore(22, [{ twoClubs: 2 }, { nineClubs: 9 }, { aceClubs: 11 }]);
