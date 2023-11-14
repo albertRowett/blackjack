@@ -74,24 +74,35 @@ function deal() {
 // SHOW function
 function show(cards) {
     const hand = cards.map((card) => {
-        return Object.keys(card);
+        return Object.keys(card).toString();
     });
 
-    console.log(hand);
+    return hand;
 }
 
 // SUM function
 function sum(cards) {
     const cardValues = cards.map((card) => {
-        return Object.values(card);
+        return parseInt(Object.values(card));
     });
-
     const handValue = cardValues.reduce((accumulator, currentValue) => {
-        return accumulator + parseInt(currentValue);
+        return accumulator + currentValue;
     }, 0);
 
-    console.log(handValue);
+    return handValue;
 }
+
+// CHECK SCORE function
+// function checkScore(handValue, cards) {
+//     if (handValue > 21) {
+//         let hand = show(cards);
+//         console.log(hand);
+//         const findAce = hand.find(card => card.includes('ace'));
+//         console.log(findAce);
+//     }
+
+//     return handValue;
+// }
 
 // Shuffle + initial deal
 shuffle(deck);
@@ -100,10 +111,12 @@ let playerCards = [deal(), deal()];
 let dealerCards = [deal(), deal()];
 
 console.log("Player's cards:");
-show(playerCards);
+console.log(show(playerCards));
 console.log("Player's score:");
-sum(playerCards);
+console.log(sum(playerCards));
 console.log("Dealer's cards:");
-show(dealerCards);
+console.log(show(dealerCards));
 console.log("Dealer's score:");
-sum(dealerCards);
+console.log(sum(dealerCards));
+
+// checkScore(22, [{ twoClubs: 2 }, { nineClubs: 9 }, { aceClubs: 11 }]);
