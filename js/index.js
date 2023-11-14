@@ -120,3 +120,14 @@ console.log("Dealer's cards:");
 console.log(show(dealerCards));
 console.log("Dealer's score:");
 console.log(sum(dealerCards));
+
+if (sum(playerCards) < 21) {
+    document.querySelector('.hitButton').classList.remove('hidden');
+    document.querySelector('.standButton').classList.remove('hidden');
+} else {
+    if (sum(dealerCards) === 21) {
+        console.log('Game outcome: draw')
+    } else {
+        console.log('Game outcome: player wins')
+    }
+}
