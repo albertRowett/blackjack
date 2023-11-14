@@ -112,22 +112,18 @@ shuffle(deck);
 let playerCards = [deal(), deal()];
 let dealerCards = [deal(), deal()];
 
-console.log("Player's cards:");
-console.log(show(playerCards));
-console.log("Player's score:");
-console.log(sum(playerCards));
-console.log("Dealer's cards:");
-console.log(show(dealerCards));
-console.log("Dealer's score:");
-console.log(sum(dealerCards));
+console.log("Player's cards: " + show(playerCards));
+console.log("Player's score: " + sum(playerCards));
+console.log("Dealer's cards: " + show(dealerCards));
+console.log("Dealer's score: " + sum(dealerCards));
 
 if (sum(playerCards) < 21) {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 } else {
     if (sum(dealerCards) === 21) {
-        console.log('Game outcome: draw')
+        console.log('Game outcome: blackjack- draw')
     } else {
-        console.log('Game outcome: player wins')
+        console.log('Game outcome: blackjack- player wins')
     }
 }
