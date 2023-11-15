@@ -155,6 +155,26 @@ function resolvePlayerBust() {
     console.log('Game outcome: bust- dealer wins');
 }
 
+function resolveGame() {
+    if (sum(dealerHand) < 17) {
+        deal(dealerHand);
+        updateConsole();
+        resolveGame();
+    } else {
+        if (sum(dealerHand) > 21) {
+            console.log('Game outcome: dealer bust- player wins');
+        } else {
+            if (sum(dealerHand) > sum(playerHand)) {
+                console.log('Game outcome: dealer wins');
+            } else if (sum(dealerHand) < sum(playerHand)) {
+                console.log('Game outcome: player wins');
+            } else {
+                console.log('Game outcome: draw');
+            }
+        }
+    }
+}
+
 // Shuffle + initial deal
 shuffle(deck);
 deal(playerHand);
