@@ -54,6 +54,10 @@ let deck = [
     { aceSpades: 11 }
 ];
 
+// Empty hands of cards
+let playerCards = [];
+let dealerCards = [];
+
 // SHUFFLE function (Fisher-Yates shuffle)
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -66,9 +70,10 @@ function shuffle(array) {
 // DEAL function
 let i = -1;
 
-function deal() {
+function deal(cards) {
     i++;
-    return deck[i];
+    const dealtCard = deck[i];
+    cards.push(dealtCard);
 }
 
 // SHOW function
@@ -108,9 +113,10 @@ function resolveAces(handValue, hand) {
 
 // Shuffle + initial deal
 shuffle(deck);
-
-let playerCards = [deal(), deal()];
-let dealerCards = [deal(), deal()];
+deal(playerCards);
+deal(dealerCards);
+deal(playerCards);
+deal(dealerCards);
 
 console.log("Player's cards: " + show(playerCards));
 console.log("Player's score: " + sum(playerCards));
