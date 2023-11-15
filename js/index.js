@@ -132,9 +132,13 @@ function handleHitClick() {
     updateConsole();
 
     if (sum(playerHand) >= 21) {
-        toggleHitStandButtonVisibility();
-        resolveGame();
+        handlePlayerBust();
     }
+}
+
+function handlePlayerBust() {
+    toggleHitStandButtonVisibility();
+    console.log('Game outcome: bust- dealer wins');
 }
 
 // Shuffle + initial deal
