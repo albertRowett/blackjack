@@ -111,6 +111,14 @@ function resolveAces(handValue, cards) {
     return handValue;
 }
 
+// UPDATE CONSOLE function
+function updateConsole() {
+    console.log("Player's cards: " + show(playerHand));
+    console.log("Player's score: " + sum(playerHand));
+    console.log("Dealer's cards: " + show(dealerHand));
+    console.log("Dealer's score: " + sum(dealerHand));
+}
+
 // TOGGLE HIT STAND BUTTON VISIBILITY function
 function toggleHitStandButtonVisibility() {
     document.querySelector('.hitButton').classList.toggle('hidden');
@@ -123,11 +131,7 @@ deal(playerHand);
 deal(dealerHand);
 deal(playerHand);
 deal(dealerHand);
-
-console.log("Player's cards: " + show(playerHand));
-console.log("Player's score: " + sum(playerHand));
-console.log("Dealer's cards: " + show(dealerHand));
-console.log("Dealer's score: " + sum(dealerHand));
+updateConsole();
 
 if (sum(playerHand) === 21) {
     if (sum(dealerHand) === 21) {
