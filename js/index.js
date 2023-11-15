@@ -55,8 +55,8 @@ let deck = [
 ];
 
 // Empty hands of cards
-let playerCards = [];
-let dealerCards = [];
+let playerHand = [];
+let dealerHand = [];
 
 // SHUFFLE function (Fisher-Yates shuffle)
 function shuffle(array) {
@@ -70,41 +70,41 @@ function shuffle(array) {
 // DEAL function
 let i = -1;
 
-function deal(cards) {
+function deal(hand) {
     i++;
     const dealtCard = deck[i];
-    cards.push(dealtCard);
+    hand.push(dealtCard);
 }
 
 // SHOW function
-function show(cards) {
-    const hand = cards.map((card) => {
+function show(hand) {
+    const cards = hand.map((card) => {
         return Object.keys(card).toString();
     });
 
-    return hand;
+    return cards;
 }
 
 // SUM function
-function sum(cards) {
-    const cardValues = cards.map((card) => {
+function sum(hand) {
+    const cardValues = hand.map((card) => {
         return parseInt(Object.values(card));
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
     }, 0);
 
-    return resolveAces(handValue, show(cards));
+    return resolveAces(handValue, show(hand));
 }
 
 // RESOLVE ACES function
-function resolveAces(handValue, hand) {
+function resolveAces(handValue, cards) {
     if (handValue > 21) {
-        const aceIndex = hand.findIndex(card => card.includes('ace'));
+        const aceIndex = cards.findIndex(card => card.includes('ace'));
         if (aceIndex !== -1) {
             handValue -= 10;
-            hand.splice(aceIndex, 1);
-            return resolveAces(handValue, hand);
+            cards.splice(aceIndex, 1);
+            return resolveAces(handValue, cards);
         }
     }
 
@@ -113,21 +113,21 @@ function resolveAces(handValue, hand) {
 
 // Shuffle + initial deal
 shuffle(deck);
-deal(playerCards);
-deal(dealerCards);
-deal(playerCards);
-deal(dealerCards);
+deal(playerHand);
+deal(dealerHand);
+deal(playerHand);
+deal(dealerHand);
 
-console.log("Player's cards: " + show(playerCards));
-console.log("Player's score: " + sum(playerCards));
-console.log("Dealer's cards: " + show(dealerCards));
-console.log("Dealer's score: " + sum(dealerCards));
+console.log("Player's cards: " + show(playerHand));
+console.log("Player's score: " + sum(playerHand));
+console.log("Dealer's cards: " + show(dealerHand));
+console.log("Dealer's score: " + sum(dealerHand));
 
-if (sum(playerCards) < 21) {
+if (sum(playerHand) < 21) {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 } else {
-    if (sum(dealerCards) === 21) {
+    if (sum(dealerHand) === 21) {
         console.log('Game outcome: blackjack- draw')
     } else {
         console.log('Game outcome: blackjack- player wins')
