@@ -136,6 +136,14 @@ function handleHitClick() {
     }
 }
 
+function resolveBlackjack() {
+    if (sum(dealerHand) === 21) {
+        console.log('Game outcome: blackjack- draw');
+    } else {
+        console.log('Game outcome: blackjack- player wins');
+    }
+}
+
 function handlePlayerBust() {
     toggleHitStandButtonVisibility();
     console.log('Game outcome: bust- dealer wins');
@@ -150,11 +158,7 @@ deal(dealerHand);
 updateConsole();
 
 if (sum(playerHand) === 21) {
-    if (sum(dealerHand) === 21) {
-        console.log('Game outcome: blackjack- draw');
-    } else {
-        console.log('Game outcome: blackjack- player wins');
-    }
+    resolveBlackjack();
 } else {
     toggleHitStandButtonVisibility();
 }
