@@ -132,7 +132,7 @@ function handleHitClick() {
     updateConsole();
 
     if (sum(playerHand) >= 21) {
-        handlePlayerBust();
+        resolvePlayerBust();
     }
 }
 
@@ -144,7 +144,7 @@ function resolveBlackjack() {
     }
 }
 
-function handlePlayerBust() {
+function resolvePlayerBust() {
     toggleHitStandButtonVisibility();
     console.log('Game outcome: bust- dealer wins');
 }
