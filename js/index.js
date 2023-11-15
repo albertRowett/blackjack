@@ -111,6 +111,12 @@ function resolveAces(handValue, cards) {
     return handValue;
 }
 
+// TOGGLE HIT STAND BUTTON VISIBILITY function
+function toggleHitStandButtonVisibility() {
+    document.querySelector('.hitButton').classList.toggle('hidden');
+    document.querySelector('.standButton').classList.toggle('hidden');
+}
+
 // Shuffle + initial deal
 shuffle(deck);
 deal(playerHand);
@@ -130,6 +136,13 @@ if (sum(playerHand) === 21) {
         console.log('Game outcome: blackjack- player wins');
     }
 } else {
-    document.querySelector('.hitButton').classList.remove('hidden');
-    document.querySelector('.standButton').classList.remove('hidden');
+    toggleHitStandButtonVisibility();
 }
+
+// function handleHitClick() {
+//     deal(playerHand);
+//     console.log("Player's cards: " + show(playerHand));
+//     console.log("Player's score: " + sum(playerHand));
+// }
+
+// document.querySelector('.hitButton').addEventListener('click', handleHitClick);
