@@ -126,7 +126,7 @@ function toggleHitStandButtonVisibility() {
     document.querySelector('.standButton').classList.toggle('hidden');
 }
 
-// HANDLE HIT CLICK function
+// Button click handlers
 function handleHitClick() {
     deal(playerHand);
     updateConsole();
@@ -136,6 +136,12 @@ function handleHitClick() {
     }
 }
 
+function handleStandClick() {
+    toggleHitStandButtonVisibility();
+    resolveGame();
+}
+
+// Game resolution
 function resolveBlackjack() {
     if (sum(dealerHand) === 21) {
         console.log('Game outcome: blackjack- draw');
@@ -165,3 +171,4 @@ if (sum(playerHand) === 21) {
 
 // Event listeners
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
+document.querySelector('.standButton').addEventListener('click', handleStandClick);
