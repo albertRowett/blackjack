@@ -100,7 +100,7 @@ function sum(hand) {
 // RESOLVE ACES function
 function resolveAces(handValue, cards) {
     if (handValue > 21) {
-        const aceIndex = cards.findIndex(card => card.includes('ace'));
+        const aceIndex = cards.findIndex((card) => card.includes('ace'));
         if (aceIndex !== -1) {
             handValue -= 10;
             cards.splice(aceIndex, 1);
@@ -123,13 +123,13 @@ console.log("Player's score: " + sum(playerHand));
 console.log("Dealer's cards: " + show(dealerHand));
 console.log("Dealer's score: " + sum(dealerHand));
 
-if (sum(playerHand) < 21) {
+if (sum(playerHand) === 21) {
+    if (sum(dealerHand) === 21) {
+        console.log('Game outcome: blackjack- draw');
+    } else {
+        console.log('Game outcome: blackjack- player wins');
+    }
+} else {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
-} else {
-    if (sum(dealerHand) === 21) {
-        console.log('Game outcome: blackjack- draw')
-    } else {
-        console.log('Game outcome: blackjack- player wins')
-    }
 }
