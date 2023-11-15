@@ -114,6 +114,7 @@ function resolveAces(handValue, cards) {
 
 // UPDATE CONSOLE function
 function updateConsole() {
+    console.log('------------------');
     console.log("Player's cards: " + show(playerHand));
     console.log("Player's score: " + sum(playerHand));
     console.log("Dealer's cards: " + show(dealerHand));
