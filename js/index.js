@@ -54,17 +54,17 @@ let deck = [
     { aceSpades: 11 }
 ];
 
-// Empty hands of cards
+// Initial (empty) hands
 let playerHand = [];
 let dealerHand = [];
 
 // SHUFFLE function (Fisher-Yates shuffle)
-function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
+function shuffle(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        [deck[i], deck[j]] = [deck[j], deck[i]];
     }
-    return array;
+    return deck;
 }
 
 // DEAL function
