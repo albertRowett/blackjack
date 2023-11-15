@@ -132,7 +132,7 @@ function handleHitClick() {
     deal(playerHand);
     updateConsole();
 
-    if (sum(playerHand) >= 21) {
+    if (sum(playerHand) > 21) {
         resolvePlayerBust();
     }
 }
