@@ -64,6 +64,7 @@ function shuffle(deck) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
     }
+
     return deck;
 }
 
@@ -125,6 +126,17 @@ function toggleHitStandButtonVisibility() {
     document.querySelector('.standButton').classList.toggle('hidden');
 }
 
+// HANDLE HIT CLICK function
+function handleHitClick() {
+    deal(playerHand);
+    updateConsole();
+
+    if (sum(playerHand) >= 21) {
+        toggleHitStandButtonVisibility();
+        resolveGame();
+    }
+}
+
 // Shuffle + initial deal
 shuffle(deck);
 deal(playerHand);
@@ -143,10 +155,5 @@ if (sum(playerHand) === 21) {
     toggleHitStandButtonVisibility();
 }
 
-// function handleHitClick() {
-//     deal(playerHand);
-//     console.log("Player's cards: " + show(playerHand));
-//     console.log("Player's score: " + sum(playerHand));
-// }
-
-// document.querySelector('.hitButton').addEventListener('click', handleHitClick);
+// Event listeners
+document.querySelector('.hitButton').addEventListener('click', handleHitClick);
