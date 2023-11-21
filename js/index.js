@@ -1,3 +1,5 @@
+// GLOBAL VARS //
+
 // Unshuffled deck
 let deck = [
     { twoClubs: 2 },
@@ -58,7 +60,9 @@ let deck = [
 let player = { hand: [], cards: [], handValue: 0 };
 let dealer = { hand: [], cards: [], handValue: 0 };
 
-// SHUFFLE function (Fisher-Yates shuffle)
+// FUNCTIONS //
+
+// Shuffle (Fisher-Yates shuffle)
 function shuffle(deck) {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -68,7 +72,7 @@ function shuffle(deck) {
     return deck;
 }
 
-// DEAL function
+// Deal
 let i = -1;
 
 function deal(person) {
@@ -79,7 +83,6 @@ function deal(person) {
     person.handValue = updateHandValue(person);
 }
 
-// UPDATE CARDS function
 function updateCards(person) {
     const cards = person.hand.map((card) => {
         return Object.keys(card).toString();
@@ -87,7 +90,6 @@ function updateCards(person) {
     return cards;
 }
 
-// UPDATE HAND VALUE function
 function updateHandValue(person) {
     const cardValues = person.hand.map((card) => {
         return parseInt(Object.values(card));
@@ -99,7 +101,6 @@ function updateHandValue(person) {
     return resolveAces(handValue, person);
 }
 
-// RESOLVE ACES function
 function resolveAces(handValue, person) {
     if (handValue > 21) {
         const aceIndex = person.cards.findIndex((card) => card.includes('ace'));
@@ -113,7 +114,7 @@ function resolveAces(handValue, person) {
     return handValue;
 }
 
-// UPDATE CONSOLE function
+// Update console
 function updateConsole() {
     console.log('------------------');
     console.log("Player's cards: " + player.cards);
@@ -122,7 +123,7 @@ function updateConsole() {
     console.log("Dealer's score: " + dealer.handValue);
 }
 
-// TOGGLE HIT STAND BUTTON VISIBILITY function
+// Toggle button visibility
 function toggleHitStandButtonVisibility() {
     document.querySelector('.hitButton').classList.toggle('hidden');
     document.querySelector('.standButton').classList.toggle('hidden');
@@ -177,7 +178,7 @@ function resolveGame() {
     }
 }
 
-// GAMEPLAY
+// GAMEPLAY //
 
 // Shuffle + initial deal
 shuffle(deck);
