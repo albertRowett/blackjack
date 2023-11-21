@@ -56,6 +56,9 @@ let deck = [
     { aceSpades: 11 }
 ];
 
+let bank = 1000;
+let bet = 0;
+
 // Initial (empty) hands
 let player = { hand: [], cards: [], handValue: 0 };
 let dealer = { hand: [], cards: [], handValue: 0 };
@@ -129,7 +132,13 @@ function toggleHitStandButtonVisibility() {
     document.querySelector('.standButton').classList.toggle('hidden');
 }
 
-// Button click handlers
+// Event handlers
+function handleBetSubmit(e) {
+    e.preventDefault();
+    const bet = document.querySelector('#bet');
+    console.log(bet.value);
+}
+
 function handleHitClick() {
     deal(player);
     updateConsole();
@@ -195,5 +204,6 @@ if (player.handValue === 21) {
 }
 
 // Event listeners
+document.querySelector('.bet').addEventListener('submit', handleBetSubmit);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
