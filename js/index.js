@@ -55,12 +55,8 @@ let deck = [
 ];
 
 // Initial (empty) hands
-let playerHand = [];
-let playerCards = [];
-let playerHandValue = 0;
-let dealerHand = [];
-let dealerCards = [];
-let dealerHandValue = 0;
+let player = { hand: [], cards: [], handValue: 0 };
+let dealer = { hand: [], cards: [], handValue: 0 };
 
 // SHUFFLE function (Fisher-Yates shuffle)
 function shuffle(deck) {
@@ -75,40 +71,41 @@ function shuffle(deck) {
 // DEAL function
 let i = -1;
 
-function deal(hand) {
+function deal(person) {
     i++;
     const dealtCard = deck[i];
-    hand.push(dealtCard);
+    person.hand.push(dealtCard);
+    person.cards = updateCards(person);
+    person.handValue = updateHandValue(person);
 }
 
-// SHOW function
-function show(hand) {
-    const cards = hand.map((card) => {
+// UPDATE CARDS function
+function updateCards(person) {
+    const cards = person.hand.map((card) => {
         return Object.keys(card).toString();
     });
-
     return cards;
 }
 
-// SUM function
-function sum(hand, cards) {
-    const cardValues = hand.map((card) => {
+// UPDATE HAND VALUE function
+function updateHandValue(person) {
+    const cardValues = person.hand.map((card) => {
         return parseInt(Object.values(card));
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
     }, 0);
 
-    return resolveAces(handValue, cards);
+    return resolveAces(handValue, person);
 }
 
 // RESOLVE ACES function
-function resolveAces(handValue, cards) {
+function resolveAces(handValue, person) {
     if (handValue > 21) {
-        const aceIndex = cards.findIndex((card) => card.includes('ace'));
+        const aceIndex = person.cards.findIndex((card) => card.includes('ace'));
         if (aceIndex !== -1) {
             handValue -= 10;
-            let cardsWithoutAce = cards.toSpliced(aceIndex, 1);
+            let cardsWithoutAce = person.cards.toSpliced(aceIndex, 1);
             return resolveAces(handValue, cardsWithoutAce);
         }
     }
@@ -119,10 +116,10 @@ function resolveAces(handValue, cards) {
 // UPDATE CONSOLE function
 function updateConsole() {
     console.log('------------------');
-    console.log("Player's cards: " + playerCards);
-    console.log("Player's score: " + playerHandValue);
-    console.log("Dealer's cards: " + dealerCards);
-    console.log("Dealer's score: " + dealerHandValue);
+    console.log("Player's cards: " + player.cards);
+    console.log("Player's score: " + player.handValue);
+    console.log("Dealer's cards: " + dealer.cards);
+    console.log("Dealer's score: " + dealer.handValue);
 }
 
 // TOGGLE HIT STAND BUTTON VISIBILITY function
@@ -133,12 +130,10 @@ function toggleHitStandButtonVisibility() {
 
 // Button click handlers
 function handleHitClick() {
-    deal(playerHand);
-    playerCards = show(playerHand);
-    playerHandValue = sum(playerHand, playerCards);
+    deal(player);
     updateConsole();
 
-    if (playerHandValue > 21) {
+    if (player.handValue > 21) {
         toggleHitStandButtonVisibility();
         resolvePlayerBust();
     }
@@ -151,7 +146,7 @@ function handleStandClick() {
 
 // Game resolution
 function resolveBlackjack() {
-    if (dealerHandValue === 21) {
+    if (dealer.handValue === 21) {
         console.log('Game outcome: blackjack- draw');
     } else {
         console.log('Game outcome: blackjack- player wins');
@@ -163,19 +158,17 @@ function resolvePlayerBust() {
 }
 
 function resolveGame() {
-    if (dealerHandValue < 17) {
-        deal(dealerHand);
-        dealerCards = show(dealerHand);
-        dealerHandValue = sum(dealerHand, dealerCards);
+    if (dealer.handValue < 17) {
+        deal(dealer);
         updateConsole();
         resolveGame();
     } else {
-        if (dealerHandValue > 21) {
+        if (dealer.handValue > 21) {
             console.log('Game outcome: dealer bust- player wins');
         } else {
-            if (dealerHandValue > playerHandValue) {
+            if (dealer.handValue > player.handValue) {
                 console.log('Game outcome: dealer wins');
-            } else if (dealerHandValue < playerHandValue) {
+            } else if (dealer.handValue < player.handValue) {
                 console.log('Game outcome: player wins');
             } else {
                 console.log('Game outcome: draw');
@@ -184,19 +177,17 @@ function resolveGame() {
     }
 }
 
+// GAMEPLAY
+
 // Shuffle + initial deal
 shuffle(deck);
-deal(playerHand);
-deal(dealerHand);
-deal(playerHand);
-deal(dealerHand);
-playerCards = show(playerHand);
-playerHandValue = sum(playerHand, playerCards);
-dealerCards = show(dealerHand);
-dealerHandValue = sum(dealerHand, dealerCards);
+deal(player);
+deal(dealer);
+deal(player);
+deal(dealer);
 updateConsole();
 
-if (playerHandValue === 21) {
+if (player.handValue === 21) {
     resolveBlackjack();
 } else {
     toggleHitStandButtonVisibility();
