@@ -1,5 +1,3 @@
-// GLOBAL VARS //
-
 // Unshuffled deck
 let deck = [
     { twoClubs: 2 },
@@ -56,13 +54,77 @@ let deck = [
     { aceSpades: 11 }
 ];
 
+let currentCard = -1;
+
 // Initial (empty) hands
 let player = { hand: [], cards: [], handValue: 0, wallet: 1000, bet: 0 };
 let dealer = { hand: [], cards: [], handValue: 0 };
 
-// FUNCTIONS //
+// Event listeners
+document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
+document.querySelector('.hitButton').addEventListener('click', handleHitClick);
+document.querySelector('.standButton').addEventListener('click', handleStandClick);
 
-// Shuffle (Fisher-Yates shuffle)
+// Event handlers
+function handleBetSubmit(e) {
+    e.preventDefault();
+    const bet = document.querySelector('#bet').value;
+    handleBet(bet, player);
+    toggleBetFormVisibility();
+    startRound();
+}
+
+function handleBet(bet, player) {
+    player.bet = bet;
+    player.wallet -= bet;
+    console.log('Bet: ' + player.bet);
+    console.log('Wallet: ' + player.wallet);
+}
+
+function handleHitClick() {
+    deal(player);
+    updateConsole();
+
+    if (player.handValue > 21) {
+        toggleHitStandButtonVisibility();
+        resolvePlayerBust();
+    } else if (player.handValue === 21) {
+        toggleHitStandButtonVisibility();
+        resolveRound();
+    }
+}
+
+function handleStandClick() {
+    toggleHitStandButtonVisibility();
+    resolveRound();
+}
+
+// Button visibility toggling
+function toggleHitStandButtonVisibility() {
+    document.querySelector('.hitButton').classList.toggle('hidden');
+    document.querySelector('.standButton').classList.toggle('hidden');
+}
+
+function toggleBetFormVisibility() {
+    document.querySelector('.betForm').classList.toggle('hidden');
+}
+
+// Gameplay
+function startRound() {
+    shuffle(deck);
+    deal(player);
+    deal(dealer);
+    deal(player);
+    deal(dealer);
+    updateConsole();
+
+    if (player.handValue === 21) {
+        resolveBlackjack();
+    } else {
+        toggleHitStandButtonVisibility();
+    }
+}
+
 function shuffle(deck) {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -72,12 +134,9 @@ function shuffle(deck) {
     return deck;
 }
 
-// Deal
-let i = -1;
-
 function deal(person) {
-    i++;
-    const dealtCard = deck[i];
+    currentCard++;
+    const dealtCard = deck[currentCard];
     person.hand.push(dealtCard);
     person.cards = updateCards(person);
     person.handValue = updateHandValue(person);
@@ -114,57 +173,12 @@ function resolveAces(handValue, cards) {
     return handValue;
 }
 
-// Update console
 function updateConsole() {
     console.log('------------------');
     console.log("Player's cards: " + player.cards);
     console.log("Player's score: " + player.handValue);
     console.log("Dealer's cards: " + dealer.cards);
     console.log("Dealer's score: " + dealer.handValue);
-}
-
-// Toggle button visibility
-function toggleHitStandButtonVisibility() {
-    document.querySelector('.hitButton').classList.toggle('hidden');
-    document.querySelector('.standButton').classList.toggle('hidden');
-}
-
-function toggleBetFormVisibility() {
-    document.querySelector('.betForm').classList.toggle('hidden');
-}
-
-// Event handlers
-function handleBetSubmit(e) {
-    e.preventDefault();
-    const bet = document.querySelector('#bet').value;
-    handleBet(bet, player);
-    toggleBetFormVisibility();
-    startRound();
-}
-
-function handleBet(bet, player) {
-    player.bet = bet;
-    player.wallet -= bet;
-    console.log('Bet: ' + player.bet);
-    console.log('Wallet: ' + player.wallet);
-}
-
-function handleHitClick() {
-    deal(player);
-    updateConsole();
-
-    if (player.handValue > 21) {
-        toggleHitStandButtonVisibility();
-        resolvePlayerBust();
-    } else if (player.handValue === 21) {
-        toggleHitStandButtonVisibility();
-        resolveRound();
-    }
-}
-
-function handleStandClick() {
-    toggleHitStandButtonVisibility();
-    resolveRound();
 }
 
 // Round resolution
@@ -214,7 +228,7 @@ function prepareNewRound(player, dealer) {
     if (player.wallet > 0) {
         player.hand = [];
         dealer.hand = [];
-        i = -1;
+        currentCard = -1;
         toggleBetFormVisibility();
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
@@ -222,23 +236,3 @@ function prepareNewRound(player, dealer) {
         console.log('Out of money, game over');
     }
 }
-
-function startRound() {
-    shuffle(deck);
-    deal(player);
-    deal(dealer);
-    deal(player);
-    deal(dealer);
-    updateConsole();
-
-    if (player.handValue === 21) {
-        resolveBlackjack();
-    } else {
-        toggleHitStandButtonVisibility();
-    }
-}
-
-// Event listeners
-document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
-document.querySelector('.hitButton').addEventListener('click', handleHitClick);
-document.querySelector('.standButton').addEventListener('click', handleStandClick);
