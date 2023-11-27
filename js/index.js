@@ -171,8 +171,10 @@ function handleStandClick() {
 function resolveBlackjack() {
     if (dealer.handValue === 21) {
         console.log('Round outcome: blackjack- draw');
+        player.wallet += parseInt(player.bet);
     } else {
         console.log('Round outcome: blackjack- player wins');
+        player.wallet += 2.5 * parseInt(player.bet);
     }
 
     prepareNewRound(player, dealer);
@@ -191,13 +193,16 @@ function resolveRound() {
     } else {
         if (dealer.handValue > 21) {
             console.log('Round outcome: dealer bust- player wins');
+            player.wallet += 2 * parseInt(player.bet);
         } else {
             if (dealer.handValue > player.handValue) {
                 console.log('Round outcome: dealer wins');
             } else if (dealer.handValue < player.handValue) {
                 console.log('Round outcome: player wins');
+                player.wallet += 2 * parseInt(player.bet);
             } else {
                 console.log('Round outcome: draw');
+                player.wallet += parseInt(player.bet);
             }
         }
 
@@ -211,6 +216,8 @@ function prepareNewRound(player, dealer) {
         dealer.hand = [];
         i = -1;
         toggleBetFormVisibility();
+        console.log('------------------');
+        console.log('Wallet: ' + player.wallet);
     } else {
         console.log('Out of money, game over');
     }
