@@ -157,8 +157,8 @@ function handleHitClick() {
         toggleHitStandButtonVisibility();
         resolvePlayerBust();
     } else if (player.handValue === 21) {
-        toggleHitStandButtonVisibility;
-        resolveRound;
+        toggleHitStandButtonVisibility();
+        resolveRound();
     }
 }
 
