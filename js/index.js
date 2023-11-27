@@ -69,9 +69,14 @@ document.querySelector('.standButton').addEventListener('click', handleStandClic
 function handleBetSubmit(e) {
     e.preventDefault();
     const bet = document.querySelector('#bet').value;
-    handleBet(bet, player);
-    toggleBetFormVisibility();
-    startRound();
+
+    if (bet) {
+        handleBet(bet, player);
+        toggleBetFormVisibility();
+        startRound();
+    } else {
+        console.log('Bet must be between 2 and 500');
+    }
 }
 
 function handleBet(bet, player) {
