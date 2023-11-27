@@ -156,6 +156,9 @@ function handleHitClick() {
     if (player.handValue > 21) {
         toggleHitStandButtonVisibility();
         resolvePlayerBust();
+    } else if (player.handValue === 21) {
+        toggleHitStandButtonVisibility;
+        resolveRound;
     }
 }
 
@@ -209,7 +212,7 @@ function prepareNewRound(player, dealer) {
         i = -1;
         toggleBetFormVisibility();
     } else {
-        console.log('Out of money, game over')
+        console.log('Out of money, game over');
     }
 }
 
