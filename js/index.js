@@ -98,15 +98,15 @@ function updateHandValue(person) {
         return accumulator + currentValue;
     }, 0);
 
-    return resolveAces(handValue, person);
+    return resolveAces(handValue, person.cards);
 }
 
-function resolveAces(handValue, person) {
+function resolveAces(handValue, cards) {
     if (handValue > 21) {
-        const aceIndex = person.cards.findIndex((card) => card.includes('ace'));
+        const aceIndex = cards.findIndex((card) => card.includes('ace'));
         if (aceIndex !== -1) {
             handValue -= 10;
-            let cardsWithoutAce = person.cards.toSpliced(aceIndex, 1);
+            let cardsWithoutAce = cards.toSpliced(aceIndex, 1);
             return resolveAces(handValue, cardsWithoutAce);
         }
     }
