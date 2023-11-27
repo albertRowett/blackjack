@@ -56,11 +56,8 @@ let deck = [
     { aceSpades: 11 }
 ];
 
-let bank = 1000;
-let bet = 0;
-
 // Initial (empty) hands
-let player = { hand: [], cards: [], handValue: 0 };
+let player = { hand: [], cards: [], handValue: 0, wallet: 1000, bet: 0 };
 let dealer = { hand: [], cards: [], handValue: 0 };
 
 // FUNCTIONS //
@@ -132,11 +129,24 @@ function toggleHitStandButtonVisibility() {
     document.querySelector('.standButton').classList.toggle('hidden');
 }
 
+function toggleBetFormVisibility() {
+    document.querySelector('.betForm').classList.toggle('hidden');
+}
+
 // Event handlers
 function handleBetSubmit(e) {
     e.preventDefault();
-    const bet = document.querySelector('#bet');
-    console.log(bet.value);
+    const bet = document.querySelector('#bet').value;
+    handleBet(bet, player);
+    toggleBetFormVisibility();
+    startRound();
+}
+
+function handleBet(bet, player) {
+    player.bet = bet;
+    player.wallet -= bet;
+    console.log('Bet: ' + player.bet);
+    console.log('Wallet: ' + player.wallet);
 }
 
 function handleHitClick() {
@@ -151,59 +161,74 @@ function handleHitClick() {
 
 function handleStandClick() {
     toggleHitStandButtonVisibility();
-    resolveGame();
+    resolveRound();
 }
 
-// Game resolution
+// Round resolution
 function resolveBlackjack() {
     if (dealer.handValue === 21) {
-        console.log('Game outcome: blackjack- draw');
+        console.log('Round outcome: blackjack- draw');
     } else {
-        console.log('Game outcome: blackjack- player wins');
+        console.log('Round outcome: blackjack- player wins');
     }
+
+    prepareNewRound(player, dealer);
 }
 
 function resolvePlayerBust() {
-    console.log('Game outcome: bust- dealer wins');
+    console.log('Round outcome: bust- dealer wins');
+    prepareNewRound(player, dealer);
 }
 
-function resolveGame() {
+function resolveRound() {
     if (dealer.handValue < 17) {
         deal(dealer);
         updateConsole();
-        resolveGame();
+        resolveRound();
     } else {
         if (dealer.handValue > 21) {
-            console.log('Game outcome: dealer bust- player wins');
+            console.log('Round outcome: dealer bust- player wins');
         } else {
             if (dealer.handValue > player.handValue) {
-                console.log('Game outcome: dealer wins');
+                console.log('Round outcome: dealer wins');
             } else if (dealer.handValue < player.handValue) {
-                console.log('Game outcome: player wins');
+                console.log('Round outcome: player wins');
             } else {
-                console.log('Game outcome: draw');
+                console.log('Round outcome: draw');
             }
         }
+
+        prepareNewRound(player, dealer);
     }
 }
 
-// GAMEPLAY //
+function prepareNewRound(player, dealer) {
+    if (player.wallet > 0) {
+        player.hand = [];
+        dealer.hand = [];
+        i = -1;
+        toggleBetFormVisibility();
+    } else {
+        console.log('Out of money, game over')
+    }
+}
 
-// Shuffle + initial deal
-shuffle(deck);
-deal(player);
-deal(dealer);
-deal(player);
-deal(dealer);
-updateConsole();
+function startRound() {
+    shuffle(deck);
+    deal(player);
+    deal(dealer);
+    deal(player);
+    deal(dealer);
+    updateConsole();
 
-if (player.handValue === 21) {
-    resolveBlackjack();
-} else {
-    toggleHitStandButtonVisibility();
+    if (player.handValue === 21) {
+        resolveBlackjack();
+    } else {
+        toggleHitStandButtonVisibility();
+    }
 }
 
 // Event listeners
-document.querySelector('.bet').addEventListener('submit', handleBetSubmit);
+document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
