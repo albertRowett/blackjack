@@ -1,57 +1,57 @@
 // Unshuffled deck
 let deck = [
-    { twoClubs: 2 },
-    { threeClubs: 3 },
-    { fourClubs: 4 },
-    { fiveClubs: 5 },
-    { sixClubs: 6 },
-    { sevenClubs: 7 },
-    { eightClubs: 8 },
-    { nineClubs: 9 },
-    { tenClubs: 10 },
-    { jackClubs: 10 },
-    { queenClubs: 10 },
-    { kingClubs: 10 },
-    { aceClubs: 11 },
-    { twoDiamonds: 2 },
-    { threeDiamonds: 3 },
-    { fourDiamonds: 4 },
-    { fiveDiamonds: 5 },
-    { sixDiamonds: 6 },
-    { sevenDiamonds: 7 },
-    { eightDiamonds: 8 },
-    { nineDiamonds: 9 },
-    { tenDiamonds: 10 },
-    { jackDiamonds: 10 },
-    { queenDiamonds: 10 },
-    { kingDiamonds: 10 },
-    { aceDiamonds: 11 },
-    { twoHearts: 2 },
-    { threeHearts: 3 },
-    { fourHearts: 4 },
-    { fiveHearts: 5 },
-    { sixHearts: 6 },
-    { sevenHearts: 7 },
-    { eightHearts: 8 },
-    { nineHearts: 9 },
-    { tenHearts: 10 },
-    { jackHearts: 10 },
-    { queenHearts: 10 },
-    { kingHearts: 10 },
-    { aceHearts: 11 },
-    { twoSpades: 2 },
-    { threeSpades: 3 },
-    { fourSpades: 4 },
-    { fiveSpades: 5 },
-    { sixSpades: 6 },
-    { sevenSpades: 7 },
-    { eightSpades: 8 },
-    { nineSpades: 9 },
-    { tenSpades: 10 },
-    { jackSpades: 10 },
-    { queenSpades: 10 },
-    { kingSpades: 10 },
-    { aceSpades: 11 }
+    { card: 'twoHearts', value: 2 },
+    { card: 'threeHearts', value: 3 },
+    { card: 'fourHearts', value: 4 },
+    { card: 'fiveHearts', value: 5 },
+    { card: 'sixHearts', value: 6 },
+    { card: 'sevenHearts', value: 7 },
+    { card: 'eightHearts', value: 8 },
+    { card: 'nineHearts', value: 9 },
+    { card: 'tenHearts', value: 10 },
+    { card: 'jackHearts', value: 10 },
+    { card: 'queenHearts', value: 10 },
+    { card: 'kingHearts', value: 10 },
+    { card: 'aceHearts', value: 11 },
+    { card: 'twoDiamonds', value: 2 },
+    { card: 'threeDiamonds', value: 3 },
+    { card: 'fourDiamonds', value: 4 },
+    { card: 'fiveDiamonds', value: 5 },
+    { card: 'sixDiamonds', value: 6 },
+    { card: 'sevenDiamonds', value: 7 },
+    { card: 'eightDiamonds', value: 8 },
+    { card: 'nineDiamonds', value: 9 },
+    { card: 'tenDiamonds', value: 10 },
+    { card: 'jackDiamonds', value: 10 },
+    { card: 'queenDiamonds', value: 10 },
+    { card: 'kingDiamonds', value: 10 },
+    { card: 'aceDiamonds', value: 11 },
+    { card: 'twoClubs', value: 2 },
+    { card: 'threeClubs', value: 3 },
+    { card: 'fourClubs', value: 4 },
+    { card: 'fiveClubs', value: 5 },
+    { card: 'sixClubs', value: 6 },
+    { card: 'sevenClubs', value: 7 },
+    { card: 'eightClubs', value: 8 },
+    { card: 'nineClubs', value: 9 },
+    { card: 'tenClubs', value: 10 },
+    { card: 'jackClubs', value: 10 },
+    { card: 'queenClubs', value: 10 },
+    { card: 'kingClubs', value: 10 },
+    { card: 'aceClubs', value: 11 },
+    { card: 'twoSpades', value: 2 },
+    { card: 'threeSpades', value: 3 },
+    { card: 'fourSpades', value: 4 },
+    { card: 'fiveSpades', value: 5 },
+    { card: 'sixSpades', value: 6 },
+    { card: 'sevenSpades', value: 7 },
+    { card: 'eightSpades', value: 8 },
+    { card: 'nineSpades', value: 9 },
+    { card: 'tenSpades', value: 10 },
+    { card: 'jackSpades', value: 10 },
+    { card: 'queenSpades', value: 10 },
+    { card: 'kingSpades', value: 10 },
+    { card: 'aceSpades', value: 11 }
 ];
 
 let currentCard = -1;
@@ -76,7 +76,7 @@ function handleBetSubmit(e) {
             toggleBetFormVisibility();
             startRound();
         } else {
-            console.log('Bet must not be greater than wallet amount')
+            console.log('Bet must not be greater than wallet amount');
         }
     } else {
         console.log('Bet must be between 2 and 500');
@@ -153,14 +153,14 @@ function deal(person) {
 
 function updateCards(person) {
     const cards = person.hand.map((card) => {
-        return Object.keys(card).toString();
+        return card.card;
     });
     return cards;
 }
 
 function updateHandValue(person) {
     const cardValues = person.hand.map((card) => {
-        return parseInt(Object.values(card));
+        return card.value;
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
