@@ -141,10 +141,10 @@ function startRound() {
         resolveBlackjack();
     } else {
         toggleHitStandButtonVisibility();
-    }
 
-    if (player.hand[0].value === player.hand[1].value) {
-        showSplitButton();
+        if (player.hand[0].value === player.hand[1].value) {
+            showSplitButton();
+        }
     }
 }
 
