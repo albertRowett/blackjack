@@ -91,6 +91,7 @@ function handleBet(bet, player) {
 }
 
 function handleHitClick() {
+    hideSplitButton();
     deal(player);
     updateConsole();
 
@@ -104,18 +105,27 @@ function handleHitClick() {
 }
 
 function handleStandClick() {
+    hideSplitButton();
     toggleHitStandButtonVisibility();
     resolveRound();
 }
 
 // Button visibility toggling
+function toggleBetFormVisibility() {
+    document.querySelector('.betForm').classList.toggle('hidden');
+}
+
 function toggleHitStandButtonVisibility() {
     document.querySelector('.hitButton').classList.toggle('hidden');
     document.querySelector('.standButton').classList.toggle('hidden');
 }
 
-function toggleBetFormVisibility() {
-    document.querySelector('.betForm').classList.toggle('hidden');
+function showSplitButton() {
+    document.querySelector('.splitButton').classList.remove('hidden');
+}
+
+function hideSplitButton() {
+    document.querySelector('.splitButton').classList.add('hidden');
 }
 
 // Gameplay
@@ -131,6 +141,10 @@ function startRound() {
         resolveBlackjack();
     } else {
         toggleHitStandButtonVisibility();
+    }
+
+    if (player.hand[0].value === player.hand[1].value) {
+        showSplitButton();
     }
 }
 
