@@ -71,9 +71,13 @@ function handleBetSubmit(e) {
     const bet = document.querySelector('#bet').value;
 
     if (bet) {
-        handleBet(bet, player);
-        toggleBetFormVisibility();
-        startRound();
+        if (bet <= player.wallet) {
+            handleBet(bet, player);
+            toggleBetFormVisibility();
+            startRound();
+        } else {
+            console.log('Bet must not be greater than wallet amount')
+        }
     } else {
         console.log('Bet must be between 2 and 500');
     }
