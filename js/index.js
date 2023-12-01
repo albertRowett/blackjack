@@ -142,7 +142,7 @@ function startRound() {
     } else {
         toggleHitStandButtonVisibility();
 
-        if (player.hand[0].value === player.hand[1].value) {
+        if (player.hand[0].value === player.hand[1].value && player.wallet >= player.bet) {
             showSplitButton();
         }
     }
