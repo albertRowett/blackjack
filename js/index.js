@@ -57,8 +57,8 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hand: [], cards: [], handValue: 0, wallet: 1000, bet: 0 };
-let dealer = { hand: [], cards: [], handValue: 0 };
+let player = { hands: [{ hand: [], cards: [], handValue: 0 }], wallet: 1000, bet: 0 };
+let dealer = { hands: [{ hand: [], cards: [], handValue: 0 }] };
 
 // Event listeners
 document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
@@ -111,9 +111,7 @@ function handleStandClick() {
     resolveRound();
 }
 
-function handleSplitClick() {
-    
-}
+function handleSplitClick() {}
 
 // Button visibility toggling
 function toggleBetFormVisibility() {
