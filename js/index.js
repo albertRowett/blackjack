@@ -64,6 +64,7 @@ let dealer = { hand: [], cards: [], handValue: 0 };
 document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
+document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
 
 // Event handlers
 function handleBetSubmit(e) {
@@ -108,6 +109,10 @@ function handleStandClick() {
     hideSplitButton();
     toggleHitStandButtonVisibility();
     resolveRound();
+}
+
+function handleSplitClick() {
+    
 }
 
 // Button visibility toggling
