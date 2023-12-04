@@ -96,10 +96,10 @@ function handleHitClick() {
     deal(player);
     updateConsole();
 
-    if (player.handValue > 21) {
+    if (player.hands[0].handValue > 21) {
         toggleHitStandButtonVisibility();
         resolvePlayerBust();
-    } else if (player.handValue === 21) {
+    } else if (player.hands[0].handValue === 21) {
         toggleHitStandButtonVisibility();
         resolveRound();
     }
@@ -140,12 +140,12 @@ function startRound() {
     deal(dealer);
     updateConsole();
 
-    if (player.handValue === 21) {
+    if (player.hands[0].handValue === 21) {
         resolveBlackjack();
     } else {
         toggleHitStandButtonVisibility();
 
-        if (player.hand[0].value === player.hand[1].value && player.wallet >= player.bet) {
+        if (player.hands[0].hand[0].value === player.hands[0].hand[1].value && player.wallet >= player.bet) {
             showSplitButton();
         }
     }
@@ -163,27 +163,27 @@ function shuffle(deck) {
 function deal(person) {
     currentCard++;
     const dealtCard = deck[currentCard];
-    person.hand.push(dealtCard);
-    person.cards = updateCards(person);
-    person.handValue = updateHandValue(person);
+    person.hands[0].hand.push(dealtCard);
+    person.hands[0].cards = updateCards(person);
+    person.hands[0].handValue = updateHandValue(person);
 }
 
 function updateCards(person) {
-    const cards = person.hand.map((card) => {
+    const cards = person.hands[0].hand.map((card) => {
         return card.card;
     });
     return cards;
 }
 
 function updateHandValue(person) {
-    const cardValues = person.hand.map((card) => {
+    const cardValues = person.hands[0].hand.map((card) => {
         return card.value;
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
     }, 0);
 
-    return resolveAces(handValue, person.cards);
+    return resolveAces(handValue, person.hands[0].cards);
 }
 
 function resolveAces(handValue, cards) {
@@ -201,15 +201,15 @@ function resolveAces(handValue, cards) {
 
 function updateConsole() {
     console.log('------------------');
-    console.log("Player's cards: " + player.cards);
-    console.log("Player's score: " + player.handValue);
-    console.log("Dealer's cards: " + dealer.cards);
-    console.log("Dealer's score: " + dealer.handValue);
+    console.log("Player's cards: " + player.hands[0].cards);
+    console.log("Player's score: " + player.hands[0].handValue);
+    console.log("Dealer's cards: " + dealer.hands[0].cards);
+    console.log("Dealer's score: " + dealer.hands[0].handValue);
 }
 
 // Round resolution
 function resolveBlackjack() {
-    if (dealer.handValue === 21) {
+    if (dealer.hands[0].handValue === 21) {
         console.log('Round outcome: blackjack- draw');
         player.wallet += parseInt(player.bet);
     } else {
@@ -226,18 +226,18 @@ function resolvePlayerBust() {
 }
 
 function resolveRound() {
-    if (dealer.handValue < 17) {
+    if (dealer.hands[0].handValue < 17) {
         deal(dealer);
         updateConsole();
         resolveRound();
     } else {
-        if (dealer.handValue > 21) {
+        if (dealer.hands[0].handValue > 21) {
             console.log('Round outcome: dealer bust- player wins');
             player.wallet += 2 * parseInt(player.bet);
         } else {
-            if (dealer.handValue > player.handValue) {
+            if (dealer.hands[0].handValue > player.hands[0].handValue) {
                 console.log('Round outcome: dealer wins');
-            } else if (dealer.handValue < player.handValue) {
+            } else if (dealer.hands[0].handValue < player.hands[0].handValue) {
                 console.log('Round outcome: player wins');
                 player.wallet += 2 * parseInt(player.bet);
             } else {
@@ -252,8 +252,8 @@ function resolveRound() {
 
 function prepareNewRound(player, dealer) {
     if (player.wallet > 0) {
-        player.hand = [];
-        dealer.hand = [];
+        player.hands = [{ hand: [], cards: [], handValue: 0 }];
+        dealer.hands = [{ hand: [], cards: [], handValue: 0 }];
         currentCard = -1;
         toggleBetFormVisibility();
         console.log('------------------');
