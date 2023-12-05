@@ -111,7 +111,18 @@ function handleStandClick() {
     resolveRound();
 }
 
-function handleSplitClick() {}
+function handleSplitClick() {
+    handleBet(player.bet, player);
+    const numberOfHands = splitHand(player);
+    console.log(numberOfHands);
+}
+
+function splitHand(player) {
+    const currentHand = player.hands[0];
+    player.hands.push({ hand: [currentHand.hand.pop()], cards: [], handValue: 0 });
+
+    return player.hands.length;
+}
 
 // Button visibility toggling
 function toggleBetFormVisibility() {
