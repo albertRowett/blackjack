@@ -279,7 +279,13 @@ function splitHand(player) {
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
 }
 
-function handleDoubleDownClick() {}
+function handleDoubleDownClick() {
+    hideSplitDoubleDownButtons();
+    hideHitStandButtons();
+    handleBet(player.bet, player);
+    deal(player.hands[player.currentHandIndex]);
+    determineIfAllHandsPlayed();
+}
 
 // HTML element visibility toggling
 function toggleBetFormVisibility() {
