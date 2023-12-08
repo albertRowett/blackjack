@@ -57,8 +57,8 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ hand: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
-let dealer = { hands: [{ hand: [], cards: [], handValue: 0 }], currentHandIndex: 0 };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
+let dealer = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0 };
 
 // Gameplay
 function playFirstHand() {
@@ -95,21 +95,21 @@ function shuffle(deck) {
 function deal(person) {
     currentCard++;
     const dealtCard = deck[currentCard];
-    person.hands[person.currentHandIndex].hand.push(dealtCard);
+    person.hands[person.currentHandIndex].cardObjects.push(dealtCard);
     person.hands[person.currentHandIndex].cards = updateCards(person);
     person.hands[person.currentHandIndex].handValue = updateHandValue(person);
 }
 
 function updateCards(person) {
-    const cards = person.hands[person.currentHandIndex].hand.map((card) => {
-        return card.card;
+    const cards = person.hands[person.currentHandIndex].cardObjects.map((cardObject) => {
+        return cardObject.card;
     });
     return cards;
 }
 
 function updateHandValue(person) {
-    const cardValues = person.hands[person.currentHandIndex].hand.map((card) => {
-        return card.value;
+    const cardValues = person.hands[person.currentHandIndex].cardObjects.map((cardObject) => {
+        return cardObject.value;
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
@@ -227,7 +227,7 @@ function showButtons() {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 
-    if (player.hands[player.currentHandIndex].hand[0].value === player.hands[player.currentHandIndex].hand[1].value && player.wallet >= player.bet) {
+    if (player.hands[player.currentHandIndex].cardObjects[0].value === player.hands[player.currentHandIndex].cardObjects[1].value && player.wallet >= player.bet) {
         document.querySelector('.splitButton').classList.remove('hidden');
     }
 }
@@ -281,9 +281,9 @@ function resolveBets() {
 
 function prepareNewRound(player, dealer) {
     if (player.wallet > 0) {
-        player.hands = [{ hand: [], cards: [], handValue: 0 }];
+        player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
         player.currentHandIndex = 0;
-        dealer.hands = [{ hand: [], cards: [], handValue: 0 }];
+        dealer.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
         currentCard = -1;
         toggleBetFormVisibility();
         console.log('------------------');
