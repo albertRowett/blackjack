@@ -63,10 +63,10 @@ let dealer = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHan
 // Gameplay
 function playFirstHand() {
     shuffle(deck);
-    deal(player);
-    deal(dealer);
-    deal(player);
-    deal(dealer);
+    deal(player.hands[0]);
+    deal(dealer.hands[0]);
+    deal(player.hands[0]);
+    deal(dealer.hands[0]);
     updateConsole();
 
     if (player.hands[0].handValue === 21) {
@@ -78,7 +78,7 @@ function playFirstHand() {
 
 function playNextHand() {
     player.currentHandIndex++;
-    deal(player);
+    deal(player.hands[player.currentHandIndex]);
     updateConsole();
     showButtons();
 }
@@ -92,30 +92,30 @@ function shuffle(deck) {
     return deck;
 }
 
-function deal(person) {
+function deal(hand) {
     currentCard++;
     const dealtCard = deck[currentCard];
-    person.hands[person.currentHandIndex].cardObjects.push(dealtCard);
-    person.hands[person.currentHandIndex].cards = updateCards(person);
-    person.hands[person.currentHandIndex].handValue = updateHandValue(person);
+    hand.cardObjects.push(dealtCard);
+    hand.cards = updateCards(hand.cardObjects);
+    hand.handValue = updateHandValue(hand);
 }
 
-function updateCards(person) {
-    const cards = person.hands[person.currentHandIndex].cardObjects.map((cardObject) => {
+function updateCards(cardObjects) {
+    const cards = cardObjects.map((cardObject) => {
         return cardObject.card;
     });
     return cards;
 }
 
-function updateHandValue(person) {
-    const cardValues = person.hands[person.currentHandIndex].cardObjects.map((cardObject) => {
+function updateHandValue(hand) {
+    const cardValues = hand.cardObjects.map((cardObject) => {
         return cardObject.value;
     });
     const handValue = cardValues.reduce((accumulator, currentValue) => {
         return accumulator + currentValue;
     }, 0);
 
-    return resolveAces(handValue, person.hands[person.currentHandIndex].cards);
+    return resolveAces(handValue, hand.cards);
 }
 
 function resolveAces(handValue, cards) {
@@ -172,7 +172,7 @@ function handleBet(bet, player) {
 
 function handleHitClick() {
     hideSplitButton();
-    deal(player);
+    deal(player.hands[player.currentHandIndex]);
     updateConsole();
 
     if (player.hands[player.currentHandIndex].handValue >= 21) {
@@ -210,7 +210,7 @@ function determineIfAllHandsPlayed() {
 
 function resolveDealerHand() {
     if (dealer.hands[0].handValue < 17) {
-        deal(dealer);
+        deal(dealer.hands[0]);
         updateConsole();
         resolveDealerHand();
     } else {
