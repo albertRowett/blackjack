@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0 };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -125,7 +125,11 @@ function resolveBets() {
         } else {
             if (dealer.handValue > 21) {
                 console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
-                player.wallet += 2 * parseInt(player.bet);
+                if (player.hands[i].doubled) {
+                    player.wallet += 4 * parseInt(player.bet);
+                } else {
+                    player.wallet += 2 * parseInt(player.bet);
+                }
             } else if (dealer.handValue === 21 && dealer.cardObjects.length === 2) {
                 console.log('Hand ' + (i + 1) + ': dealer blackjack- dealer wins');
             } else {
@@ -133,10 +137,18 @@ function resolveBets() {
                     console.log('Hand ' + (i + 1) + ': dealer wins');
                 } else if (dealer.handValue < player.hands[i].handValue) {
                     console.log('Hand ' + (i + 1) + ': player wins');
-                    player.wallet += 2 * parseInt(player.bet);
+                    if (player.hands[i].doubled) {
+                        player.wallet += 4 * parseInt(player.bet);
+                    } else {
+                        player.wallet += 2 * parseInt(player.bet);
+                    }
                 } else {
                     console.log('Hand ' + (i + 1) + ': draw');
-                    player.wallet += parseInt(player.bet);
+                    if (player.hands[i].doubled) {
+                        player.wallet += 2 * parseInt(player.bet);
+                    } else {
+                        player.wallet += parseInt(player.bet);
+                    }
                 }
             }
         }
@@ -283,7 +295,9 @@ function handleDoubleDownClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
     handleBet(player.bet, player);
+    player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
+    updateConsole();
     determineIfAllHandsPlayed();
 }
 
