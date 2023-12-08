@@ -89,7 +89,7 @@ function playNextHand() {
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
 
-    if (player.hands[player.currentHandIndex] === 21) {
+    if (player.hands[player.currentHandIndex].handValue === 21) {
         determineIfAllHandsPlayed();
     } else {
         showButtons();
