@@ -249,7 +249,7 @@ function handleBet(bet, player) {
 }
 
 function handleHitClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
 
@@ -260,13 +260,13 @@ function handleHitClick() {
 }
 
 function handleStandClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     hideHitStandButtons();
     determineIfAllHandsPlayed();
 }
 
 function handleSplitClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     hideHitStandButtons();
     handleBet(player.bet, player);
     splitHand(player);
@@ -290,8 +290,14 @@ function showButtons() {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 
-    if (player.hands[player.currentHandIndex].cardObjects[0].value === player.hands[player.currentHandIndex].cardObjects[1].value && player.wallet >= player.bet) {
+    const currentHand = player.hands[player.currentHandIndex];
+
+    if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value && player.wallet >= player.bet) {
         document.querySelector('.splitButton').classList.remove('hidden');
+    }
+
+    if (currentHand.handValue > 8 && currentHand.handValue < 12) {
+        document.querySelector('.doubleDownButton').classList.remove('hidden');
     }
 }
 
@@ -300,6 +306,7 @@ function hideHitStandButtons() {
     document.querySelector('.standButton').classList.add('hidden');
 }
 
-function hideSplitButton() {
+function hideSplitDoubleDownButtons() {
     document.querySelector('.splitButton').classList.add('hidden');
+    document.querySelector('.doubleDownButton').classList.add('hidden');
 }
