@@ -193,17 +193,18 @@ function handleStandClick() {
 }
 
 function handleSplitClick() {
-    // handleBet(player.bet, player);
-    // const numberOfHands = splitHand(player);
-    // console.log(numberOfHands);
+    hideSplitButton();
+    hideHitStandButtons();
+    handleBet(player.bet, player);
+    splitHand(player);
+    player.currentHandIndex--;
+    playNextHand();
 }
 
-// function splitHand(player) {
-//     const currentHand = player.hands[0];
-//     player.hands.push({ hand: [currentHand.hand.pop()], cards: [], handValue: 0 });
-
-//     return player.hands.length;
-// }
+function splitHand(player) {
+    const currentHand = player.hands[player.currentHandIndex];
+    player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
+}
 
 function determineIfAllHandsPlayed() {
     if (player.currentHandIndex + 1 < player.hands.length) {
