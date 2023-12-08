@@ -58,15 +58,15 @@ let currentCard = -1;
 
 // Initial (empty) hands
 let player = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
-let dealer = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0 };
+let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
 function playFirstHand() {
     shuffle(deck);
     deal(player.hands[0]);
-    deal(dealer.hands[0]);
+    deal(dealer);
     deal(player.hands[0]);
-    deal(dealer.hands[0]);
+    deal(dealer);
     updateConsole();
 
     if (player.hands[0].handValue === 21) {
@@ -97,8 +97,8 @@ function playNextHand() {
 }
 
 function resolveDealerHand() {
-    if (dealer.hands[0].handValue < 17) {
-        deal(dealer.hands[0]);
+    if (dealer.handValue < 17) {
+        deal(dealer);
         updateConsole();
         resolveDealerHand();
     } else {
@@ -107,7 +107,7 @@ function resolveDealerHand() {
 }
 
 function resolveBlackjack() {
-    if (dealer.hands[0].handValue === 21) {
+    if (dealer.handValue === 21) {
         console.log('Blackjack- draw');
         player.wallet += parseInt(player.bet);
     } else {
@@ -123,13 +123,13 @@ function resolveBets() {
         if (player.hands[i].handValue > 21) {
             console.log('Hand ' + (i + 1) + ': bust- dealer wins');
         } else {
-            if (dealer.hands[0].handValue > 21) {
+            if (dealer.handValue > 21) {
                 console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
                 player.wallet += 2 * parseInt(player.bet);
             } else {
-                if (dealer.hands[0].handValue > player.hands[i].handValue) {
+                if (dealer.handValue > player.hands[i].handValue) {
                     console.log('Hand ' + (i + 1) + ': dealer wins');
-                } else if (dealer.hands[0].handValue < player.hands[i].handValue) {
+                } else if (dealer.handValue < player.hands[i].handValue) {
                     console.log('Hand ' + (i + 1) + ': player wins');
                     player.wallet += 2 * parseInt(player.bet);
                 } else {
@@ -147,7 +147,7 @@ function prepareNewRound(player, dealer) {
     if (player.wallet > 0) {
         player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
         player.currentHandIndex = 0;
-        dealer.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
+        dealer.cardObjects = [];
         currentCard = -1;
         toggleBetFormVisibility();
         console.log('------------------');
@@ -210,8 +210,8 @@ function updateConsole() {
     console.log('------------------');
     console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
     console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
-    console.log("Dealer's cards: " + dealer.hands[0].cards);
-    console.log("Dealer's score: " + dealer.hands[0].handValue);
+    console.log("Dealer's cards: " + dealer.cards);
+    console.log("Dealer's score: " + dealer.handValue);
 }
 
 // Event listeners
