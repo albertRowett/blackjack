@@ -133,8 +133,8 @@ function resolveAces(handValue, cards) {
 
 function updateConsole() {
     console.log('------------------');
-    console.log("Player's cards (hand " + convertHandIndexToHandNumber(player.currentHandIndex) + '): ' + player.hands[player.currentHandIndex].cards);
-    console.log("Player's score (hand " + convertHandIndexToHandNumber(player.currentHandIndex) + '): ' + player.hands[player.currentHandIndex].handValue);
+    console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
+    console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
     console.log("Dealer's cards: " + dealer.hands[0].cards);
     console.log("Dealer's score: " + dealer.hands[0].handValue);
 }
@@ -257,19 +257,19 @@ function resolveBlackjack() {
 function resolveBets() {
     for (let i = 0; i < player.hands.length; i++) {
         if (player.hands[i].handValue > 21) {
-            console.log('Hand ' + convertHandIndexToHandNumber(i) + ': bust- dealer wins');
+            console.log('Hand ' + (i + 1) + ': bust- dealer wins');
         } else {
             if (dealer.hands[0].handValue > 21) {
-                console.log('Hand ' + convertHandIndexToHandNumber(i) + ': dealer bust- player wins');
+                console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
                 player.wallet += 2 * parseInt(player.bet);
             } else {
                 if (dealer.hands[0].handValue > player.hands[i].handValue) {
-                    console.log('Hand ' + convertHandIndexToHandNumber(i) + ': dealer wins');
+                    console.log('Hand ' + (i + 1) + ': dealer wins');
                 } else if (dealer.hands[0].handValue < player.hands[i].handValue) {
-                    console.log('Hand ' + convertHandIndexToHandNumber(i) + ': player wins');
+                    console.log('Hand ' + (i + 1) + ': player wins');
                     player.wallet += 2 * parseInt(player.bet);
                 } else {
-                    console.log('Hand ' + convertHandIndexToHandNumber(i) + ': draw');
+                    console.log('Hand ' + (i + 1) + ': draw');
                     player.wallet += parseInt(player.bet);
                 }
             }
@@ -277,12 +277,6 @@ function resolveBets() {
     }
 
     prepareNewRound(player, dealer);
-}
-
-function convertHandIndexToHandNumber(handIndex) {
-    const handNumber = handIndex + 1;
-
-    return handNumber;
 }
 
 function prepareNewRound(player, dealer) {
