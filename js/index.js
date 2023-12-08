@@ -221,6 +221,7 @@ document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
+document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
 // Event handlers
 function handleBetSubmit(e) {
@@ -277,6 +278,8 @@ function splitHand(player) {
     const currentHand = player.hands[player.currentHandIndex];
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
 }
+
+function handleDoubleDownClick() {}
 
 // HTML element visibility toggling
 function toggleBetFormVisibility() {
