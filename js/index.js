@@ -60,7 +60,7 @@ let currentCard = -1;
 let player = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
 let dealer = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0 };
 
-// Gameplay
+// Round phases
 function playFirstHand() {
     shuffle(deck);
     deal(player.hands[0]);
@@ -76,6 +76,14 @@ function playFirstHand() {
     }
 }
 
+function determineIfAllHandsPlayed() {
+    if (player.currentHandIndex + 1 < player.hands.length) {
+        playNextHand();
+    } else {
+        resolveDealerHand();
+    }
+}
+
 function playNextHand() {
     player.currentHandIndex++;
     deal(player.hands[player.currentHandIndex]);
@@ -88,6 +96,68 @@ function playNextHand() {
     }
 }
 
+function resolveDealerHand() {
+    if (dealer.hands[0].handValue < 17) {
+        deal(dealer.hands[0]);
+        updateConsole();
+        resolveDealerHand();
+    } else {
+        resolveBets();
+    }
+}
+
+function resolveBlackjack() {
+    if (dealer.hands[0].handValue === 21) {
+        console.log('Blackjack- draw');
+        player.wallet += parseInt(player.bet);
+    } else {
+        console.log('Blackjack- player wins');
+        player.wallet += 2.5 * parseInt(player.bet);
+    }
+
+    prepareNewRound(player, dealer);
+}
+
+function resolveBets() {
+    for (let i = 0; i < player.hands.length; i++) {
+        if (player.hands[i].handValue > 21) {
+            console.log('Hand ' + (i + 1) + ': bust- dealer wins');
+        } else {
+            if (dealer.hands[0].handValue > 21) {
+                console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
+                player.wallet += 2 * parseInt(player.bet);
+            } else {
+                if (dealer.hands[0].handValue > player.hands[i].handValue) {
+                    console.log('Hand ' + (i + 1) + ': dealer wins');
+                } else if (dealer.hands[0].handValue < player.hands[i].handValue) {
+                    console.log('Hand ' + (i + 1) + ': player wins');
+                    player.wallet += 2 * parseInt(player.bet);
+                } else {
+                    console.log('Hand ' + (i + 1) + ': draw');
+                    player.wallet += parseInt(player.bet);
+                }
+            }
+        }
+    }
+
+    prepareNewRound(player, dealer);
+}
+
+function prepareNewRound(player, dealer) {
+    if (player.wallet > 0) {
+        player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
+        player.currentHandIndex = 0;
+        dealer.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
+        currentCard = -1;
+        toggleBetFormVisibility();
+        console.log('------------------');
+        console.log('Wallet: ' + player.wallet);
+    } else {
+        console.log('Out of money, game over');
+    }
+}
+
+// Key game functions
 function shuffle(deck) {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -206,24 +276,6 @@ function splitHand(player) {
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
 }
 
-function determineIfAllHandsPlayed() {
-    if (player.currentHandIndex + 1 < player.hands.length) {
-        playNextHand();
-    } else {
-        resolveDealerHand();
-    }
-}
-
-function resolveDealerHand() {
-    if (dealer.hands[0].handValue < 17) {
-        deal(dealer.hands[0]);
-        updateConsole();
-        resolveDealerHand();
-    } else {
-        resolveBets();
-    }
-}
-
 // HTML element visibility toggling
 function toggleBetFormVisibility() {
     document.querySelector('.betForm').classList.toggle('hidden');
@@ -245,56 +297,4 @@ function hideHitStandButtons() {
 
 function hideSplitButton() {
     document.querySelector('.splitButton').classList.add('hidden');
-}
-
-// Round resolution
-function resolveBlackjack() {
-    if (dealer.hands[0].handValue === 21) {
-        console.log('Blackjack- draw');
-        player.wallet += parseInt(player.bet);
-    } else {
-        console.log('Blackjack- player wins');
-        player.wallet += 2.5 * parseInt(player.bet);
-    }
-
-    prepareNewRound(player, dealer);
-}
-
-function resolveBets() {
-    for (let i = 0; i < player.hands.length; i++) {
-        if (player.hands[i].handValue > 21) {
-            console.log('Hand ' + (i + 1) + ': bust- dealer wins');
-        } else {
-            if (dealer.hands[0].handValue > 21) {
-                console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
-                player.wallet += 2 * parseInt(player.bet);
-            } else {
-                if (dealer.hands[0].handValue > player.hands[i].handValue) {
-                    console.log('Hand ' + (i + 1) + ': dealer wins');
-                } else if (dealer.hands[0].handValue < player.hands[i].handValue) {
-                    console.log('Hand ' + (i + 1) + ': player wins');
-                    player.wallet += 2 * parseInt(player.bet);
-                } else {
-                    console.log('Hand ' + (i + 1) + ': draw');
-                    player.wallet += parseInt(player.bet);
-                }
-            }
-        }
-    }
-
-    prepareNewRound(player, dealer);
-}
-
-function prepareNewRound(player, dealer) {
-    if (player.wallet > 0) {
-        player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
-        player.currentHandIndex = 0;
-        dealer.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
-        currentCard = -1;
-        toggleBetFormVisibility();
-        console.log('------------------');
-        console.log('Wallet: ' + player.wallet);
-    } else {
-        console.log('Out of money, game over');
-    }
 }
