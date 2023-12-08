@@ -80,7 +80,12 @@ function playNextHand() {
     player.currentHandIndex++;
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
-    showButtons();
+
+    if (player.hands[player.currentHandIndex] === 21) {
+        determineIfAllHandsPlayed();
+    } else {
+        showButtons();
+    }
 }
 
 function shuffle(deck) {
