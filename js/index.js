@@ -127,7 +127,7 @@ function resolveBets() {
                 console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
                 player.wallet += 2 * parseInt(player.bet);
             } else if (dealer.handValue === 21 && dealer.cardObjects.length === 2) {
-                console.log('Hand ' + (i + 1) + ': dealer blackjack- dealer wins')
+                console.log('Hand ' + (i + 1) + ': dealer blackjack- dealer wins');
             } else {
                 if (dealer.handValue > player.hands[i].handValue) {
                     console.log('Hand ' + (i + 1) + ': dealer wins');
