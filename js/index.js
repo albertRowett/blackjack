@@ -310,14 +310,16 @@ function showButtons() {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 
-    const currentHand = player.hands[player.currentHandIndex];
+    if (player.wallet >= player.bet) {
+        const currentHand = player.hands[player.currentHandIndex];
 
-    if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value && player.wallet >= player.bet) {
-        document.querySelector('.splitButton').classList.remove('hidden');
-    }
+        if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value) {
+            document.querySelector('.splitButton').classList.remove('hidden');
+        }
 
-    if (currentHand.handValue > 8 && currentHand.handValue < 12) {
-        document.querySelector('.doubleDownButton').classList.remove('hidden');
+        if (currentHand.handValue > 8 && currentHand.handValue < 12) {
+            document.querySelector('.doubleDownButton').classList.remove('hidden');
+        }
     }
 }
 
