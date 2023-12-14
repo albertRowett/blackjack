@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0 }], currentHandIndex: 0, wallet: 1000, bet: 0 };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0 };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -125,7 +125,11 @@ function resolveBets() {
         } else {
             if (dealer.handValue > 21) {
                 console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
-                player.wallet += 2 * parseInt(player.bet);
+                if (player.hands[i].doubled) {
+                    player.wallet += 4 * parseInt(player.bet);
+                } else {
+                    player.wallet += 2 * parseInt(player.bet);
+                }
             } else if (dealer.handValue === 21 && dealer.cardObjects.length === 2) {
                 console.log('Hand ' + (i + 1) + ': dealer blackjack- dealer wins');
             } else {
@@ -133,10 +137,18 @@ function resolveBets() {
                     console.log('Hand ' + (i + 1) + ': dealer wins');
                 } else if (dealer.handValue < player.hands[i].handValue) {
                     console.log('Hand ' + (i + 1) + ': player wins');
-                    player.wallet += 2 * parseInt(player.bet);
+                    if (player.hands[i].doubled) {
+                        player.wallet += 4 * parseInt(player.bet);
+                    } else {
+                        player.wallet += 2 * parseInt(player.bet);
+                    }
                 } else {
                     console.log('Hand ' + (i + 1) + ': draw');
-                    player.wallet += parseInt(player.bet);
+                    if (player.hands[i].doubled) {
+                        player.wallet += 2 * parseInt(player.bet);
+                    } else {
+                        player.wallet += parseInt(player.bet);
+                    }
                 }
             }
         }
@@ -221,6 +233,7 @@ document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
+document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
 // Event handlers
 function handleBetSubmit(e) {
@@ -248,7 +261,7 @@ function handleBet(bet, player) {
 }
 
 function handleHitClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
 
@@ -259,13 +272,13 @@ function handleHitClick() {
 }
 
 function handleStandClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     hideHitStandButtons();
     determineIfAllHandsPlayed();
 }
 
 function handleSplitClick() {
-    hideSplitButton();
+    hideSplitDoubleDownButtons();
     hideHitStandButtons();
     handleBet(player.bet, player);
     splitHand(player);
@@ -278,6 +291,16 @@ function splitHand(player) {
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
 }
 
+function handleDoubleDownClick() {
+    hideSplitDoubleDownButtons();
+    hideHitStandButtons();
+    handleBet(player.bet, player);
+    player.hands[player.currentHandIndex].doubled = true;
+    deal(player.hands[player.currentHandIndex]);
+    updateConsole();
+    determineIfAllHandsPlayed();
+}
+
 // HTML element visibility toggling
 function toggleBetFormVisibility() {
     document.querySelector('.betForm').classList.toggle('hidden');
@@ -287,8 +310,16 @@ function showButtons() {
     document.querySelector('.hitButton').classList.remove('hidden');
     document.querySelector('.standButton').classList.remove('hidden');
 
-    if (player.hands[player.currentHandIndex].cardObjects[0].value === player.hands[player.currentHandIndex].cardObjects[1].value && player.wallet >= player.bet) {
-        document.querySelector('.splitButton').classList.remove('hidden');
+    if (player.wallet >= player.bet) {
+        const currentHand = player.hands[player.currentHandIndex];
+
+        if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value) {
+            document.querySelector('.splitButton').classList.remove('hidden');
+        }
+
+        if (currentHand.handValue > 8 && currentHand.handValue < 12) {
+            document.querySelector('.doubleDownButton').classList.remove('hidden');
+        }
     }
 }
 
@@ -297,6 +328,7 @@ function hideHitStandButtons() {
     document.querySelector('.standButton').classList.add('hidden');
 }
 
-function hideSplitButton() {
+function hideSplitDoubleDownButtons() {
     document.querySelector('.splitButton').classList.add('hidden');
+    document.querySelector('.doubleDownButton').classList.add('hidden');
 }
