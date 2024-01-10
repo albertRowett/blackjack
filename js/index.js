@@ -230,6 +230,7 @@ function updateConsole() {
 
 // Event listeners
 document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
+document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
@@ -259,6 +260,8 @@ function handleBet(bet, player) {
     console.log('Bet: ' + player.bet);
     console.log('Wallet: ' + player.wallet);
 }
+
+function handleInsuranceClick() {}
 
 function handleHitClick() {
     hideSplitDoubleDownButtons();
