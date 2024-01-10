@@ -265,8 +265,6 @@ function handleBet(bet, player) {
     console.log('Wallet: ' + player.wallet);
 }
 
-function handleInsuranceClick() {}
-
 function handleHitClick() {
     hideSplitDoubleDownButtons();
     hideInsuranceButton();
@@ -310,6 +308,24 @@ function handleDoubleDownClick() {
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
     determineIfAllHandsPlayed();
+}
+
+function handleInsuranceClick() {
+    hideInsuranceButton();
+    handleSideBet(0.5 * player.bet, player);
+
+    if (dealer.handValue === 21) {
+        player.wallet += 1.5 * parseInt(player.bet);
+        console.log('Insurance bet won');
+        resolveBets();
+    } else {
+        console.log('Insurance bet lost');
+    }
+}
+
+function handleSideBet(bet, player) {
+    player.wallet -= bet;
+    console.log('Wallet: ' + player.wallet);
 }
 
 // HTML element visibility toggling
