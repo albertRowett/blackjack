@@ -70,7 +70,9 @@ function playFirstHand() {
     updateConsole();
 
     if (player.hands[0].handValue === 21) {
-        resolveBlackjack();
+        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+            toggleEvenMoneyButtons();
+        }
     } else {
         showButtons();
 
@@ -234,6 +236,8 @@ function updateConsole() {
 
 // Event listeners
 document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
+document.querySelector('.acceptEvenMoneyButton').addEventListener('click', handleAcceptEvenMoneyClick);
+document.querySelector('.rejectEvenMoneyButton').addEventListener('click', handleRejectEvenMoneyClick);
 document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
@@ -328,6 +332,17 @@ function handleSideBet(bet, player) {
     console.log('Wallet: ' + player.wallet);
 }
 
+function handleAcceptEvenMoneyClick() {
+    toggleEvenMoneyButtons();
+    player.wallet += 2 * parseInt(player.bet);
+    prepareNewRound(player, dealer);
+}
+
+function handleRejectEvenMoneyClick() {
+    toggleEvenMoneyButtons();
+    resolveBlackjack();
+}
+
 // HTML element visibility toggling
 function toggleBetFormVisibility() {
     document.querySelector('.betForm').classList.toggle('hidden');
@@ -366,4 +381,9 @@ function hideSplitDoubleDownButtons() {
 
 function hideInsuranceButton() {
     document.querySelector('.insuranceButton').classList.add('hidden');
+}
+
+function toggleEvenMoneyButtons() {
+    document.querySelector('.acceptEvenMoneyButton').classList.toggle('hidden');
+    document.querySelector('.rejectEvenMoneyButton').classList.toggle('hidden');
 }
