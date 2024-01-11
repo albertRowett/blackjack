@@ -318,6 +318,8 @@ function handleInsuranceClick() {
     handleSideBet(0.5 * player.bet, player);
 
     if (dealer.handValue === 21) {
+        hideHitStandButtons();
+        hideSplitDoubleDownButtons();
         player.wallet += 1.5 * parseInt(player.bet);
         console.log('Insurance bet won');
         resolveBets();
