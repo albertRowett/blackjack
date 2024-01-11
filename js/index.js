@@ -69,12 +69,11 @@ function playFirstHand() {
     deal(dealer);
     updateConsole();
 
-    if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
-        if (player.hands[0].handValue === 21) {
+    if (player.hands[0].handValue === 21) {
+        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
             toggleEvenMoneyButtons();
         } else {
-            showInsuranceButton();
-            showButtons();
+            resolveBlackjack();
         }
     } else {
         showButtons();
@@ -364,10 +363,10 @@ function showButtons() {
             document.querySelector('.doubleDownButton').classList.remove('hidden');
         }
     }
-}
 
-function showInsuranceButton() {
-    document.querySelector('.insuranceButton').classList.remove('hidden');
+    if (player.currentHandIndex === 0 && dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+        document.querySelector('.insuranceButton').classList.remove('hidden');
+    }
 }
 
 function hideHitStandButtons() {
