@@ -69,16 +69,15 @@ function playFirstHand() {
     deal(dealer);
     updateConsole();
 
-    if (player.hands[0].handValue === 21) {
-        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+    if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+        if (player.hands[0].handValue === 21) {
             toggleEvenMoneyButtons();
+        } else {
+            showInsuranceButton();
+            showButtons();
         }
     } else {
         showButtons();
-
-        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
-            showInsuranceButton();
-        }
     }
 }
 
