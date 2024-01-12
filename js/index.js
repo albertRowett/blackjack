@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0 };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0, insured: false };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -70,7 +70,11 @@ function playFirstHand() {
     updateConsole();
 
     if (player.hands[0].handValue === 21) {
-        resolveBlackjack();
+        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+            toggleEvenMoneyButtons();
+        } else {
+            resolveBlackjack();
+        }
     } else {
         showButtons();
     }
@@ -230,6 +234,9 @@ function updateConsole() {
 
 // Event listeners
 document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
+document.querySelector('.acceptEvenMoneyButton').addEventListener('click', handleAcceptEvenMoneyClick);
+document.querySelector('.rejectEvenMoneyButton').addEventListener('click', handleRejectEvenMoneyClick);
+document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
@@ -262,6 +269,7 @@ function handleBet(bet, player) {
 
 function handleHitClick() {
     hideSplitDoubleDownButtons();
+    hideInsuranceButton();
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
 
@@ -274,12 +282,14 @@ function handleHitClick() {
 function handleStandClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
+    hideInsuranceButton();
     determineIfAllHandsPlayed();
 }
 
 function handleSplitClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
+    hideInsuranceButton();
     handleBet(player.bet, player);
     splitHand(player);
     player.currentHandIndex--;
@@ -294,11 +304,44 @@ function splitHand(player) {
 function handleDoubleDownClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
+    hideInsuranceButton();
     handleBet(player.bet, player);
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
     updateConsole();
     determineIfAllHandsPlayed();
+}
+
+function handleInsuranceClick() {
+    hideInsuranceButton();
+    handleSideBet(0.5 * player.bet, player);
+    player.insured = true;
+
+    if (dealer.handValue === 21) {
+        hideHitStandButtons();
+        hideSplitDoubleDownButtons();
+        player.wallet += 1.5 * parseInt(player.bet);
+        console.log('Insurance bet won');
+        resolveBets();
+    } else {
+        console.log('Insurance bet lost');
+    }
+}
+
+function handleSideBet(bet, player) {
+    player.wallet -= bet;
+    console.log('Wallet: ' + player.wallet);
+}
+
+function handleAcceptEvenMoneyClick() {
+    toggleEvenMoneyButtons();
+    player.wallet += 2 * parseInt(player.bet);
+    prepareNewRound(player, dealer);
+}
+
+function handleRejectEvenMoneyClick() {
+    toggleEvenMoneyButtons();
+    resolveBlackjack();
 }
 
 // HTML element visibility toggling
@@ -321,6 +364,10 @@ function showButtons() {
             document.querySelector('.doubleDownButton').classList.remove('hidden');
         }
     }
+
+    if (!player.insured && dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+        document.querySelector('.insuranceButton').classList.remove('hidden');
+    }
 }
 
 function hideHitStandButtons() {
@@ -331,4 +378,13 @@ function hideHitStandButtons() {
 function hideSplitDoubleDownButtons() {
     document.querySelector('.splitButton').classList.add('hidden');
     document.querySelector('.doubleDownButton').classList.add('hidden');
+}
+
+function hideInsuranceButton() {
+    document.querySelector('.insuranceButton').classList.add('hidden');
+}
+
+function toggleEvenMoneyButtons() {
+    document.querySelector('.acceptEvenMoneyButton').classList.toggle('hidden');
+    document.querySelector('.rejectEvenMoneyButton').classList.toggle('hidden');
 }
