@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0 };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0, insured: false };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -315,6 +315,7 @@ function handleDoubleDownClick() {
 function handleInsuranceClick() {
     hideInsuranceButton();
     handleSideBet(0.5 * player.bet, player);
+    player.insured = true;
 
     if (dealer.handValue === 21) {
         hideHitStandButtons();
@@ -364,7 +365,7 @@ function showButtons() {
         }
     }
 
-    if (player.currentHandIndex === 0 && dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+    if (!player.insured && dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
         document.querySelector('.insuranceButton').classList.remove('hidden');
     }
 }
