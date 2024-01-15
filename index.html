@@ -20,18 +20,46 @@
     </head>
 
     <body>
-        <h1>Blackjack</h1>
-        <form class="betForm">
-            <label for="bet">Bet:</label>
-            <input type="number" id="bet" min="2" max="500" step="2" />
-            <input type="submit" value="Deal" />
-        </form>
-        <button class="acceptEvenMoneyButton hidden">Accept even money</button>
-        <button class="rejectEvenMoneyButton hidden">Reject even money</button>
-        <button class="insuranceButton hidden">Insurance</button>
-        <button class="hitButton hidden">Hit</button>
-        <button class="standButton hidden">Stand</button>
-        <button class="splitButton hidden">Split</button>
-        <button class="doubleDownButton hidden">Double down</button>
+        <section class="topSection">
+            <button class="cashOutButton">Cash out</button>
+            <h1>Blackjack</h1>
+            <button class="instructionsButton">Instructions</button>
+        </section>
+        <section class="middleSection">
+            <div class="emptyDiv"></div>
+            <div class="cardArea">
+                <div class="cards"></div>
+                <span class="score">8</span>
+            </div>
+            <div class="buttons">
+                <button class="acceptEvenMoneyButton hidden">Accept even money</button>
+                <button class="rejectEvenMoneyButton hidden">Reject even money</button>
+                <button class="insuranceButton hidden">Insurance</button>
+            </div>
+            <p class="bet">$50</p>
+            <div class="buttons">
+                <button class="hitButton hidden">Hit</button>
+                <button class="doubleDownButton hidden">Double down</button>
+                <button class="standButton hidden">Stand</button>
+            </div>
+            <div class="cardArea">
+                <div class="cards"></div>
+                <span class="score">19</span>
+            </div>
+            <div class="buttons">
+                <button class="splitButton hidden">Split</button>
+            </div>
+        </section>
+        <section class="bottomSection">
+            <div class="wallet">
+                <p class="walletTitle">Wallet</p>
+                <p class="walletValue">$950</p>
+            </div>
+            <form class="betForm">
+                <label for="bet">Bet:</label>
+                <input type="number" id="bet" min="2" max="500" step="2" />
+                <input type="submit" value="Deal" />
+            </form>
+        </section>
     </body>
 </html>
