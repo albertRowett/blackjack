@@ -564,12 +564,68 @@ video {
   height: 100vh;
 }
 
+.h-3\/4 {
+  height: 75%;
+}
+
+.h-1\/4 {
+  height: 25%;
+}
+
+.h-\[80\%\] {
+  height: 80%;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.min-h-96 {
+  min-height: 24rem;
+}
+
+.min-h-\[75\%\] {
+  min-height: 75%;
+}
+
+.min-h-\[80\%\] {
+  min-height: 80%;
+}
+
+.min-h-\[300rem\] {
+  min-height: 300rem;
+}
+
+.min-h-\[50\%\] {
+  min-height: 50%;
+}
+
+.min-h-full {
+  min-height: 100%;
+}
+
+.basis-3\/4 {
+  flex-basis: 75%;
+}
+
+.basis-1\/4 {
+  flex-basis: 25%;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
 .items-center {
   align-items: center;
 }
 
 .justify-between {
   justify-content: space-between;
+}
+
+.justify-evenly {
+  justify-content: space-evenly;
 }
 
 .rounded {

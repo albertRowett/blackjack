@@ -20,38 +20,38 @@
         <script defer src="js/index.js"></script>
     </head>
 
-    <body class="h-screen bg-green-800 font-sans text-slate-100">
+    <body class="h-screen flex flex-col bg-green-800 font-sans text-slate-100">
         <section class="topSection flex justify-between items-center">
             <button class="cashOutButton m-2 border-2 rounded-lg p-1">Cash out</button>
             <h1 class="text-black text-3xl font-bold">Blackjack</h1>
             <button class="instructionsButton m-2 border-2 rounded-lg p-1">Instructions</button>
         </section>
-        <section class="middleSection">
+        <section class="middleSection basis-3/4 flex flex-col">
             <div class="emptyDiv"></div>
             <div class="cardArea">
                 <div class="cards"></div>
                 <span class="score">8</span>
             </div>
             <div class="buttons">
-                <button class="acceptEvenMoneyButton hidden">Accept even money</button>
-                <button class="rejectEvenMoneyButton hidden">Reject even money</button>
-                <button class="insuranceButton hidden">Insurance</button>
+                <button class="acceptEvenMoneyButton hidden m-2 border-2 rounded-lg p-1">Accept even money</button>
+                <button class="rejectEvenMoneyButton hidden m-2 border-2 rounded-lg p-1">Reject even money</button>
+                <button class="insuranceButton hidden m-2 border-2 rounded-lg p-1">Insurance</button>
             </div>
             <p class="bet">$50</p>
             <div class="buttons">
-                <button class="hitButton hidden">Hit</button>
-                <button class="doubleDownButton hidden">Double down</button>
-                <button class="standButton hidden">Stand</button>
+                <button class="hitButton hidden m-2 border-2 rounded-lg p-1">Hit</button>
+                <button class="doubleDownButton hidden m-2 border-2 rounded-lg p-1">Double down</button>
+                <button class="standButton hidden m-2 border-2 rounded-lg p-1">Stand</button>
             </div>
             <div class="cardArea">
                 <div class="cards"></div>
                 <span class="score">19</span>
             </div>
             <div class="buttons">
-                <button class="splitButton hidden">Split</button>
+                <button class="splitButton hidden m-2 border-2 rounded-lg p-1">Split</button>
             </div>
         </section>
-        <section class="bottomSection">
+        <section class="bottomSection basis-1/4">
             <div class="wallet">
                 <p class="walletTitle">Wallet</p>
                 <p class="walletValue">$950</p>
