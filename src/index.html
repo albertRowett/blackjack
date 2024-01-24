@@ -26,32 +26,40 @@
             <h1 class="text-black text-3xl font-bold">Blackjack</h1>
             <button class="instructionsButton m-2 border-2 rounded-lg p-1">Instructions</button>
         </section>
-        <section class="middleSection basis-3/4 flex flex-col">
-            <div class="emptyDiv"></div>
-            <div class="cardArea">
-                <div class="cards"></div>
-                <span class="score">8</span>
+        <section class="middleSection basis-4/5 flex flex-col justify-around items-center">
+            <section class="absolute top-50% z-0 text-slate-100 opacity-25 text-xl">
+                <p class="text-center">Insurance pays 2-to-1</p>
+                <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
+            </section>
+            <div class="min-h-14"></div>
+            <div class="w-full flex justify-between items-center">
+                <span class="w-7 ml-8"></span>
+                <div class="cards flex w-[106.3167px] h-28 rounded-xl border"></div>
+                <span class="score w-7 mr-8 text-xl font-bold text-center">8</span>
             </div>
-            <div class="buttons">
-                <button class="acceptEvenMoneyButton hidden m-2 border-2 rounded-lg p-1">Accept even money</button>
-                <button class="rejectEvenMoneyButton hidden m-2 border-2 rounded-lg p-1">Reject even money</button>
-                <button class="insuranceButton hidden m-2 border-2 rounded-lg p-1">Insurance</button>
+            <div class="flex min-h-14 items-center">
+                <button class="acceptEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Accept even money</button>
+                <button class="rejectEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Reject even money</button>
+                <button class="insuranceButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Insurance</button>
             </div>
-            <p class="bet">$50</p>
-            <div class="buttons">
-                <button class="hitButton hidden m-2 border-2 rounded-lg p-1">Hit</button>
-                <button class="doubleDownButton hidden m-2 border-2 rounded-lg p-1">Double down</button>
-                <button class="standButton hidden m-2 border-2 rounded-lg p-1">Stand</button>
+            <p class="bet z-50 text-3xl font-bold">$50</p>
+            <div class="flex min-h-14 items-center">
+                <button class="hitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Hit</button>
+                <div class="min-w-[107.45px] m-2">
+                    <button class="doubleDownButton hidden rounded-lg p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Double down</button>
+                </div>
+                <button class="standButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Stand</button>
             </div>
-            <div class="cardArea">
-                <div class="cards"></div>
-                <span class="score">19</span>
+            <div class="w-full flex justify-between items-center">
+                <span class="w-7 ml-8"></span>
+                <div class="cards flex w-[106.3167px] h-28 rounded-xl border"></div>
+                <span class="score w-7 mr-8 text-xl font-bold text-center">22</span>
             </div>
-            <div class="buttons">
-                <button class="splitButton hidden m-2 border-2 rounded-lg p-1">Split</button>
+            <div class="flex min-h-14 items-center">
+                <button class="splitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-green-900 font-semibold">Split</button>
             </div>
         </section>
-        <section class="bottomSection basis-1/4">
+        <section class="bottomSection basis-1/5">
             <div class="wallet">
                 <p class="walletTitle">Wallet</p>
                 <p class="walletValue">$950</p>
