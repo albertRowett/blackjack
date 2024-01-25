@@ -116,7 +116,12 @@ function resolveBlackjack() {
         player.wallet += parseInt(player.bet);
     } else {
         console.log('Blackjack- player wins');
-        player.wallet += 2.5 * parseInt(player.bet);
+
+        if (player.bet % 2 === 1) {
+            player.wallet += 2.5 * player.bet - 0.5;
+        } else {
+            player.wallet += 2.5 * parseInt(player.bet);
+        }
     }
 
     prepareNewRound(player, dealer);
@@ -168,7 +173,7 @@ function prepareNewRound(player, dealer) {
         dealer.cardObjects = [];
         currentCard = -1;
         toggleBetAdjustmentVisibility();
-        
+
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
             document.querySelector('.bet').textContent = '$' + player.bet;
