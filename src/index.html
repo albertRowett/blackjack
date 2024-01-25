@@ -41,7 +41,7 @@
                 <button class="rejectEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Reject even money</button>
                 <button class="insuranceButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Insurance</button>
             </div>
-            <p class="bet z-50 text-3xl font-bold">$0</p>
+            <p class="bet z-50 text-3xl font-bold">$100</p>
             <div class="flex min-h-14 items-center">
                 <button class="hitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Hit</button>
                 <div class="min-w-[107.45px] m-2">
@@ -61,39 +61,34 @@
         <section class="bottomSection flex justify-around basis-1/5">
             <div class="flex flex-col items-center mt-11">
                 <h2 class="text-lg opacity-50">Wallet</h2>
-                <p class="wallet text-2xl font-bold">$1000</p>
+                <p class="wallet text-2xl font-bold">$900</p>
             </div>
-            <form class="betForm">
-                <label for="bet">Bet:</label>
-                <input type="number" id="bet" min="2" max="500" step="2" />
-                <input type="submit" value="Deal" />
-            </form>
-            <div class="flex flex-col items-center">
+            <div class="betAdjustment flex flex-col items-center">
                 <h2 class="text-lg opacity-50">Adjust bet</h2>
                     <div class="flex">
                         <div class="flex flex-col items-center m-2">
                             <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-neutral-900 border-dashed bg-slate-100 drop-shadow-rb text-xs text-neutral-900 font-semibold">1</p>
                             <div class="flex gap-1 mt-1">
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                <button class="subtract1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                <button class="add1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
                             </div>
                         </div>
                         <div class="flex flex-col items-center m-2">
                             <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed  bg-blue-900 drop-shadow-rb text-xs text-slate-100 font-semibold">10</p>
                             <div class="flex gap-1 mt-1">
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                <button class="subtract10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                <button class="add10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
                             </div>
                         </div>
                         <div class="flex flex-col items-center m-2">
                             <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed bg-neutral-900 drop-shadow-rb text-xs text-slate-100 font-semibold">100</p>
                             <div class="flex gap-1 mt-1">
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                <button class="subtract100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                <button class="add100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
                             </div>
                         </div>
                     </div>
-                <button class="rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
+                <button class="dealButton rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
             </div>
         </section>
     </body>

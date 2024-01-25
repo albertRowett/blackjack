@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 1000, bet: 0, insured: false };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -167,7 +167,14 @@ function prepareNewRound(player, dealer) {
         player.currentHandIndex = 0;
         dealer.cardObjects = [];
         currentCard = -1;
-        toggleBetFormVisibility();
+        toggleBetAdjustmentVisibility();
+        
+        if (player.bet > player.wallet) {
+            player.bet = player.wallet;
+            document.querySelector('.bet').textContent = '$' + player.bet;
+        }
+
+        player.wallet -= player.bet;
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
         document.querySelector('.wallet').textContent = '$' + player.wallet;
@@ -234,7 +241,13 @@ function updateConsole() {
 }
 
 // Event listeners
-document.querySelector('.betForm').addEventListener('submit', handleBetSubmit);
+document.querySelector('.subtract1Button').addEventListener('click', handleSubtract1Click);
+document.querySelector('.add1Button').addEventListener('click', handleAdd1Click);
+document.querySelector('.subtract10Button').addEventListener('click', handleSubtract10Click);
+document.querySelector('.add10Button').addEventListener('click', handleAdd10Click);
+document.querySelector('.subtract100Button').addEventListener('click', handleSubtract100Click);
+document.querySelector('.add100Button').addEventListener('click', handleAdd100Click);
+document.querySelector('.dealButton').addEventListener('click', handleDealClick);
 document.querySelector('.acceptEvenMoneyButton').addEventListener('click', handleAcceptEvenMoneyClick);
 document.querySelector('.rejectEvenMoneyButton').addEventListener('click', handleRejectEvenMoneyClick);
 document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
@@ -244,21 +257,52 @@ document.querySelector('.splitButton').addEventListener('click', handleSplitClic
 document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
 // Event handlers
-function handleBetSubmit(e) {
-    e.preventDefault();
-    const bet = document.querySelector('#bet').value;
-
-    if (bet) {
-        if (bet <= player.wallet) {
-            handleBet(bet, player);
-            toggleBetFormVisibility();
-            playFirstHand();
-        } else {
-            console.log('Bet must not be greater than wallet amount');
-        }
-    } else {
-        console.log('Bet must be between 2 and 500');
+function handleSubtract1Click() {
+    if (player.bet > 1) {
+        adjustBet(-1);
     }
+}
+
+function handleAdd1Click() {
+    if (player.bet < 500 && player.wallet > 0) {
+        adjustBet(1);
+    }
+}
+
+function handleSubtract10Click() {
+    if (player.bet > 10) {
+        adjustBet(-10);
+    }
+}
+
+function handleAdd10Click() {
+    if (player.bet < 491 && player.wallet > 9) {
+        adjustBet(10);
+    }
+}
+
+function handleSubtract100Click() {
+    if (player.bet > 100) {
+        adjustBet(-100);
+    }
+}
+
+function handleAdd100Click() {
+    if (player.bet < 401 && player.wallet > 99) {
+        adjustBet(100);
+    }
+}
+
+function adjustBet(adjustment) {
+    player.bet += adjustment;
+    player.wallet -= adjustment;
+    document.querySelector('.bet').textContent = '$' + player.bet;
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
+}
+
+function handleDealClick() {
+    toggleBetAdjustmentVisibility();
+    playFirstHand();
 }
 
 function handleBet(bet, player) {
@@ -349,8 +393,8 @@ function handleRejectEvenMoneyClick() {
 }
 
 // HTML element visibility toggling
-function toggleBetFormVisibility() {
-    document.querySelector('.betForm').classList.toggle('hidden');
+function toggleBetAdjustmentVisibility() {
+    document.querySelector('.betAdjustment').classList.toggle('hidden');
 }
 
 function showButtons() {
