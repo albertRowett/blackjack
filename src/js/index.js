@@ -170,6 +170,7 @@ function prepareNewRound(player, dealer) {
         toggleBetFormVisibility();
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
+        document.querySelector('.wallet').textContent = '$' + player.wallet;
     } else {
         console.log('Out of money, game over');
     }
@@ -264,7 +265,9 @@ function handleBet(bet, player) {
     player.bet = bet;
     player.wallet -= bet;
     console.log('Bet: ' + player.bet);
+    document.querySelector('.bet').textContent = '$' + player.bet;
     console.log('Wallet: ' + player.wallet);
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
 }
 
 function handleHitClick() {
@@ -331,6 +334,7 @@ function handleInsuranceClick() {
 function handleSideBet(bet, player) {
     player.wallet -= bet;
     console.log('Wallet: ' + player.wallet);
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
 }
 
 function handleAcceptEvenMoneyClick() {
