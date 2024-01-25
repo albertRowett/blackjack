@@ -175,6 +175,7 @@ function prepareNewRound(player, dealer) {
         }
 
         player.wallet -= player.bet;
+        colourBetAdjustmentButtons();
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
         document.querySelector('.wallet').textContent = '$' + player.wallet;
@@ -298,6 +299,7 @@ function adjustBet(adjustment) {
     player.wallet -= adjustment;
     document.querySelector('.bet').textContent = '$' + player.bet;
     document.querySelector('.wallet').textContent = '$' + player.wallet;
+    colourBetAdjustmentButtons();
 }
 
 function handleDealClick() {
@@ -392,7 +394,7 @@ function handleRejectEvenMoneyClick() {
     resolveBlackjack();
 }
 
-// HTML element visibility toggling
+// HTML element appearance toggling
 function toggleBetAdjustmentVisibility() {
     document.querySelector('.betAdjustment').classList.toggle('hidden');
 }
@@ -435,4 +437,52 @@ function hideInsuranceButton() {
 function toggleEvenMoneyButtons() {
     document.querySelector('.acceptEvenMoneyButton').classList.toggle('hidden');
     document.querySelector('.rejectEvenMoneyButton').classList.toggle('hidden');
+}
+
+function colourBetAdjustmentButtons() {
+    if (player.bet < 2) {
+        makeButtonRed('.subtract1Button');
+    } else {
+        makeButtonWhite('.subtract1Button');
+    }
+
+    if (player.bet > 499 || player.wallet < 1) {
+        makeButtonRed('.add1Button');
+    } else {
+        makeButtonWhite('.add1Button');
+    }
+
+    if (player.bet < 11) {
+        makeButtonRed('.subtract10Button');
+    } else {
+        makeButtonWhite('.subtract10Button');
+    }
+
+    if (player.bet > 490 || player.wallet < 10) {
+        makeButtonRed('.add10Button');
+    } else {
+        makeButtonWhite('.add10Button');
+    }
+
+    if (player.bet < 101) {
+        makeButtonRed('.subtract100Button');
+    } else {
+        makeButtonWhite('.subtract100Button');
+    }
+
+    if (player.bet > 400 || player.wallet < 100) {
+        makeButtonRed('.add100Button');
+    } else {
+        makeButtonWhite('.add100Button');
+    }
+}
+
+function makeButtonRed(button) {
+    document.querySelector(button).classList.remove('bg-slate-100');
+    document.querySelector(button).classList.add('bg-red-600');
+}
+
+function makeButtonWhite(button) {
+    document.querySelector(button).classList.remove('bg-red-600');
+    document.querySelector(button).classList.add('bg-slate-100');
 }
