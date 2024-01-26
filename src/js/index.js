@@ -170,6 +170,7 @@ function prepareNewRound(player, dealer) {
     if (player.wallet > 0) {
         player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
         player.currentHandIndex = 0;
+        player.insured = false;
         dealer.cardObjects = [];
         currentCard = -1;
         toggleBettingScreen();
