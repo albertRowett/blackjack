@@ -21,12 +21,15 @@
     </head>
 
     <body class="h-screen flex flex-col bg-green-800 font-sans text-slate-100">
-        <section class="topSection flex justify-between items-center">
-            <button class="cashOutButton rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Cash out</button>
+        <section class="topSection relative flex justify-end">
+            <section class="absolute top-2 left-2 flex flex-col items-center">
+                <img src="images/cards/backRed.png" class="z-50 h-28 mb-1" />
+                <button class="dealButton rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
+            </section>
             <button class="instructionsButton rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Instructions</button>
         </section>
-        <section class="middleSection flex flex-col justify-around items-center basis-4/5">
-            <section class="absolute top-50% z-0 text-slate-100 opacity-25 text-xl">
+        <section class="middleSection relative flex flex-col justify-around items-center basis-4/5">
+            <section class="absolute z-0 text-slate-100 opacity-25 text-xl">
                 <p class="text-center">Insurance pays 2-to-1</p>
                 <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
             </section>
@@ -58,37 +61,37 @@
                 <button class="splitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Split</button>
             </div>
         </section>
-        <section class="bottomSection flex justify-around basis-1/5">
-            <div class="flex flex-col items-center mt-11">
+        <section class="bottomSection flex justify-between items-center basis-1/5">
+            <div class="flex flex-col items-center ml-6">
                 <h2 class="text-lg opacity-50">Wallet</h2>
                 <p class="wallet text-2xl font-bold">$900</p>
+                <button class="cashOutButton rounded-lg mt-3.5 m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Cash out</button>
             </div>
-            <div class="betAdjustment flex flex-col items-center">
+            <div class="betAdjustment flex flex-col items-center mr-6">
                 <h2 class="text-lg opacity-50">Adjust bet</h2>
-                    <div class="flex">
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-neutral-900 border-dashed bg-slate-100 drop-shadow-rb text-xs text-neutral-900 font-semibold">1</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed  bg-blue-900 drop-shadow-rb text-xs text-slate-100 font-semibold">10</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
-                        </div>
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed bg-neutral-900 drop-shadow-rb text-xs text-slate-100 font-semibold">100</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
+                <div class="flex">
+                    <div class="flex flex-col items-center m-2">
+                        <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-neutral-900 border-dashed bg-slate-100 drop-shadow-rb text-xs text-neutral-900 font-semibold">1</p>
+                        <div class="flex gap-1 mt-1">
+                            <button class="subtract1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                            <button class="add1Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
                         </div>
                     </div>
-                <button class="dealButton rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
+                    <div class="flex flex-col items-center m-2">
+                        <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed  bg-blue-900 drop-shadow-rb text-xs text-slate-100 font-semibold">10</p>
+                        <div class="flex gap-1 mt-1">
+                            <button class="subtract10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                            <button class="add10Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center m-2">
+                        <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed bg-neutral-900 drop-shadow-rb text-xs text-slate-100 font-semibold">100</p>
+                        <div class="flex gap-1 mt-1">
+                            <button class="subtract100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                            <button class="add100Button w-[22px] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </body>

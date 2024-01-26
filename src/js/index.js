@@ -172,7 +172,7 @@ function prepareNewRound(player, dealer) {
         player.currentHandIndex = 0;
         dealer.cardObjects = [];
         currentCard = -1;
-        toggleBetAdjustmentVisibility();
+        toggleDealCashOutButtonsBetAdjustment();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
@@ -308,7 +308,7 @@ function adjustBet(adjustment) {
 }
 
 function handleDealClick() {
-    toggleBetAdjustmentVisibility();
+    toggleDealCashOutButtonsBetAdjustment();
     playFirstHand();
 }
 
@@ -400,7 +400,9 @@ function handleRejectEvenMoneyClick() {
 }
 
 // HTML element appearance toggling
-function toggleBetAdjustmentVisibility() {
+function toggleDealCashOutButtonsBetAdjustment() {
+    document.querySelector('.dealButton').classList.toggle('hidden');
+    document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
 }
 
