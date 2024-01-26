@@ -243,8 +243,10 @@ function updateConsole() {
     console.log('------------------');
     console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
     console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
+    document.querySelector('.playerScore').textContent = player.hands[player.currentHandIndex].handValue;
     console.log("Dealer's cards: " + dealer.cards);
     console.log("Dealer's score: " + dealer.handValue);
+    document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
 }
 
 // Event listeners
@@ -403,6 +405,8 @@ function handleRejectEvenMoneyClick() {
 // HTML element appearance toggling
 function toggleBettingScreen() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
+    document.querySelector('.dealerScore').classList.toggle('hidden');
+    document.querySelector('.playerScore').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
