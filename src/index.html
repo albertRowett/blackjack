@@ -35,10 +35,12 @@
                 <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
             </section>
             <div class="min-h-14"></div>
-            <div class="w-full flex justify-between items-center">
-                <span class="w-7 ml-8"></span>
-                <div class="cards flex w-[106.3167px] h-28 rounded-xl border-2"></div>
-                <span class="dealerScore hidden w-7 mr-8 text-xl font-bold text-center"></span>
+            <div class="grid grid-cols-5 w-full">
+                <div></div>
+                <div class="dealerCards col-span-3 flex justify-center h-28">
+                    <div class="w-[82.3333px] rounded-xl border-2"></div>
+                </div>
+                <p class="dealerScore hidden justify-center items-center text-xl font-bold"></p>
             </div>
             <div class="flex min-h-14 items-center">
                 <button class="acceptEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Accept even money</button>
@@ -53,10 +55,12 @@
                 </div>
                 <button class="standButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Stand</button>
             </div>
-            <div class="w-full flex justify-between items-center">
-                <span class="w-7 ml-8"></span>
-                <div class="cards flex w-[106.3167px] h-28 rounded-xl border-2"></div>
-                <span class="playerScore hidden w-7 mr-8 text-xl font-bold text-center"></span>
+            <div class="grid grid-cols-5 w-full">
+                <div></div>
+                <div class="dealerCards col-span-3 flex justify-center h-28">
+                    <div class="w-[82.3333px] rounded-xl border-2"></div>
+                </div>
+                <p class="playerScore hidden justify-center items-center text-xl font-bold"></p>
             </div>
             <div class="flex min-h-14 items-center">
                 <button class="splitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Split</button>

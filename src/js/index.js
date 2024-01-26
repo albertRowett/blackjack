@@ -405,9 +405,11 @@ function handleRejectEvenMoneyClick() {
 // HTML element appearance toggling
 function toggleBettingScreen() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
-    document.querySelector('.dealerScore').classList.toggle('hidden');
-    document.querySelector('.playerScore').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
+    document.querySelector('.dealerScore').classList.toggle('hidden');
+    document.querySelector('.dealerScore').classList.toggle('flex');
+    document.querySelector('.playerScore').classList.toggle('hidden');
+    document.querySelector('.playerScore').classList.toggle('flex');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
 }
