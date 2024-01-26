@@ -172,7 +172,7 @@ function prepareNewRound(player, dealer) {
         player.currentHandIndex = 0;
         dealer.cardObjects = [];
         currentCard = -1;
-        toggleDealCashOutButtonsBetAdjustment();
+        toggleBettingScreen();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
@@ -205,6 +205,7 @@ function deal(hand) {
     hand.cardObjects.push(dealtCard);
     hand.cards = updateCards(hand.cardObjects);
     hand.handValue = updateHandValue(hand);
+    document.querySelector('.deckCounter').textContent = 51 - currentCard;
 }
 
 function updateCards(cardObjects) {
@@ -308,7 +309,7 @@ function adjustBet(adjustment) {
 }
 
 function handleDealClick() {
-    toggleDealCashOutButtonsBetAdjustment();
+    toggleBettingScreen();
     playFirstHand();
 }
 
@@ -400,7 +401,8 @@ function handleRejectEvenMoneyClick() {
 }
 
 // HTML element appearance toggling
-function toggleDealCashOutButtonsBetAdjustment() {
+function toggleBettingScreen() {
+    document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
