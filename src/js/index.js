@@ -67,7 +67,7 @@ function playFirstHand() {
     deal(dealer);
     deal(player.hands[0]);
     deal(dealer);
-    updateConsole();
+    updateDisplay();
 
     if (player.hands[0].handValue === 21) {
         if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
@@ -91,7 +91,7 @@ function determineIfAllHandsPlayed() {
 function playNextHand() {
     player.currentHandIndex++;
     deal(player.hands[player.currentHandIndex]);
-    updateConsole();
+    updateDisplay();
 
     if (player.hands[player.currentHandIndex].handValue === 21) {
         determineIfAllHandsPlayed();
@@ -103,7 +103,7 @@ function playNextHand() {
 function resolveDealerHand() {
     if (dealer.handValue < 17) {
         deal(dealer);
-        updateConsole();
+        updateDisplay();
         resolveDealerHand();
     } else {
         resolveBets();
@@ -173,7 +173,7 @@ function prepareNewRound(player, dealer) {
         player.insured = false;
         dealer.cardObjects = [];
         currentCard = -1;
-        toggleBettingScreen();
+        toggleBetVsPlayScreens();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
@@ -240,14 +240,30 @@ function resolveAces(handValue, cards) {
     return handValue;
 }
 
-function updateConsole() {
+function updateDisplay() {
+    let cardsHTML = '';
+    const cardObjects = player.hands[player.currentHandIndex].cardObjects;
+
+    cardObjects.forEach((cardObject, index) => {
+        cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-' + index + '" />';
+
+        if (index === 0) {
+            cardsHTML += '<div class="w-[5.1458rem] h-28"></div>';
+        } else {
+            cardsHTML += '<div class="w-[1.375rem]"></div>';
+        }
+
+        document.querySelector('.playerCards').innerHTML = cardsHTML;
+    });
+
+    document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
+    document.querySelector('.playerScore').textContent = player.hands[player.currentHandIndex].handValue;
+
     console.log('------------------');
     console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
     console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
-    document.querySelector('.playerScore').textContent = player.hands[player.currentHandIndex].handValue;
     console.log("Dealer's cards: " + dealer.cards);
     console.log("Dealer's score: " + dealer.handValue);
-    document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
 }
 
 // Event listeners
@@ -312,7 +328,7 @@ function adjustBet(adjustment) {
 }
 
 function handleDealClick() {
-    toggleBettingScreen();
+    toggleBetVsPlayScreens();
     playFirstHand();
 }
 
@@ -329,7 +345,7 @@ function handleHitClick() {
     hideSplitDoubleDownButtons();
     hideInsuranceButton();
     deal(player.hands[player.currentHandIndex]);
-    updateConsole();
+    updateDisplay();
 
     if (player.hands[player.currentHandIndex].handValue >= 21) {
         hideHitStandButtons();
@@ -366,7 +382,7 @@ function handleDoubleDownClick() {
     handleBet(player.bet, player);
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
-    updateConsole();
+    updateDisplay();
     determineIfAllHandsPlayed();
 }
 
@@ -404,11 +420,14 @@ function handleRejectEvenMoneyClick() {
 }
 
 // HTML element appearance toggling
-function toggleBettingScreen() {
+function toggleBetVsPlayScreens() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('flex');
+    document.querySelector('.cardAreaOutline').classList.toggle('hidden');
+    document.querySelector('.playerCards').classList.toggle('hidden');
+    document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
     document.querySelector('.playerScore').classList.toggle('flex');
     document.querySelector('.cashOutButton').classList.toggle('hidden');

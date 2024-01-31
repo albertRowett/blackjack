@@ -7,3 +7,35 @@
 .hidden {
   display: none;
 }
+
+.offset-1 {
+  left: 1.375rem;
+}
+
+.offset-2 {
+  left: 2.75rem;
+}
+
+.offset-3 {
+  left: 4.125rem;
+}
+
+.offset-4 {
+  left: 5.5rem;
+}
+
+.offset-5 {
+  left: 6.875rem;
+}
+
+.offset-6 {
+  left: 8.25rem;
+}
+
+.offset-7 {
+  left: 9.625rem;
+}
+
+.offset-8 {
+  left: 11rem;
+}
