@@ -425,7 +425,7 @@ function toggleBetVsPlayScreens() {
     document.querySelector('.dealButton').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('flex');
-    document.querySelector('.cardAreaOutline').classList.toggle('hidden');
+    document.querySelector('.emptyCardArea').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
