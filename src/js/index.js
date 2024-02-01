@@ -67,7 +67,8 @@ function playFirstHand() {
     deal(dealer);
     deal(player.hands[0]);
     deal(dealer);
-    updateDisplay();
+    updateDisplay('player', player.hands[0], false);
+    updateDisplay('dealer', dealer, true);
 
     if (player.hands[0].handValue === 21) {
         if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
@@ -84,6 +85,7 @@ function determineIfAllHandsPlayed() {
     if (player.currentHandIndex + 1 < player.hands.length) {
         playNextHand();
     } else {
+        updateDisplay('dealer', dealer, false);
         resolveDealerHand();
     }
 }
@@ -91,7 +93,7 @@ function determineIfAllHandsPlayed() {
 function playNextHand() {
     player.currentHandIndex++;
     deal(player.hands[player.currentHandIndex]);
-    updateDisplay();
+    updateDisplay('player', player.hands[player.currentHandIndex], false);
 
     if (player.hands[player.currentHandIndex].handValue === 21) {
         determineIfAllHandsPlayed();
@@ -103,7 +105,7 @@ function playNextHand() {
 function resolveDealerHand() {
     if (dealer.handValue < 17) {
         deal(dealer);
-        updateDisplay();
+        updateDisplay('dealer', dealer, false);
         resolveDealerHand();
     } else {
         resolveBets();
@@ -111,6 +113,8 @@ function resolveDealerHand() {
 }
 
 function resolveBlackjack() {
+    updateDisplay('dealer', dealer, false);
+
     if (dealer.handValue === 21) {
         console.log('Blackjack- draw');
         player.wallet += parseInt(player.bet);
@@ -240,12 +244,19 @@ function resolveAces(handValue, cards) {
     return handValue;
 }
 
-function updateDisplay() {
+function updateDisplay(person, hand, firstCardHidden) {
     let cardsHTML = '';
-    const cardObjects = player.hands[player.currentHandIndex].cardObjects;
 
-    cardObjects.forEach((cardObject, index) => {
-        cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-' + index + '" />';
+    hand.cardObjects.forEach((cardObject, index) => {
+        if (firstCardHidden) {
+            if (index === 0) {
+                cardsHTML += '<img src="images/cards/backRed.png" class="absolute h-28" />';
+            } else {
+                cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-1" />';
+            }
+        } else {
+            cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-' + index + '" />';
+        }
 
         if (index === 0) {
             cardsHTML += '<div class="w-[5.1458rem] h-28"></div>';
@@ -253,12 +264,15 @@ function updateDisplay() {
             cardsHTML += '<div class="w-[1.375rem]"></div>';
         }
 
-        document.querySelector('.playerCards').innerHTML = cardsHTML;
+        document.querySelector("." + person + "Cards").innerHTML = cardsHTML;
     });
 
-    document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
-    document.querySelector('.playerScore').textContent = player.hands[player.currentHandIndex].handValue;
-
+    if (firstCardHidden) {
+        document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
+    } else {
+        document.querySelector("." + person + "Score").textContent = hand.handValue;
+    }
+    
     console.log('------------------');
     console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
     console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
@@ -345,7 +359,7 @@ function handleHitClick() {
     hideSplitDoubleDownButtons();
     hideInsuranceButton();
     deal(player.hands[player.currentHandIndex]);
-    updateDisplay();
+    updateDisplay('player', player.hands[player.currentHandIndex], false);
 
     if (player.hands[player.currentHandIndex].handValue >= 21) {
         hideHitStandButtons();
@@ -382,7 +396,7 @@ function handleDoubleDownClick() {
     handleBet(player.bet, player);
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
-    updateDisplay();
+    updateDisplay('player', player.hands[player.currentHandIndex], false);
     determineIfAllHandsPlayed();
 }
 
@@ -423,9 +437,13 @@ function handleRejectEvenMoneyClick() {
 function toggleBetVsPlayScreens() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
+    document.querySelector('.dealerCards').classList.toggle('hidden');
+    document.querySelector('.dealerCards').classList.toggle('flex');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('flex');
-    document.querySelector('.emptyCardArea').classList.toggle('hidden');
+    document.querySelectorAll('.emptyCardArea').forEach((emptyCardArea) => {
+        emptyCardArea.classList.toggle('hidden');
+    });
     document.querySelector('.playerCards').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
