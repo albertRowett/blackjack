@@ -88,6 +88,11 @@ function determineIfAllHandsPlayed() {
         playNextHand();
     } else {
         updateDisplay('dealer', dealer, false);
+
+        if(dealer.handValue === 21) {
+            announce('.dealerBlackjack');
+        }
+
         resolveDealerHand();
     }
 }
@@ -118,6 +123,7 @@ function resolveBlackjack() {
     updateDisplay('dealer', dealer, false);
 
     if (dealer.handValue === 21) {
+        announce('.dealerBlackjack');
         console.log('Blackjack- draw');
         player.wallet += parseInt(player.bet);
     } else {
@@ -139,6 +145,7 @@ function resolveBets() {
             console.log('Hand ' + (i + 1) + ': bust- dealer wins');
         } else {
             if (dealer.handValue > 21) {
+                announce('.dealerBust');
                 console.log('Hand ' + (i + 1) + ': dealer bust- player wins');
                 if (player.hands[i].doubled) {
                     player.wallet += 4 * parseInt(player.bet);
@@ -179,7 +186,7 @@ function prepareNewRound(player, dealer) {
         player.insured = false;
         dealer.cardObjects = [];
         currentCard = -1;
-        toggleBetVsPlayScreens();
+        // toggleBetVsPlayScreens();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
@@ -365,6 +372,11 @@ function handleHitClick() {
 
     if (player.hands[player.currentHandIndex].handValue >= 21) {
         hideHitStandButtons();
+
+        if (player.hands[player.currentHandIndex].handValue > 21) {
+            announce('.playerBust');
+        }
+
         determineIfAllHandsPlayed();
     }
 }
@@ -412,6 +424,8 @@ function handleInsuranceClick() {
         hideSplitDoubleDownButtons();
         player.wallet += 1.5 * parseInt(player.bet);
         console.log('Insurance bet won');
+        updateDisplay('dealer', dealer, false);
+        announce('.dealerBlackjack');
         resolveBets();
     } else {
         console.log('Insurance bet lost');
@@ -426,6 +440,12 @@ function handleSideBet(bet, player) {
 
 function handleAcceptEvenMoneyClick() {
     toggleEvenMoneyButtons();
+    updateDisplay('dealer', dealer, false);
+
+    if (dealer.handValue === 21) {
+        announce('.dealerBlackjack');
+    }
+
     player.wallet += 2 * parseInt(player.bet);
     prepareNewRound(player, dealer);
 }
