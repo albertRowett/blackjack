@@ -71,6 +71,8 @@ function playFirstHand() {
     updateDisplay('dealer', dealer, true);
 
     if (player.hands[0].handValue === 21) {
+        announce('.playerBlackjack');
+
         if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
             toggleEvenMoneyButtons();
         } else {
@@ -538,4 +540,15 @@ function makeButtonRed(button) {
 function makeButtonWhite(button) {
     document.querySelector(button).classList.remove('bg-red-600');
     document.querySelector(button).classList.add('bg-slate-100');
+}
+
+function announce(targetElement) {
+    setTimeout(() => {
+        document.querySelector(targetElement).classList.remove('hidden');
+        document.querySelector(targetElement).classList.add('animate-announce');
+    }, 1000);
+    setTimeout(() => {
+        document.querySelector(targetElement).classList.add('hidden');
+        document.querySelector(targetElement).classList.remove('animate-announce');
+    }, 3000);
 }
