@@ -64,23 +64,32 @@ let dealer = { cardObjects: [], cards: [], handValue: 0 };
 function playFirstHand() {
     shuffle(deck);
     deal(player.hands[0]);
-    deal(dealer);
-    deal(player.hands[0]);
-    deal(dealer);
     updateDisplay('player', player.hands[0], false);
-    updateDisplay('dealer', dealer, true);
-
-    if (player.hands[0].handValue === 21) {
-        announce('.playerBlackjack');
-
-        if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
-            toggleEvenMoneyButtons();
+    setTimeout(() => {
+        deal(dealer);
+        updateDisplay('dealer', dealer, true);
+    }, 500);
+    setTimeout(() => {
+        deal(player.hands[0]);
+        updateDisplay('player', player.hands[0], false);
+    }, 1000);
+    setTimeout(() => {
+        deal(dealer);
+        updateDisplay('dealer', dealer, true);
+    }, 1500);
+    setTimeout(() => {
+        if (player.hands[0].handValue === 21) {
+            announce('.playerBlackjack');
+    
+            if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+                toggleEvenMoneyButtons();
+            } else {
+                resolveBlackjack();
+            }
         } else {
-            resolveBlackjack();
+            showButtons();
         }
-    } else {
-        showButtons();
-    }
+    }, 1750);
 }
 
 function determineIfAllHandsPlayed() {
@@ -99,21 +108,26 @@ function determineIfAllHandsPlayed() {
 
 function playNextHand() {
     player.currentHandIndex++;
-    deal(player.hands[player.currentHandIndex]);
     updateDisplay('player', player.hands[player.currentHandIndex], false);
-
-    if (player.hands[player.currentHandIndex].handValue === 21) {
-        determineIfAllHandsPlayed();
-    } else {
-        showButtons();
-    }
+    setTimeout(() => {
+        deal(player.hands[player.currentHandIndex]);
+        updateDisplay('player', player.hands[player.currentHandIndex], false);
+    
+        if (player.hands[player.currentHandIndex].handValue === 21) {
+            setTimeout(determineIfAllHandsPlayed, 1000);
+        } else {
+            setTimeout(showButtons, 250);
+        }
+    }, 500);
 }
 
 function resolveDealerHand() {
     if (dealer.handValue < 17) {
-        deal(dealer);
-        updateDisplay('dealer', dealer, false);
-        resolveDealerHand();
+        setTimeout(() => {
+            deal(dealer);
+            updateDisplay('dealer', dealer, false);
+            resolveDealerHand();
+        }, 1000);
     } else {
         resolveBets();
     }
@@ -272,12 +286,17 @@ function updateDisplay(person, hand, firstCardHidden) {
         } else {
             cardsHTML += '<div class="w-[1.375rem]"></div>';
         }
-
-        document.querySelector("." + person + "Cards").innerHTML = cardsHTML;
     });
 
+    document.querySelector("." + person + "EmptyCardArea").classList.add('hidden');
+    document.querySelector("." + person + "Cards").innerHTML = cardsHTML;
+
     if (firstCardHidden) {
-        document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
+        if (dealer.cardObjects[1]) {
+            document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
+        } else {
+            document.querySelector('.dealerScore').textContent = 0;
+        }
     } else {
         document.querySelector("." + person + "Score").textContent = hand.handValue;
     }
@@ -375,9 +394,10 @@ function handleHitClick() {
 
         if (player.hands[player.currentHandIndex].handValue > 21) {
             announce('.playerBust');
+            setTimeout(determineIfAllHandsPlayed, 3000);
+        } else {
+            setTimeout(determineIfAllHandsPlayed, 1000);
         }
-
-        determineIfAllHandsPlayed();
     }
 }
 
@@ -401,6 +421,11 @@ function handleSplitClick() {
 function splitHand(player) {
     const currentHand = player.hands[player.currentHandIndex];
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
+    currentHand.cards = updateCards(currentHand.cardObjects);
+    currentHand.handValue = updateHandValue(currentHand);
+    const newHand = player.hands[(player.currentHandIndex + 1)];
+    newHand.cards = updateCards(newHand.cardObjects);
+    newHand.handValue = updateHandValue(newHand);
 }
 
 function handleDoubleDownClick() {
@@ -411,7 +436,7 @@ function handleDoubleDownClick() {
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
     updateDisplay('player', player.hands[player.currentHandIndex], false);
-    determineIfAllHandsPlayed();
+    setTimeout(determineIfAllHandsPlayed, 1000);
 }
 
 function handleInsuranceClick() {
@@ -459,13 +484,12 @@ function handleRejectEvenMoneyClick() {
 function toggleBetVsPlayScreens() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
+    document.querySelector('.dealerEmptyCardArea').classList.remove('hidden');
     document.querySelector('.dealerCards').classList.toggle('hidden');
     document.querySelector('.dealerCards').classList.toggle('flex');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('flex');
-    document.querySelectorAll('.emptyCardArea').forEach((emptyCardArea) => {
-        emptyCardArea.classList.toggle('hidden');
-    });
+    document.querySelector('.playerEmptyCardArea').classList.remove('hidden');
     document.querySelector('.playerCards').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
@@ -566,9 +590,9 @@ function announce(targetElement) {
     setTimeout(() => {
         document.querySelector(targetElement).classList.remove('hidden');
         document.querySelector(targetElement).classList.add('animate-announce');
-    }, 1000);
+    }, 500);
     setTimeout(() => {
         document.querySelector(targetElement).classList.add('hidden');
         document.querySelector(targetElement).classList.remove('animate-announce');
-    }, 3000);
+    }, 2500);
 }
