@@ -76,20 +76,19 @@ function playFirstHand() {
     setTimeout(() => {
         deal(dealer);
         updateDisplay('dealer', dealer, true);
-    }, 1500);
-    setTimeout(() => {
+
         if (player.hands[0].handValue === 21) {
             announce('.playerBlackjack');
-    
+
             if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
-                toggleEvenMoneyButtons();
+                setTimeout(toggleEvenMoneyButtons, 2750);
             } else {
-                resolveBlackjack();
+                setTimeout(resolveBlackjack, 3000);
             }
         } else {
-            showButtons();
+            setTimeout(showButtons, 250);
         }
-    }, 1750);
+    }, 1500);
 }
 
 function determineIfAllHandsPlayed() {
@@ -98,7 +97,7 @@ function determineIfAllHandsPlayed() {
     } else {
         updateDisplay('dealer', dealer, false);
 
-        if(dealer.handValue === 21) {
+        if (dealer.handValue === 21) {
             announce('.dealerBlackjack');
         }
 
@@ -112,7 +111,7 @@ function playNextHand() {
     setTimeout(() => {
         deal(player.hands[player.currentHandIndex]);
         updateDisplay('player', player.hands[player.currentHandIndex], false);
-    
+
         if (player.hands[player.currentHandIndex].handValue === 21) {
             setTimeout(determineIfAllHandsPlayed, 1000);
         } else {
@@ -139,18 +138,23 @@ function resolveBlackjack() {
     if (dealer.handValue === 21) {
         announce('.dealerBlackjack');
         console.log('Blackjack- draw');
+        setTimeout(() => {
+            announceResult('Push');
+        }, 1500);
         player.wallet += parseInt(player.bet);
+        setTimeout(prepareNewRound, 4500);
     } else {
         console.log('Blackjack- player wins');
+        announceResult('You win');
 
         if (player.bet % 2 === 1) {
             player.wallet += 2.5 * player.bet - 0.5;
         } else {
             player.wallet += 2.5 * parseInt(player.bet);
         }
-    }
 
-    prepareNewRound(player, dealer);
+        setTimeout(prepareNewRound, 3000);
+    }
 }
 
 function resolveBets() {
@@ -190,17 +194,17 @@ function resolveBets() {
         }
     }
 
-    prepareNewRound(player, dealer);
+    prepareNewRound();
 }
 
-function prepareNewRound(player, dealer) {
+function prepareNewRound() {
     if (player.wallet > 0) {
         player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
         player.currentHandIndex = 0;
         player.insured = false;
         dealer.cardObjects = [];
         currentCard = -1;
-        // toggleBetVsPlayScreens();
+        toggleBetVsPlayScreens();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
@@ -212,6 +216,7 @@ function prepareNewRound(player, dealer) {
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
         document.querySelector('.wallet').textContent = '$' + player.wallet;
+        document.querySelector('.bet').textContent = '$' + player.bet;
     } else {
         console.log('Out of money, game over');
     }
@@ -288,8 +293,8 @@ function updateDisplay(person, hand, firstCardHidden) {
         }
     });
 
-    document.querySelector("." + person + "EmptyCardArea").classList.add('hidden');
-    document.querySelector("." + person + "Cards").innerHTML = cardsHTML;
+    document.querySelector('.' + person + 'EmptyCardArea').classList.add('hidden');
+    document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
 
     if (firstCardHidden) {
         if (dealer.cardObjects[1]) {
@@ -298,9 +303,9 @@ function updateDisplay(person, hand, firstCardHidden) {
             document.querySelector('.dealerScore').textContent = 0;
         }
     } else {
-        document.querySelector("." + person + "Score").textContent = hand.handValue;
+        document.querySelector('.' + person + 'Score').textContent = hand.handValue;
     }
-    
+
     console.log('------------------');
     console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
     console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
@@ -423,7 +428,7 @@ function splitHand(player) {
     player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
     currentHand.cards = updateCards(currentHand.cardObjects);
     currentHand.handValue = updateHandValue(currentHand);
-    const newHand = player.hands[(player.currentHandIndex + 1)];
+    const newHand = player.hands[player.currentHandIndex + 1];
     newHand.cards = updateCards(newHand.cardObjects);
     newHand.handValue = updateHandValue(newHand);
 }
@@ -465,14 +470,20 @@ function handleSideBet(bet, player) {
 
 function handleAcceptEvenMoneyClick() {
     toggleEvenMoneyButtons();
-    updateDisplay('dealer', dealer, false);
+    player.wallet += 2 * player.bet;
+    document.querySelector('.bet').textContent = '';
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
 
-    if (dealer.handValue === 21) {
-        announce('.dealerBlackjack');
-    }
+    setTimeout(() => {
+        updateDisplay('dealer', dealer, false);
 
-    player.wallet += 2 * parseInt(player.bet);
-    prepareNewRound(player, dealer);
+        if (dealer.handValue === 21) {
+            announce('.dealerBlackjack');
+            setTimeout(prepareNewRound, 2750);
+        } else {
+            setTimeout(prepareNewRound, 1500);
+        }
+    }, 1000);
 }
 
 function handleRejectEvenMoneyClick() {
@@ -589,10 +600,22 @@ function makeButtonWhite(button) {
 function announce(targetElement) {
     setTimeout(() => {
         document.querySelector(targetElement).classList.remove('hidden');
-        document.querySelector(targetElement).classList.add('animate-announce');
+        document.querySelector(targetElement).classList.add('animate-popUpOut');
     }, 500);
     setTimeout(() => {
         document.querySelector(targetElement).classList.add('hidden');
-        document.querySelector(targetElement).classList.remove('animate-announce');
+        document.querySelector(targetElement).classList.remove('animate-popUpOut');
     }, 2500);
+}
+
+function announceResult(messageText) {
+    document.querySelector('.resultMessage').textContent = messageText;
+    setTimeout(() => {
+        document.querySelector('.handResult').classList.remove('hidden');
+        document.querySelector('.handResult').classList.add('animate-popUp');
+    }, 1000);
+    setTimeout(() => {
+        document.querySelector('.handResult').classList.add('hidden');
+        document.querySelector('.handResult').classList.remove('animate-popUp');
+    }, 3000);
 }
