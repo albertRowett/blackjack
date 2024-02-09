@@ -302,12 +302,12 @@ function updateDisplay(person, hand, firstCardHidden) {
     hand.cardObjects.forEach((cardObject, index) => {
         if (firstCardHidden) {
             if (index === 0) {
-                cardsHTML += '<img src="images/cards/backRed.png" class="absolute h-28" />';
+                cardsHTML += '<img src="images/cards/backRed.svg" class="absolute h-28" />';
             } else {
-                cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-1" />';
+                cardsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-28 offset-1" />';
             }
         } else {
-            cardsHTML += '<img src="images/cards/' + cardObject.card + '.png" class="absolute h-28 offset-' + index + '" />';
+            cardsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-28 offset-' + index + '" />';
         }
 
         if (index === 0) {
