@@ -8,16 +8,32 @@
   display: none;
 }
 
+.offset-half-1 {
+  left: 0.6875rem;
+}
+
 .offset-1 {
   left: 1.375rem;
+}
+
+.offset-half-3 {
+  left: 2.0625rem;
 }
 
 .offset-2 {
   left: 2.75rem;
 }
 
+.offset-half-5 {
+  left: 3.4375rem;
+}
+
 .offset-3 {
   left: 4.125rem;
+}
+
+.offset-half-7 {
+  left: 4.8125rem;
 }
 
 .offset-4 {

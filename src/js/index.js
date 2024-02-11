@@ -109,6 +109,7 @@ function determineIfAllHandsPlayed() {
 function playNextHand() {
     player.currentHandIndex++;
     updateDisplay('player', player.hands[player.currentHandIndex], false);
+    updateSplitHandsArea();
     setTimeout(() => {
         deal(player.hands[player.currentHandIndex]);
         updateDisplay('player', player.hands[player.currentHandIndex], false);
@@ -149,6 +150,7 @@ function resolveBlackjack() {
 function resolveHand() {
     let playerHand = player.hands[player.currentHandIndex];
     updateDisplay('player', playerHand, false);
+    updateSplitHandsArea();
 
     if (playerHand.handValue > 21) {
         announceResult('Dealer wins');
@@ -531,6 +533,7 @@ function toggleBetVsPlayScreens() {
     document.querySelector('.playerScore').classList.toggle('flex');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
+    document.querySelector('.splitHandsArea').classList.add('hidden');
 }
 
 function showButtons() {
@@ -642,4 +645,34 @@ function announceResult(messageText) {
         document.querySelector('.handResult').classList.add('hidden');
         document.querySelector('.handResult').classList.remove('animate-popUp');
     }, 3000);
+}
+
+function updateSplitHandsArea() {
+    let splitHandsHTML = '';
+
+    player.hands.forEach ((hand, index) => {
+        if (index !== player.currentHandIndex) {
+            splitHandsHTML += '<div class="relative flex">'
+
+            hand.cardObjects.forEach((cardObject, index) => {
+                if (index % 2 === 0) {
+                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-' + (index / 2) + '" />';
+                } else {
+                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-half-' + index + '" />';
+                }
+            
+                if (index === 0) {
+                    splitHandsHTML += '<div class="w-[2.5729rem] h-14"></div>';
+                } else {
+                    splitHandsHTML += '<div class="w-[0.6875rem] h-14"></div>';
+                }
+            });
+
+            splitHandsHTML += '</div>';
+        }
+    });
+
+    const splitHandsArea = document.querySelector('.splitHandsArea');
+    splitHandsArea.innerHTML = splitHandsHTML;
+    splitHandsArea.classList.remove('hidden');
 }
