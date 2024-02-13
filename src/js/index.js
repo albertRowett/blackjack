@@ -234,15 +234,15 @@ function prepareNewRound() {
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
-            document.querySelector('.bet').textContent = '$' + player.bet;
+            updateBet('$' + player.bet);
         }
 
         player.wallet -= player.bet;
         colourBetAdjustmentButtons();
         console.log('------------------');
         console.log('Wallet: ' + player.wallet);
-        document.querySelector('.wallet').textContent = '$' + player.wallet;
-        document.querySelector('.bet').textContent = '$' + player.bet;
+        updateWallet();
+        updateBet('$' + player.bet);
     } else {
         console.log('Out of money, game over');
     }
@@ -394,8 +394,8 @@ function handleAdd100Click() {
 function adjustBet(adjustment) {
     player.bet += adjustment;
     player.wallet -= adjustment;
-    document.querySelector('.bet').textContent = '$' + player.bet;
-    document.querySelector('.wallet').textContent = '$' + player.wallet;
+    updateBet('$' + player.bet);
+    updateWallet();
     colourBetAdjustmentButtons();
 }
 
@@ -408,9 +408,9 @@ function handleBet(bet, player) {
     player.bet = bet;
     player.wallet -= bet;
     console.log('Bet: ' + player.bet);
-    document.querySelector('.bet').textContent = '$' + player.bet;
+    updateBet('$' + player.bet);
     console.log('Wallet: ' + player.wallet);
-    document.querySelector('.wallet').textContent = '$' + player.wallet;
+    updateWallet();
 }
 
 function handleHitClick() {
@@ -490,14 +490,14 @@ function handleInsuranceClick() {
 function handleSideBet(bet, player) {
     player.wallet -= bet;
     console.log('Wallet: ' + player.wallet);
-    document.querySelector('.wallet').textContent = '$' + player.wallet;
+    updateWallet();
 }
 
 function handleAcceptEvenMoneyClick() {
     toggleEvenMoneyButtons();
     player.wallet += 2 * player.bet;
-    document.querySelector('.bet').textContent = '';
-    document.querySelector('.wallet').textContent = '$' + player.wallet;
+    updateBet('');
+    updateWallet();
 
     setTimeout(() => {
         updateDisplay('dealer', dealer, false);
@@ -672,4 +672,12 @@ function updateSplitHandsArea() {
     const splitHandsArea = document.querySelector('.splitHandsArea');
     splitHandsArea.innerHTML = splitHandsHTML;
     splitHandsArea.classList.remove('hidden');
+}
+
+function updateWallet() {
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
+}
+
+function updateBet(betText) {
+    document.querySelector('.bet').textContent = betText;
 }
