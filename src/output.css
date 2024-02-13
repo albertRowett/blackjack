@@ -740,6 +740,10 @@ video {
   margin-bottom: 0.5rem;
 }
 
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
 .flex {
   display: flex;
 }
@@ -875,6 +879,10 @@ video {
 
 .min-w-4 {
   min-width: 1rem;
+}
+
+.min-w-8 {
+  min-width: 2rem;
 }
 
 .basis-1\/5 {

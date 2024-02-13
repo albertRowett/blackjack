@@ -523,11 +523,9 @@ function toggleBetVsPlayScreens() {
     document.querySelector('.dealerCards').classList.toggle('hidden');
     document.querySelector('.dealerCards').classList.toggle('flex');
     document.querySelector('.dealerScore').classList.toggle('hidden');
-    document.querySelector('.dealerScore').classList.toggle('flex');
     document.querySelector('.playerCards').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
-    document.querySelector('.playerScore').classList.toggle('flex');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustment').classList.toggle('hidden');
     document.querySelector('.splitHandsArea').classList.add('hidden');
