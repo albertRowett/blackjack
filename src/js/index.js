@@ -470,27 +470,56 @@ function handleDoubleDownClick() {
 }
 
 function handleInsuranceClick() {
+    hideHitStandButtons();
+    hideSplitDoubleDownButtons();
     hideInsuranceButton();
-    handleSideBet(0.5 * player.bet, player);
+    const sideBet = handleSideBet();
     player.insured = true;
 
     if (dealer.handValue === 21) {
-        hideHitStandButtons();
-        hideSplitDoubleDownButtons();
-        player.wallet += 1.5 * parseInt(player.bet);
-        console.log('Insurance bet won');
-        updateDisplay('dealer', dealer, false);
-        announce('.dealerBlackjack');
-        setTimeout(resolveHand, 1500);
+        handleSuccessfulInsurance(sideBet);
     } else {
-        console.log('Insurance bet lost');
+        handleUnsuccessfulInsurance();
     }
 }
 
-function handleSideBet(bet, player) {
-    player.wallet -= bet;
-    console.log('Wallet: ' + player.wallet);
+function handleSideBet() {
+    const sideBet = calculateSideBet();
+    player.wallet -= sideBet;
     updateWallet();
+    updateSideBet('$' + sideBet);
+    return sideBet;
+}
+
+function calculateSideBet() {
+    let sideBet = 0.5 * player.bet;
+
+    if (player.bet % 2 === 1) {
+        sideBet += 0.5;
+    }
+
+    return sideBet;
+}
+
+function handleSuccessfulInsurance(sideBet) {
+    setTimeout(() => {
+        updateDisplay('dealer', dealer, false);
+        announce('.dealerBlackjack');
+        setTimeout(() => {
+            player.wallet += player.bet + sideBet;
+            updateWallet();
+            updateSideBet('');
+        }, 2750);
+        setTimeout(resolveHand, 2250);
+    }, 500);
+}
+
+function handleUnsuccessfulInsurance() {
+    announce('.dealerNoBlackjack');
+    setTimeout(() => {
+        updateSideBet('');
+        showButtons();
+    }, 2750);
 }
 
 function handleAcceptEvenMoneyClick() {
@@ -680,4 +709,8 @@ function updateWallet() {
 
 function updateBet(betText) {
     document.querySelector('.bet').textContent = betText;
+}
+
+function updateSideBet(sideBetText) {
+    document.querySelector('.sideBet').textContent = sideBetText;
 }
