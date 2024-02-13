@@ -535,7 +535,8 @@ function handleAcceptEvenMoneyClick() {
             announce('.dealerBlackjack');
             setTimeout(prepareNewRound, 2750);
         } else {
-            setTimeout(prepareNewRound, 1500);
+            announce('.dealerNoBlackjack')
+            setTimeout(prepareNewRound, 2750);
         }
     }, 1000);
 }
