@@ -577,7 +577,7 @@ function showButtons() {
         }
     }
 
-    if (!player.insured && dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+    if (dealer.cardObjects[1].value === 11 && !player.insured && player.hands.length === 1 && player.wallet >= 0.5 * player.bet && player.bet > 1) {
         document.querySelector('.insuranceButton').classList.remove('hidden');
     }
 }
