@@ -313,13 +313,12 @@ function updateDisplay(person, hand, firstCardHidden) {
         }
 
         if (index === 0) {
-            cardsHTML += '<div class="w-[5.1458rem] h-28"></div>';
-        } else {
+            cardsHTML += '<div class="w-[6.5208rem] h-28"></div>';
+        } else if (index > 1) {
             cardsHTML += '<div class="w-[1.375rem]"></div>';
         }
     });
 
-    document.querySelector('.' + person + 'EmptyCardArea').classList.add('hidden');
     document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
 
     if (firstCardHidden) {
@@ -521,12 +520,10 @@ function handleRejectEvenMoneyClick() {
 function toggleBetVsPlayScreens() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
-    document.querySelector('.dealerEmptyCardArea').classList.remove('hidden');
     document.querySelector('.dealerCards').classList.toggle('hidden');
     document.querySelector('.dealerCards').classList.toggle('flex');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.dealerScore').classList.toggle('flex');
-    document.querySelector('.playerEmptyCardArea').classList.remove('hidden');
     document.querySelector('.playerCards').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');

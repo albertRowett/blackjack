@@ -781,6 +781,14 @@ video {
   height: 7.25rem;
 }
 
+.h-32 {
+  height: 8rem;
+}
+
+.h-\[7\.5rem\] {
+  height: 7.5rem;
+}
+
 .max-h-\[7\.25rem\] {
   max-height: 7.25rem;
 }
@@ -847,6 +855,18 @@ video {
 
 .w-\[2\.5729rem\] {
   width: 2.5729rem;
+}
+
+.w-\[6\.1458rem\] {
+  width: 6.1458rem;
+}
+
+.w-\[5\.6458rem\] {
+  width: 5.6458rem;
+}
+
+.w-\[6\.5208rem\] {
+  width: 6.5208rem;
 }
 
 .min-w-\[107\.45px\] {
