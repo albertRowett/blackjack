@@ -130,25 +130,28 @@ function resolveBlackjack() {
         announce('.dealerBlackjack');
         setTimeout(() => {
             announceResult('Push');
+            player.wallet += player.bet;
+            setTimeout(updateWallet, 500);
             setTimeout(prepareNewRound, 2000);
         }, 2500);
-        player.wallet += parseInt(player.bet);
     } else {
         setTimeout(() => {
             announceResult('You win');
+
+            if (player.bet % 2 === 1) {
+                player.wallet += 2.5 * player.bet - 0.5;
+            } else {
+                player.wallet += 2.5 * player.bet;
+            }
+
+            setTimeout(updateWallet, 500);
             setTimeout(prepareNewRound, 2000);
         }, 1000);
-
-        if (player.bet % 2 === 1) {
-            player.wallet += 2.5 * player.bet - 0.5;
-        } else {
-            player.wallet += 2.5 * parseInt(player.bet);
-        }
     }
 }
 
 function resolveHand() {
-    let playerHand = player.hands[player.currentHandIndex];
+    const playerHand = player.hands[player.currentHandIndex];
 
     if (playerHand.handValue > 21) {
         announceResult('Dealer wins');
@@ -196,6 +199,7 @@ function resolveDealerHand(playerHand) {
 function finishResolvingHand(playerHand) {
     if (dealer.handValue > 21) {
         announceResult('You win');
+
         if (playerHand.doubled) {
             player.wallet += 4 * player.bet;
         } else {
@@ -208,6 +212,7 @@ function finishResolvingHand(playerHand) {
             announceResult('Dealer wins');
         } else if (dealer.handValue < playerHand.handValue) {
             announceResult('You win');
+
             if (playerHand.doubled) {
                 player.wallet += 4 * player.bet;
             } else {
@@ -215,6 +220,7 @@ function finishResolvingHand(playerHand) {
             }
         } else {
             announceResult('Push');
+
             if (playerHand.doubled) {
                 player.wallet += 2 * player.bet;
             } else {
@@ -223,6 +229,7 @@ function finishResolvingHand(playerHand) {
         }
     }
 
+    setTimeout(updateWallet, 500);
     setTimeout(determineIfAllHandsResolved, 2000);
 }
 
