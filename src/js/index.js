@@ -171,7 +171,15 @@ function determineIfAllHandsResolved() {
 
 function resolveNextHand() {
     player.currentHandIndex--;
-    updateDisplay('player', player.hands[player.currentHandIndex], false);
+    const playerHand = player.hands[player.currentHandIndex];
+    updateDisplay('player', playerHand, false);
+
+    if (playerHand.doubled) {
+        updateBet('$' + 2 * player.bet);
+    } else {
+        updateBet('$' + player.bet);
+    }
+
     updateSplitHandsArea();
     setTimeout(resolveHand, 1000);
 }
