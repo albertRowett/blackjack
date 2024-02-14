@@ -224,7 +224,7 @@ function finishResolvingHand(playerHand) {
 
 function prepareNewRound() {
     if (player.wallet > 0) {
-        player.hands = [{ cardObjects: [], cards: [], handValue: 0 }];
+        player.hands = [{ cardObjects: [], cards: [], handValue: 0, doubled: false }];
         player.currentHandIndex = 0;
         player.insured = false;
         dealer.cardObjects = [];
