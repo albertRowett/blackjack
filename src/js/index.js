@@ -459,6 +459,7 @@ function handleDoubleDownClick() {
     hideHitStandButtons();
     hideInsuranceButton();
     handleSubsequentBet();
+    updateBet('$' + 2 * player.bet);
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
     updateDisplay('player', player.hands[player.currentHandIndex], false);
