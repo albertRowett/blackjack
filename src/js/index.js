@@ -62,17 +62,20 @@ let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
 function playFirstHand() {
+    document.querySelector('.deckCounter').textContent = 52;
     shuffle(deck);
-    deal(player.hands[0]);
-    updateDisplay('player', player.hands[0], false);
-    setTimeout(() => {
-        deal(dealer);
-        updateDisplay('dealer', dealer, true);
-    }, 500);
     setTimeout(() => {
         deal(player.hands[0]);
         updateDisplay('player', player.hands[0], false);
+    }, 500);
+    setTimeout(() => {
+        deal(dealer);
+        updateDisplay('dealer', dealer, true);
     }, 1000);
+    setTimeout(() => {
+        deal(player.hands[0]);
+        updateDisplay('player', player.hands[0], false);
+    }, 1500);
     setTimeout(() => {
         deal(dealer);
         updateDisplay('dealer', dealer, true);
@@ -88,7 +91,7 @@ function playFirstHand() {
         } else {
             setTimeout(showButtons, 250);
         }
-    }, 1500);
+    }, 2000);
 }
 
 function determineIfAllHandsPlayed() {
@@ -244,6 +247,7 @@ function finishResolvingHand(playerHand) {
 function prepareNewRound() {
     if (player.wallet > 0) {
         player.hands = [{ cardObjects: [], cards: [], handValue: 0, doubled: false }];
+        updateDisplay('player', player.hands[0], false);
         player.currentHandIndex = 0;
         player.insured = false;
         dealer.cardObjects = [];
