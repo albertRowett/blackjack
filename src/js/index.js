@@ -404,15 +404,6 @@ function handleDealClick() {
     playFirstHand();
 }
 
-function handleBet(bet, player) {
-    player.bet = bet;
-    player.wallet -= bet;
-    console.log('Bet: ' + player.bet);
-    updateBet('$' + player.bet);
-    console.log('Wallet: ' + player.wallet);
-    updateWallet();
-}
-
 function handleHitClick() {
     hideSplitDoubleDownButtons();
     hideInsuranceButton();
@@ -442,10 +433,15 @@ function handleSplitClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
     hideInsuranceButton();
-    handleBet(player.bet, player);
+    handleSubsequentBet();
     splitHand(player);
     player.currentHandIndex--;
     playNextHand();
+}
+
+function handleSubsequentBet() {
+    player.wallet -= player.bet;
+    updateWallet();
 }
 
 function splitHand(player) {
@@ -462,7 +458,7 @@ function handleDoubleDownClick() {
     hideSplitDoubleDownButtons();
     hideHitStandButtons();
     hideInsuranceButton();
-    handleBet(player.bet, player);
+    handleSubsequentBet();
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
     updateDisplay('player', player.hands[player.currentHandIndex], false);
@@ -535,7 +531,7 @@ function handleAcceptEvenMoneyClick() {
             announce('.dealerBlackjack');
             setTimeout(prepareNewRound, 2750);
         } else {
-            announce('.dealerNoBlackjack')
+            announce('.dealerNoBlackjack');
             setTimeout(prepareNewRound, 2750);
         }
     }, 1000);
@@ -675,17 +671,17 @@ function announceResult(messageText) {
 function updateSplitHandsArea() {
     let splitHandsHTML = '<div class="flex flex-wrap gap-x-2 gap-y-1 h-[7.25rem] mx-4 mt-3 mb-2">';
 
-    player.hands.forEach ((hand, index) => {
+    player.hands.forEach((hand, index) => {
         if (index !== player.currentHandIndex) {
-            splitHandsHTML += '<div class="relative flex">'
+            splitHandsHTML += '<div class="relative flex">';
 
             hand.cardObjects.forEach((cardObject, index) => {
                 if (index % 2 === 0) {
-                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-' + (index / 2) + '" />';
+                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-' + index / 2 + '" />';
                 } else {
                     splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-half-' + index + '" />';
                 }
-            
+
                 if (index === 0) {
                     splitHandsHTML += '<div class="w-[2.5729rem] h-14"></div>';
                 } else {
