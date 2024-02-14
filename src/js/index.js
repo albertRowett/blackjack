@@ -109,6 +109,7 @@ function determineIfAllHandsPlayed() {
 function playNextHand() {
     player.currentHandIndex++;
     updateDisplay('player', player.hands[player.currentHandIndex], false);
+    updateBet('$' + player.bet);
     updateSplitHandsArea();
     setTimeout(() => {
         deal(player.hands[player.currentHandIndex]);
