@@ -174,7 +174,6 @@ function resolveNextHand() {
 
 function resolveDealerHand(playerHand) {
     if (dealer.handValue < 17) {
-        setTimeout(() => {
             deal(dealer);
             updateDisplay('dealer', dealer, false);
 
@@ -182,11 +181,12 @@ function resolveDealerHand(playerHand) {
                 announce('.dealerBust');
                 setTimeout(() => {
                     finishResolvingHand(playerHand);
-                }, 1500);
+                }, 2500);
             } else {
-                resolveDealerHand(playerHand);
+                setTimeout(() => {
+                    resolveDealerHand(playerHand);
+                }, 1000);
             }
-        }, 1000);
     } else {
         finishResolvingHand(playerHand);
     }
