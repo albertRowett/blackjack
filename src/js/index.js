@@ -80,7 +80,7 @@ function playFirstHand() {
         if (player.hands[0].handValue === 21) {
             announce('.playerBlackjack');
 
-            if (dealer.cardObjects[1].value === 11 && player.wallet >= 0.5 * player.bet) {
+            if (dealer.cardObjects[1].value === 11) {
                 setTimeout(toggleEvenMoneyButtons, 2750);
             } else {
                 setTimeout(resolveBlackjack, 3000);
