@@ -99,9 +99,9 @@ function determineIfAllHandsPlayed() {
 
         if (dealer.handValue === 21) {
             announce('.dealerBlackjack');
-            setTimeout(resolveHand, 1500);
+            setTimeout(resolveHand, 2500);
         } else {
-            resolveHand();
+            setTimeout(resolveHand, 1000);
         }
     }
 }
@@ -127,34 +127,31 @@ function resolveBlackjack() {
 
     if (dealer.handValue === 21) {
         announce('.dealerBlackjack');
-        console.log('Blackjack- draw');
         setTimeout(() => {
             announceResult('Push');
-        }, 1500);
+            setTimeout(prepareNewRound, 2000);
+        }, 2500);
         player.wallet += parseInt(player.bet);
-        setTimeout(prepareNewRound, 4500);
     } else {
-        console.log('Blackjack- player wins');
-        announceResult('You win');
+        setTimeout(() => {
+            announceResult('You win');
+            setTimeout(prepareNewRound, 2000);
+        }, 1000);
 
         if (player.bet % 2 === 1) {
             player.wallet += 2.5 * player.bet - 0.5;
         } else {
             player.wallet += 2.5 * parseInt(player.bet);
         }
-
-        setTimeout(prepareNewRound, 3000);
     }
 }
 
 function resolveHand() {
     let playerHand = player.hands[player.currentHandIndex];
-    updateDisplay('player', playerHand, false);
-    updateSplitHandsArea();
 
     if (playerHand.handValue > 21) {
         announceResult('Dealer wins');
-        setTimeout(determineIfAllHandsResolved, 3000);
+        setTimeout(determineIfAllHandsResolved, 2000);
     } else {
         resolveDealerHand(playerHand);
     }
@@ -164,9 +161,15 @@ function determineIfAllHandsResolved() {
     if (player.currentHandIndex === 0) {
         prepareNewRound();
     } else {
-        player.currentHandIndex--;
-        resolveHand();
+        resolveNextHand();
     }
+}
+
+function resolveNextHand() {
+    player.currentHandIndex--;
+    updateDisplay('player', player.hands[player.currentHandIndex], false);
+    updateSplitHandsArea();
+    setTimeout(resolveHand, 1000);
 }
 
 function resolveDealerHand(playerHand) {
@@ -219,7 +222,7 @@ function finishResolvingHand(playerHand) {
         }
     }
 
-    setTimeout(determineIfAllHandsResolved, 3000);
+    setTimeout(determineIfAllHandsResolved, 2000);
 }
 
 function prepareNewRound() {
@@ -506,8 +509,8 @@ function handleSuccessfulInsurance(sideBet) {
             player.wallet += player.bet + sideBet;
             updateWallet();
             updateSideBet('');
+            setTimeout(resolveHand, 500);
         }, 2750);
-        setTimeout(resolveHand, 2250);
     }, 500);
 }
 
@@ -659,14 +662,12 @@ function announce(targetElement) {
 
 function announceResult(messageText) {
     document.querySelector('.resultMessage').textContent = messageText;
-    setTimeout(() => {
-        document.querySelector('.handResult').classList.remove('hidden');
-        document.querySelector('.handResult').classList.add('animate-popUp');
-    }, 1000);
+    document.querySelector('.handResult').classList.remove('hidden');
+    document.querySelector('.handResult').classList.add('animate-popUp');
     setTimeout(() => {
         document.querySelector('.handResult').classList.add('hidden');
         document.querySelector('.handResult').classList.remove('animate-popUp');
-    }, 3000);
+    }, 2000);
 }
 
 function updateSplitHandsArea() {
