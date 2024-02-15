@@ -362,6 +362,9 @@ function updateDisplay(person, hand, firstCardHidden) {
 }
 
 // Event listeners
+document.querySelector('.instructionsButton').addEventListener('click', handleInstructionsClick);
+document.querySelector('.instructionsModalCloseButton').addEventListener('click', handleInstructionsModalCloseClick);
+document.querySelector('.instructionsModal').addEventListener('click', handleOutsideInstructionsModalClick)
 document.querySelector('.subtract1Button').addEventListener('click', handleSubtract1Click);
 document.querySelector('.add1Button').addEventListener('click', handleAdd1Click);
 document.querySelector('.subtract10Button').addEventListener('click', handleSubtract10Click);
@@ -378,6 +381,21 @@ document.querySelector('.splitButton').addEventListener('click', handleSplitClic
 document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
 // Event handlers
+function handleInstructionsClick() {
+    document.querySelector('.instructionsModal').showModal();
+}
+
+function handleInstructionsModalCloseClick() {
+    document.querySelector('.instructionsModal').close();
+}
+
+function handleOutsideInstructionsModalClick(event) {
+    const modal = document.querySelector('.instructionsModal');
+    if (event.target === modal) {
+        modal.close();
+    }
+}
+
 function handleSubtract1Click() {
     if (player.bet > 1) {
         adjustBet(-1);

@@ -18,9 +18,55 @@
         <link rel="apple-touch-icon" href="images/favicon.png" />
 
         <script defer src="js/index.js"></script>
+        <script src="https://kit.fontawesome.com/27a7576e1a.js" crossorigin="anonymous"></script>
     </head>
 
     <body class="h-screen flex flex-col bg-green-800 font-sans text-slate-100">
+        <dialog class="instructionsModal w-full h-full rounded-lg bg-slate-100 backdrop:bg-neutral-900 backdrop:opacity-35 animate-popUpFast origin-top-right">
+            <div class="instructionsModalContainer w-full h-full p-2 text-neutral-900">
+                <i class="instructionsModalCloseButton fa-solid fa-xmark fixed top-[1.6875rem] right-[1.6875rem] w-[1.125rem] bg-neutral-900 rounded-md text-slate-100 text-lg font-bold text-center hover:cursor-pointer"></i>
+                <div class="mb-2">
+                    <p class="font-bold">Aim of the Game</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Card values</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Betting</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">The Play</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">The Dealer's Play</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Settlement</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Splitting</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Doubling Down</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Insurance</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Even Money</p>
+                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                </div>
+            </div>
+        </dialog>
         <section class="topSection relative flex justify-end">
             <div class="absolute top-2 left-2 z-40 flex flex-col items-center">
                 <img src="images/cards/backRed.svg" class="h-28 mb-1" />

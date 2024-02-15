@@ -7,6 +7,7 @@ module.exports = {
             },
             animation: {
                 popUp: 'popUp 0.5s ease-in-out',
+                popUpFast: 'popUp 0.25s ease-in-out',
                 popUpOut: 'popUpOut 2s ease-in-out forwards'
             },
             keyframes: {
