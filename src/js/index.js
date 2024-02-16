@@ -363,6 +363,7 @@ function updateDisplay(person, hand, firstCardHidden) {
 }
 
 // Event listeners
+document.querySelector('.playButton').addEventListener('click', handlePlayClick);
 document.querySelector('.instructionsButton').addEventListener('click', handleInstructionsClick);
 document.querySelector('.instructionsModalCloseButton').addEventListener('click', handleInstructionsModalCloseClick);
 document.querySelector('.instructionsModal').addEventListener('click', handleOutsideInstructionsModalClick)
@@ -388,6 +389,10 @@ document.querySelector('.splitButton').addEventListener('click', handleSplitClic
 document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
 // Event handlers
+function handlePlayClick() {
+    document.querySelector('.coverPage').classList.add('hidden');
+}
+
 function handleInstructionsClick() {
     document.querySelector('.instructionsModal').showModal();
 }
