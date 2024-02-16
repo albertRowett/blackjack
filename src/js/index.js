@@ -267,7 +267,8 @@ function prepareNewRound() {
         updateWallet();
         updateBet('$' + player.bet);
     } else {
-        console.log('Out of money, game over');
+        document.querySelector('.instructionsModal').close();
+        endGame('outOfMoney');
     }
 }
 
@@ -365,6 +366,11 @@ function updateDisplay(person, hand, firstCardHidden) {
 document.querySelector('.instructionsButton').addEventListener('click', handleInstructionsClick);
 document.querySelector('.instructionsModalCloseButton').addEventListener('click', handleInstructionsModalCloseClick);
 document.querySelector('.instructionsModal').addEventListener('click', handleOutsideInstructionsModalClick)
+document.querySelector('.cashOutButton').addEventListener('click', handleCashOutClick);
+document.querySelector('.cancelCashOutButton').addEventListener('click', handleCancelCashOutClick);
+document.querySelector('.cashOutConfirmationModal').addEventListener('click', handleOutsideCashOutConfirmationModalClick);
+document.querySelector('.confirmCashOutButton').addEventListener('click', handleConfirmCashOutClick);
+document.querySelector('.gameEndModal').addEventListener('keydown', handleGameEndEscPress);
 document.querySelector('.subtract1Button').addEventListener('click', handleSubtract1Click);
 document.querySelector('.add1Button').addEventListener('click', handleAdd1Click);
 document.querySelector('.subtract10Button').addEventListener('click', handleSubtract10Click);
@@ -393,6 +399,44 @@ function handleOutsideInstructionsModalClick(event) {
     const modal = document.querySelector('.instructionsModal');
     if (event.target === modal) {
         modal.close();
+    }
+}
+
+function handleCashOutClick() {
+    document.querySelector('.cashOutConfirmationModal').showModal();
+}
+
+function handleCancelCashOutClick() {
+    document.querySelector('.cashOutConfirmationModal').close();
+}
+
+function handleOutsideCashOutConfirmationModalClick(event) {
+    const modal = document.querySelector('.cashOutConfirmationModal');
+    if (event.target === modal) {
+        modal.close();
+    }
+}
+
+function handleConfirmCashOutClick() {
+    document.querySelector('.cashOutConfirmationModal').close();
+    endGame('cashedOut');
+}
+
+function endGame(outcome) {
+    if (outcome === 'outOfMoney') {
+        document.querySelector('.gameEndHeader').textContent = 'Game over';
+        document.querySelector('.gameEndMain').textContent = 'You lost all your money';
+    } else {
+        document.querySelector('.gameEndHeader').textContent = 'Congratulations';
+        document.querySelector('.gameEndMain').innerHTML = 'You finished with <span class="text-green-800">$' + (player.wallet + player.bet) + '</span>';
+    }
+
+    document.querySelector('.gameEndModal').showModal();
+}
+
+function handleGameEndEscPress(event) {
+    if (event.key === 'Escape') {
+        event.preventDefault();
     }
 }
 
