@@ -371,6 +371,7 @@ document.querySelector('.cancelCashOutButton').addEventListener('click', handleC
 document.querySelector('.cashOutConfirmationModal').addEventListener('click', handleOutsideCashOutConfirmationModalClick);
 document.querySelector('.confirmCashOutButton').addEventListener('click', handleConfirmCashOutClick);
 document.querySelector('.gameEndModal').addEventListener('keydown', handleGameEndEscPress);
+document.querySelector('.playAgainButton').addEventListener('click', handlePlayAgainClick);
 document.querySelector('.subtract1Button').addEventListener('click', handleSubtract1Click);
 document.querySelector('.add1Button').addEventListener('click', handleAdd1Click);
 document.querySelector('.subtract10Button').addEventListener('click', handleSubtract10Click);
@@ -438,6 +439,22 @@ function handleGameEndEscPress(event) {
     if (event.key === 'Escape') {
         event.preventDefault();
     }
+}
+
+function handlePlayAgainClick() {
+    if (document.querySelector('.cashOutButton').classList.contains('hidden')) {
+        player.wallet = 1000;
+        player.bet = 100;
+        prepareNewRound();
+    } else {
+        player.wallet = 900;
+        player.bet = 100;
+        updateWallet();
+        updateBet('$' + player.bet);
+        colourBetAdjustmentButtons();
+    }
+
+    document.querySelector('.gameEndModal').close();
 }
 
 function handleSubtract1Click() {
