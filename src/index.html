@@ -32,44 +32,96 @@
                 <i class="instructionsModalCloseButton fa-solid fa-xmark fixed top-[1.6875rem] right-[1.6875rem] w-[1.125rem] bg-neutral-900 rounded-md text-slate-100 text-lg font-bold text-center hover:cursor-pointer"></i>
                 <div class="mb-2">
                     <p class="font-bold">Aim of the Game</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">Blackjack is played in rounds. In each round, the aim is to beat the dealer by collecting a hand of cards that sum to as close to 21
+                         as possible without exceeding it.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Card values</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">Numbered cards are worth their printed values and face cards (jack, queen, king) are worth 10. Aces can be worth 1 or 11:
+                         normally they're worth 11, unless this would result in a hand value over 21, in which case they're worth 1.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Betting</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">Before each round is dealt, you must place a bet on the round's outcome. The maximum bet is $500.</p>
                 </div>
                 <div class="mb-2">
-                    <p class="font-bold">The Play</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="font-bold">Shuffling and Dealing</p>
+                    <p class="text-sm">A standard 52-card deck is used, which will be shuffled at the start of each round. During the initial deal you'll be dealt two cards
+                         face up, while the dealer will receive one face up and one face down.
+                    </p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Blackjack</p>
+                    <p class="text-sm">If your first two cards are an ace and a '10-card' (a ten or a picture card), resulting in a hand value of 21, this is a 'blackjack'.
+                         Unless the dealer has a face-up ace (see 'Even Money' below), you'll have won the round and the dealer will pay out your bet at a rate of 3-to-2
+                         (e.g. a bet of $100 would result in a return of the $100 staked + $150 profit = $250).*
+                    </p>
+                </div>
+                <div class="mb-2">
+                    <p class="font-bold">Your Play</p>
+                    <p class="text-sm">After the initial deal, you must decide whether to 'hit' (request another card in order to get closer to 21) or 'stand' (receive no
+                         further cards). You may continue to hit until either: you decide to stand; or you go 'bust' (have a hand value over 21). A combination of an ace and
+                         a non-10 card is known as a 'soft hand', because the ace can count as 1 or 11. If hitting on a soft hand brings your hand value above 21,
+                         the ace will be counted as 1 and you can continue to play.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">The Dealer's Play</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">After you've decided to stand or gone bust, the dealer's face-down card will be revealed. If the dealer's hand value is 17 or higher,
+                         the dealer will stand (even if your score is higher). If the dealer's hand value is below 17, the dealer will draw cards until it reaches at least
+                         17. The dealer will stand on 'soft-17' (when counting an ace as 11 results in a hand total of 17).
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Settlement</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">If you go bust, you will lose the hand and the bet associated with it will be collected by the dealer (even if the dealer also goes
+                         bust). However, if the dealer goes bust and you stood on a hand total of 21 or less, the dealer will pay out your bet at a rate of 1-to-1 (e.g. a
+                         bet of $100 would result in a return of the $100 staked + $100 profit = $200). If the dealer stands on a total of 21 or less, the dealer will pay
+                         out if you have a higher hand value (and avoided going bust) or collect the bet if you have a lower hand value. In the event of a draw (also known as a 'push', where your
+                         hand total is the same as the dealer's), your bet will be returned with no additional payout.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Splitting</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">If your first two cards are of equal value (e.g. two sixes or two 10-cards), you can choose to 'split' and play them as two separate
+                         hands. Your original bet will remain on the first hand and a second, equal bet will be placed on the second hand. You will then play each hand in
+                         turn, not starting the second hand until you have either stood or gone bust on the first. The two hands will be settled separately, meaning it is
+                         possible to win one hand and lose the other. Split hands may be resplit if another card of the same value (e.g. a third six) is dealt.
+                         Resplitting is possible up to four hands. If a pair of aces are split, only one additional card will be dealt to each hand and resplitting will not
+                         be possible if further aces are dealt. Furthermore, if the additional card is a 10-card, the hand won't be considered a blackjack and will be paid
+                         out at the normal rate of 1-to-1 in the event of it winning. Similarly, if an ace is dealt as the second card after splitting a pair of 10-cards,
+                         this won't be considered a blackjack either.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Doubling Down</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">If your first two cards total 9, 10 or 11, you can choose to 'double down'. The bet staked on the hand will be doubled and you will be
+                         dealt one additional card, after which you must stand, irrespective of your new hand value.
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Insurance</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">If the dealer's face-up card is an ace, you can make a side-bet of half your original bet that the dealer's face-down card is a
+                         10-card (i.e. that the dealer has a blackjack). If this is the case, the face-down card will be revealed and your side-bet will be paid out at a rate
+                         of 2-to-1. This 'insures' the loss of your original bet, avoiding a net loss in the round. If the dealer doesn't have a blackjack, the dealer will
+                         collect your lost side-bet, but you can continue to play.†
+                    </p>
                 </div>
                 <div class="mb-2">
                     <p class="font-bold">Even Money</p>
-                    <p class="text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam commodi aspernatur voluptates, aut esse ea ex dolore a, voluptate qui deleniti. Dignissimos accusamus nesciunt voluptates vitae maxime quis fugiat inventore.</p>
+                    <p class="text-sm">In the rare event that you have a blackjack but the dealer's face-up card is an ace, you will be offered 'even money'.
+                         If you accept, your bet will be paid out at the normal rate of 1-to-1 before the dealer's face-down card is revealed and irrespective of the outcome.
+                         If you reject the offer, the dealer's card will be revealed and the round will be resolved as normal: if the dealer doesn't have a blackjack,
+                         your bet will be paid out at the blackjack rate of 3-to-2, but if the dealer does have a blackjack, the result is a push and your bet will be
+                         returned with no additional payout. The offer of even money can therefore be considered as an insurance of your blackjack.
+                    </p>
                 </div>
+                <p class="mb-2 text-xs leading-tight">* Payouts on odd bets will be $0.50 less than 3-to-2. The payout on $1 bets will therefore be 1-to-1.</p>
+                <p class="mb-2 text-xs leading-tight">† Insurance of odd bets costs $0.50 more than half of the original bet and will be paid out at $1 less than 2-to-1.
+                     Insurance will not be offered on $1 bets.
+                </p>
             </div>
         </dialog>
         <dialog class="cashOutConfirmationModal rounded-lg bg-slate-100 backdrop:bg-neutral-900 backdrop:opacity-35 animate-popUpFast">
