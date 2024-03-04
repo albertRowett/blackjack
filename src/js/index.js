@@ -672,7 +672,7 @@ function showButtons() {
     if (player.wallet >= player.bet) {
         const currentHand = player.hands[player.currentHandIndex];
 
-        if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value) {
+        if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value && player.hands.length < 4) {
             document.querySelector('.splitButton').classList.remove('hidden');
         }
 
