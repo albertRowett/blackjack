@@ -118,7 +118,7 @@ function playNextHand() {
         deal(player.hands[player.currentHandIndex]);
         updateDisplay('player', player.hands[player.currentHandIndex], false);
 
-        if (player.hands[player.currentHandIndex].handValue === 21) {
+        if (player.hands[player.currentHandIndex].cardObjects[0].value === 11 || player.hands[player.currentHandIndex].handValue === 21) {
             setTimeout(determineIfAllHandsPlayed, 1000);
         } else {
             setTimeout(showButtons, 250);
