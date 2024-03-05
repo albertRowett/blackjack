@@ -1703,6 +1703,10 @@ video {
     margin: 1.6875rem;
   }
 
+  .sm\:m-\[1\.6875px\] {
+    margin: 1.6875px;
+  }
+
   .sm\:mx-8 {
     margin-left: 2rem;
     margin-right: 2rem;
