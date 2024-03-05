@@ -21,7 +21,7 @@
         <script src="https://kit.fontawesome.com/27a7576e1a.js" crossorigin="anonymous"></script>
     </head>
 
-    <body class="h-screen flex flex-col bg-green-800 font-sans text-slate-100">
+    <body class="h-screen flex justify-center bg-green-800 font-sans text-slate-100">
         <section class="coverPage fixed z-40 w-full h-full flex flex-col items-center justify-center bg-green-800">
             <p class="mb-5 text-6xl font-semibold"><span class="text-neutral-900">Black</span>jack</p>
             <img src="images/blackjackLogo.svg" class="w-52 mb-5" />
@@ -140,116 +140,118 @@
                 <button class="playAgainButton rounded-lg mt-4 p-1 bg-blue-900 text-slate-100 font-semibold">Play again</button>
             </div>
         </dialog>
-        <section class="topSection relative flex justify-between m-2 sm:m-4 sm:mb-2">
-            <div class="relative w-24">
-                <div class="absolute z-30 flex flex-col items-center">
-                    <img src="images/cards/backRed.svg" class="h-28 mb-1" />
-                    <button class="dealButton rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
-                </div>
-                <p class="deckCounter absolute top-[2.375rem] left-[1.448rem] hidden z-40 w-9 p-1 bg-slate-100/75 rounded-full text-xl text-neutral-900 font-bold text-center"></p>
-            </div>
-            <button class="instructionsButton z-50 rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Instructions</button>
-        </section>
-        <section class="middleSectionContainer basis-[78%] flex">
-            <div class="middleSection relative flex flex-col justify-around items-center w-full mt-8">
-                <section class="absolute z-0 text-slate-100 opacity-25 text-2xl font-medium">
-                    <p class="text-center">Insurance pays 2-to-1</p>
-                    <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
-                </section>
-                <section class="handResult hidden absolute origin-center z-40 w-52 rounded-xl outline outline-4 border-4 border-neutral-900 outline-slate-100 bg-slate-100 text-neutral-900 text-3xl">
-                    <div class="flex justify-between">
-                        <span class="ml-1">♣</span>
-                        <span class="mr-1 text-red-500">♦</span>
+        <main class="flex flex-col w-full max-w-screen-lg">
+            <section class="topSection relative flex justify-between m-2 sm:m-4 sm:mb-2">
+                <div class="relative w-24">
+                    <div class="absolute z-30 flex flex-col items-center">
+                        <img src="images/cards/backRed.svg" class="h-28 mb-1" />
+                        <button class="dealButton rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Deal</button>
                     </div>
-                    <p class="resultMessage my-1.5 font-semibold text-center"></p>
-                    <div class="flex justify-between">
-                        <span class="ml-1 text-red-500">♥</span>
-                        <span class="mr-1">♠</span>
-                    </div>
-                </section>
-                <div class="min-h-10"></div>
-                <div class="grid grid-cols-8 w-full">
-                    <div></div>
-                    <div class="col-span-6 relative flex justify-center h-28">
-                        <div class="cardAreaOutline absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0 w-[5.6458rem] h-[7.5rem] rounded-xl border-2"></div>
-                        <p class="dealerBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-neutral-900 rounded-xl bg-neutral-900 text-lg text-slate-100 font-bold text-center">BLACKJACK</p>
-                        <p class="dealerNoBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-40 p-1 border-2 outline outline-neutral-600 rounded-xl bg-neutral-600 text-lg text-slate-100 font-bold text-center">NO BLACKJACK</p>
-                        <p class="dealerBust hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-red-600 rounded-xl bg-red-600 text-lg text-slate-100 font-bold text-center">BUST</p>
-                        <div class="dealerCards hidden relative z-30"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <p class="dealerScore hidden min-w-8 text-2xl font-bold text-center"></p>
-                    </div>
+                    <p class="deckCounter absolute top-[2.375rem] left-[1.448rem] hidden z-40 w-9 p-1 bg-slate-100/75 rounded-full text-xl text-neutral-900 font-bold text-center"></p>
                 </div>
-                <div class="flex min-h-12 items-center">
-                    <button class="acceptEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Accept even money</button>
-                    <button class="rejectEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Reject even money</button>
-                    <button class="insuranceButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Insurance</button>
-                    <p class="sideBet text-2xl font-bold"></p>
-                </div>
-                <p class="bet z-30 min-h-10 text-4xl font-extrabold">$100</p>
-                <div class="flex min-h-12 items-center">
-                    <button class="hitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Hit</button>
-                    <div class="min-w-[6.7156rem] m-2">
-                        <button class="doubleDownButton hidden rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Double down</button>
-                    </div>
-                    <button class="standButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Stand</button>
-                </div>
-                <div class="grid grid-cols-8 w-full">
-                    <div></div>
-                    <div class="col-span-6 relative flex justify-center h-28">
-                        <div class="cardAreaOutline absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0 w-[5.6458rem] h-[7.5rem] rounded-xl border-2"></div>
-                        <p class="playerBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-neutral-900 rounded-xl bg-neutral-900 text-lg text-slate-100 font-bold text-center">BLACKJACK</p>
-                        <p class="playerBust hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-red-600 rounded-xl bg-red-600 text-lg text-slate-100 font-bold text-center">BUST</p>
-                        <div class="playerCards hidden relative z-30"></div>
-                    </div>
-                    <div class="flex items-center">
-                        <p class="playerScore hidden min-w-8 text-2xl font-bold text-center"></p>
-                    </div>
-                </div>
-                <div class="flex min-h-10 items-center">
-                    <button class="splitButton hidden w-14 rounded-lg m-2 mb-0 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Split</button>
-                </div>
-            </div>
-        </section>
-        <section class="bottomSection flex justify-around basis-[22%]">
-            <div class="flex flex-col items-center justify-center w-[5.725rem]">
-                <h2 class="text-lg opacity-50 font-medium">Wallet</h2>
-                <p class="wallet text-2xl font-bold">$900</p>
-                <div class="min-h-[3.375rem]">
-                    <button class="cashOutButton rounded-lg mt-3.5 m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Cash out</button>
-                </div>
-            </div>
-            <div class="w-48">
-                <div class="betAdjustment flex flex-col items-center justify-center">
-                    <h2 class="text-lg opacity-50 font-medium">Adjust bet</h2>
-                    <div class="flex">
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-neutral-900 border-dashed bg-slate-100 drop-shadow-rb text-xs text-neutral-900 font-semibold">1</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract1Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add1Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
+                <button class="instructionsButton z-50 rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Instructions</button>
+            </section>
+            <section class="middleSectionContainer basis-[78%] flex">
+                <div class="middleSection relative flex flex-col justify-around items-center w-full mt-8">
+                    <section class="absolute z-0 text-slate-100 opacity-25 text-2xl font-medium">
+                        <p class="text-center">Insurance pays 2-to-1</p>
+                        <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
+                    </section>
+                    <section class="handResult hidden absolute origin-center z-40 w-52 rounded-xl outline outline-4 border-4 border-neutral-900 outline-slate-100 bg-slate-100 text-neutral-900 text-3xl">
+                        <div class="flex justify-between">
+                            <span class="ml-1">♣</span>
+                            <span class="mr-1 text-red-500">♦</span>
                         </div>
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed  bg-blue-900 drop-shadow-rb text-xs text-slate-100 font-semibold">10</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract10Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add10Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
+                        <p class="resultMessage my-1.5 font-semibold text-center"></p>
+                        <div class="flex justify-between">
+                            <span class="ml-1 text-red-500">♥</span>
+                            <span class="mr-1">♠</span>
                         </div>
-                        <div class="flex flex-col items-center m-2">
-                            <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed bg-neutral-900 drop-shadow-rb text-xs text-slate-100 font-semibold">100</p>
-                            <div class="flex gap-1 mt-1">
-                                <button class="subtract100Button w-[1.375rem] rounded-lg pb-0.5 bg-red-600 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
-                                <button class="add100Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
-                            </div>
+                    </section>
+                    <div class="min-h-10"></div>
+                    <div class="grid grid-cols-8 w-full">
+                        <div></div>
+                        <div class="col-span-6 relative flex justify-center h-28">
+                            <div class="cardAreaOutline absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0 w-[5.6458rem] h-[7.5rem] rounded-xl border-2"></div>
+                            <p class="dealerBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-neutral-900 rounded-xl bg-neutral-900 text-lg text-slate-100 font-bold text-center">BLACKJACK</p>
+                            <p class="dealerNoBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-40 p-1 border-2 outline outline-neutral-600 rounded-xl bg-neutral-600 text-lg text-slate-100 font-bold text-center">NO BLACKJACK</p>
+                            <p class="dealerBust hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-red-600 rounded-xl bg-red-600 text-lg text-slate-100 font-bold text-center">BUST</p>
+                            <div class="dealerCards hidden relative z-30"></div>
+                        </div>
+                        <div class="flex items-center">
+                            <p class="dealerScore hidden min-w-8 text-2xl font-bold text-center"></p>
                         </div>
                     </div>
+                    <div class="flex min-h-12 items-center">
+                        <button class="acceptEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Accept even money</button>
+                        <button class="rejectEvenMoneyButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Reject even money</button>
+                        <button class="insuranceButton hidden rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Insurance</button>
+                        <p class="sideBet text-2xl font-bold"></p>
+                    </div>
+                    <p class="bet z-30 min-h-10 text-4xl font-extrabold">$100</p>
+                    <div class="flex min-h-12 items-center">
+                        <button class="hitButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Hit</button>
+                        <div class="min-w-[6.7156rem] m-2">
+                            <button class="doubleDownButton hidden rounded-lg p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Double down</button>
+                        </div>
+                        <button class="standButton hidden w-14 rounded-lg m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Stand</button>
+                    </div>
+                    <div class="grid grid-cols-8 w-full">
+                        <div></div>
+                        <div class="col-span-6 relative flex justify-center h-28">
+                            <div class="cardAreaOutline absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0 w-[5.6458rem] h-[7.5rem] rounded-xl border-2"></div>
+                            <p class="playerBlackjack hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-neutral-900 rounded-xl bg-neutral-900 text-lg text-slate-100 font-bold text-center">BLACKJACK</p>
+                            <p class="playerBust hidden absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] origin-top-left z-40 w-32 p-1 border-2 outline outline-red-600 rounded-xl bg-red-600 text-lg text-slate-100 font-bold text-center">BUST</p>
+                            <div class="playerCards hidden relative z-30"></div>
+                        </div>
+                        <div class="flex items-center">
+                            <p class="playerScore hidden min-w-8 text-2xl font-bold text-center"></p>
+                        </div>
+                    </div>
+                    <div class="flex min-h-10 items-center">
+                        <button class="splitButton hidden w-14 rounded-lg m-2 mb-0 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Split</button>
+                    </div>
                 </div>
-                <div class="splitHandsArea hidden flex items-center"></div>
-            </div>
-        </section>
+            </section>
+            <section class="bottomSection flex justify-around basis-[22%]">
+                <div class="flex flex-col items-center justify-center w-[5.725rem]">
+                    <h2 class="text-lg opacity-50 font-medium">Wallet</h2>
+                    <p class="wallet text-2xl font-bold">$900</p>
+                    <div class="min-h-[3.375rem]">
+                        <button class="cashOutButton rounded-lg mt-3.5 m-2 p-1 bg-slate-100 drop-shadow-rb text-neutral-900 font-semibold">Cash out</button>
+                    </div>
+                </div>
+                <div class="w-48">
+                    <div class="betAdjustment flex flex-col items-center justify-center">
+                        <h2 class="text-lg opacity-50 font-medium">Adjust bet</h2>
+                        <div class="flex">
+                            <div class="flex flex-col items-center m-2">
+                                <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-neutral-900 border-dashed bg-slate-100 drop-shadow-rb text-xs text-neutral-900 font-semibold">1</p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract1Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                    <button class="add1Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center m-2">
+                                <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed  bg-blue-900 drop-shadow-rb text-xs text-slate-100 font-semibold">10</p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract10Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                    <button class="add10Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center m-2">
+                                <p class="flex items-center justify-center h-11 w-11 rounded-full border-8 border-slate-100 border-dashed bg-neutral-900 drop-shadow-rb text-xs text-slate-100 font-semibold">100</p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract100Button w-[1.375rem] rounded-lg pb-0.5 bg-red-600 drop-shadow-rb text-sm text-neutral-900 font-semibold">-</button>
+                                    <button class="add100Button w-[1.375rem] rounded-lg pb-0.5 bg-slate-100 drop-shadow-rb text-sm text-neutral-900 font-semibold">+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="splitHandsArea hidden flex items-center"></div>
+                </div>
+            </section>
+        </main>
         <footer class="fixed bottom-0 z-50 w-full">
             <p class="opacity-50 text-xs font-light text-center">&copy 2024 Albert Rowett</p>
         </footer>

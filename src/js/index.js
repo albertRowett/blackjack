@@ -57,7 +57,7 @@ let deck = [
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [{ card: 'kingSpades', value: 10 }, { card: 'kingSpades', value: 10 }], cards: ['kingSpades', 'kingSpades'], handValue: 20, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
+let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
 let dealer = { cardObjects: [], cards: [], handValue: 0 };
 
 // Round phases
@@ -65,7 +65,7 @@ function playFirstHand() {
     document.querySelector('.deckCounter').textContent = 52;
     shuffle(deck);
     setTimeout(() => {
-        // deal(player.hands[0]);
+        deal(player.hands[0]);
         updateDisplay('player', player.hands[0], false);
     }, 500);
     setTimeout(() => {
@@ -73,7 +73,7 @@ function playFirstHand() {
         updateDisplay('dealer', dealer, true);
     }, 1000);
     setTimeout(() => {
-        // deal(player.hands[0]);
+        deal(player.hands[0]);
         updateDisplay('player', player.hands[0], false);
     }, 1500);
     setTimeout(() => {
