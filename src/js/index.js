@@ -744,13 +744,13 @@ function colourBetAdjustmentButtons() {
 }
 
 function makeButtonRed(button) {
-    document.querySelector(button).classList.remove('bg-slate-100');
+    document.querySelector(button).classList.remove('bg-slate-100', 'hover:bg-white');
     document.querySelector(button).classList.add('bg-red-600');
 }
 
 function makeButtonWhite(button) {
     document.querySelector(button).classList.remove('bg-red-600');
-    document.querySelector(button).classList.add('bg-slate-100');
+    document.querySelector(button).classList.add('bg-slate-100', 'hover:bg-white');
 }
 
 function announce(targetElement) {
