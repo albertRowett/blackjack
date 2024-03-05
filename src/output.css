@@ -590,6 +590,10 @@ video {
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .left-1\/2 {
   left: 50%;
 }
@@ -698,6 +702,10 @@ video {
   top: 2.375rem;
 }
 
+.top-auto {
+  top: auto;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -724,6 +732,10 @@ video {
 
 .m-2 {
   margin: 0.5rem;
+}
+
+.m-\[1\.1875rem\] {
+  margin: 1.1875rem;
 }
 
 .mx-4 {
@@ -822,6 +834,14 @@ video {
   margin-left: 0.5rem;
 }
 
+.mr-\[1\.1875rem\] {
+  margin-right: 1.1875rem;
+}
+
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
@@ -888,6 +908,31 @@ video {
 
 .h-64 {
   height: 16rem;
+}
+
+.h-auto {
+  height: auto;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.max-h-fit {
+  max-height: -moz-fit-content;
+  max-height: fit-content;
+}
+
+.max-h-\[80rem\] {
+  max-height: 80rem;
+}
+
+.max-h-\[75rem\] {
+  max-height: 75rem;
+}
+
+.max-h-\[67\.375rem\] {
+  max-height: 67.375rem;
 }
 
 .min-h-10 {
@@ -1002,6 +1047,14 @@ video {
   width: 6rem;
 }
 
+.w-screen {
+  width: 100vw;
+}
+
+.w-\[61\.625rem\] {
+  width: 61.625rem;
+}
+
 .min-w-8 {
   min-width: 2rem;
 }
@@ -1024,6 +1077,22 @@ video {
 
 .max-w-screen-2xl {
   max-width: 1536px;
+}
+
+.max-w-\[61\.625rem\] {
+  max-width: 61.625rem;
+}
+
+.max-w-\[6\.625rem\] {
+  max-width: 6.625rem;
+}
+
+.max-w-\[80rem\] {
+  max-width: 80rem;
+}
+
+.max-w-\[76\.625rem\] {
+  max-width: 76.625rem;
 }
 
 .basis-\[22\%\] {
@@ -1266,6 +1335,10 @@ video {
 .bg-pink-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(236 72 153 / var(--tw-bg-opacity));
+}
+
+.bg-transparent {
+  background-color: transparent;
 }
 
 .p-1 {
@@ -1578,13 +1651,167 @@ video {
   color: rgb(226 232 240 / var(--tw-text-opacity));
 }
 
+@media not all and (min-width: 1024px) {
+  .max-lg\:w-\[80rem\] {
+    width: 80rem;
+  }
+}
+
 @media (min-width: 640px) {
   .sm\:m-4 {
     margin: 1rem;
   }
 
+  .sm\:m-8 {
+    margin: 2rem;
+  }
+
+  .sm\:m-\[27px\] {
+    margin: 27px;
+  }
+
+  .sm\:m-\[26px\] {
+    margin: 26px;
+  }
+
+  .sm\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .sm\:my-8 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
   .sm\:mb-2 {
     margin-bottom: 0.5rem;
+  }
+
+  .sm\:mb-8 {
+    margin-bottom: 2rem;
+  }
+
+  .sm\:mt-8 {
+    margin-top: 2rem;
+  }
+
+  .sm\:mb-\[26px\] {
+    margin-bottom: 26px;
+  }
+
+  .sm\:h-\[90\%\] {
+    height: 90%;
+  }
+
+  .sm\:h-auto {
+    height: auto;
+  }
+
+  .sm\:w-\[80\%\] {
+    width: 80%;
+  }
+
+  .sm\:w-\[95\%\] {
+    width: 95%;
+  }
+
+  .sm\:w-\[9\%\] {
+    width: 9%;
+  }
+
+  .sm\:w-\[90\%\] {
+    width: 90%;
+  }
+
+  .sm\:max-w-\[61\.625rem\] {
+    max-width: 61.625rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .md\:my-\[10\%\] {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .md\:my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .md\:h-4\/5 {
+    height: 80%;
+  }
+
+  .md\:max-h-fit {
+    max-height: -moz-fit-content;
+    max-height: fit-content;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:m-\[20\%\] {
+    margin: 20%;
+  }
+
+  .lg\:m-\[10\%\] {
+    margin: 10%;
+  }
+
+  .lg\:my-\[10\%\] {
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+
+  .lg\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lg\:my-auto {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .lg\:h-\[40rem\] {
+    height: 40rem;
+  }
+
+  .lg\:h-\[80\%\] {
+    height: 80%;
+  }
+
+  .lg\:max-h-\[40rem\] {
+    max-height: 40rem;
+  }
+
+  .lg\:w-\[61\.625rem\] {
+    width: 61.625rem;
+  }
+
+  .lg\:w-\[80rem\] {
+    width: 80rem;
+  }
+
+  .lg\:w-\[8rem\] {
+    width: 8rem;
+  }
+
+  .lg\:max-w-\[61\.625rem\] {
+    max-width: 61.625rem;
+  }
+
+  .lg\:max-w-\[80rem\] {
+    max-width: 80rem;
+  }
+
+  .lg\:max-w-\[76\.625rem\] {
+    max-width: 76.625rem;
+  }
+
+  .lg\:origin-center {
+    transform-origin: center;
   }
 }
 
@@ -1592,6 +1819,19 @@ video {
   .xl\:mx-auto {
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .xl\:max-h-fit {
+    max-height: -moz-fit-content;
+    max-height: fit-content;
+  }
+
+  .xl\:max-h-\[80rem\] {
+    max-height: 80rem;
+  }
+
+  .xl\:max-h-\[67\.375rem\] {
+    max-height: 67.375rem;
   }
 }
 
