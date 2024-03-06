@@ -838,6 +838,10 @@ video {
   margin-right: 1.1875rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .block {
   display: block;
 }
@@ -1885,6 +1889,18 @@ video {
 
   .xl\:max-h-\[67\.375rem\] {
     max-height: 67.375rem;
+  }
+
+  .xl\:max-h-\[\] {
+    max-height: ;
+  }
+
+  .xl\:max-h-\[68\.75rem\] {
+    max-height: 68.75rem;
+  }
+
+  .xl\:max-h-\[70\.375rem\] {
+    max-height: 70.375rem;
   }
 }
 
