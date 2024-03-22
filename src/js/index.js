@@ -44,7 +44,7 @@ function playFirstHand() {
         updateDisplay('dealer', dealer, true);
 
         if (player.hands[0].handValue === 21) {
-            announce('.playerBlackjack');
+            announce('.playerBlackjackPopUp');
 
             if (dealer.cards[1].value === 11) {
                 setTimeout(toggleEvenMoneyButtons, 2750);
@@ -64,7 +64,7 @@ function determineIfAllHandsPlayed() {
         updateDisplay('dealer', dealer, false);
 
         if (dealer.handValue === 21) {
-            announce('.dealerBlackjack');
+            announce('.dealerBlackjackPopUp');
             setTimeout(resolveHand, 2500);
         } else {
             setTimeout(resolveHand, 1000);
@@ -76,7 +76,7 @@ function playNextHand() {
     player.currentHandIndex++;
     updateDisplay('player', player.hands[player.currentHandIndex], false);
     updateBet('$' + player.bet);
-    updateSplitHandsArea();
+    updateSplitHandsSection();
     setTimeout(() => {
         deal(player.hands[player.currentHandIndex]);
         updateDisplay('player', player.hands[player.currentHandIndex], false);
@@ -93,7 +93,7 @@ function resolveBlackjack() {
     updateDisplay('dealer', dealer, false);
 
     if (dealer.handValue === 21) {
-        announce('.dealerBlackjack');
+        announce('.dealerBlackjackPopUp');
         setTimeout(() => {
             announceResult('Push');
             player.wallet += player.bet;
@@ -146,7 +146,7 @@ function resolveNextHand() {
         updateBet('$' + player.bet);
     }
 
-    updateSplitHandsArea();
+    updateSplitHandsSection();
     setTimeout(resolveHand, 1000);
 }
 
@@ -156,7 +156,7 @@ function resolveDealerHand(playerHand) {
             updateDisplay('dealer', dealer, false);
 
             if (dealer.handValue > 21) {
-                announce('.dealerBust');
+                announce('.dealerBustPopUp');
                 setTimeout(() => {
                     finishResolvingHand(playerHand);
                 }, 2500);
@@ -471,7 +471,7 @@ function handleHitClick() {
         hideHitStandButtons();
 
         if (player.hands[player.currentHandIndex].handValue > 21) {
-            announce('.playerBust');
+            announce('.playerBustPopUp');
             setTimeout(determineIfAllHandsPlayed, 3000);
         } else {
             setTimeout(determineIfAllHandsPlayed, 1000);
@@ -556,7 +556,7 @@ function calculateSideBet() {
 function handleSuccessfulInsurance(sideBet) {
     setTimeout(() => {
         updateDisplay('dealer', dealer, false);
-        announce('.dealerBlackjack');
+        announce('.dealerBlackjackPopUp');
         setTimeout(() => {
             player.wallet += player.bet + sideBet;
             updateWallet();
@@ -567,7 +567,7 @@ function handleSuccessfulInsurance(sideBet) {
 }
 
 function handleUnsuccessfulInsurance() {
-    announce('.dealerNoBlackjack');
+    announce('.dealerNoBlackjackPopUp');
     setTimeout(() => {
         updateSideBet('');
         showButtons();
@@ -584,10 +584,10 @@ function handleAcceptEvenMoneyClick() {
         updateDisplay('dealer', dealer, false);
 
         if (dealer.handValue === 21) {
-            announce('.dealerBlackjack');
+            announce('.dealerBlackjackPopUp');
             setTimeout(prepareNewRound, 2750);
         } else {
-            announce('.dealerNoBlackjack');
+            announce('.dealerNoBlackjackPopUp');
             setTimeout(prepareNewRound, 2750);
         }
     }, 1000);
@@ -609,8 +609,8 @@ function toggleBetVsPlayScreens() {
     document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
-    document.querySelector('.betAdjustment').classList.toggle('hidden');
-    document.querySelector('.splitHandsArea').classList.add('hidden');
+    document.querySelector('.betAdjustmentSection').classList.toggle('hidden');
+    document.querySelector('.splitHandsSection').classList.add('hidden');
 }
 
 function showButtons() {
@@ -714,15 +714,15 @@ function announce(targetElement) {
 
 function announceResult(messageText) {
     document.querySelector('.resultMessage').textContent = messageText;
-    document.querySelector('.handResult').classList.remove('hidden');
-    document.querySelector('.handResult').classList.add('animate-popUp');
+    document.querySelector('.handResultPopUp').classList.remove('hidden');
+    document.querySelector('.handResultPopUp').classList.add('animate-popUp');
     setTimeout(() => {
-        document.querySelector('.handResult').classList.add('hidden');
-        document.querySelector('.handResult').classList.remove('animate-popUp');
+        document.querySelector('.handResultPopUp').classList.add('hidden');
+        document.querySelector('.handResultPopUp').classList.remove('animate-popUp');
     }, 2000);
 }
 
-function updateSplitHandsArea() {
+function updateSplitHandsSection() {
     let splitHandsHTML = '';
 
     player.hands.forEach((hand, index) => {
@@ -747,9 +747,9 @@ function updateSplitHandsArea() {
         }
     });
 
-    const splitHandsArea = document.querySelector('.splitHandsArea');
-    splitHandsArea.innerHTML = splitHandsHTML;
-    splitHandsArea.classList.remove('hidden');
+    const splitHandsSection = document.querySelector('.splitHandsSection');
+    splitHandsSection.innerHTML = splitHandsHTML;
+    splitHandsSection.classList.remove('hidden');
 }
 
 function updateWallet() {
