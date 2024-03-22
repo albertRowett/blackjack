@@ -723,7 +723,7 @@ function announceResult(messageText) {
 }
 
 function updateSplitHandsArea() {
-    let splitHandsHTML = '<div class="flex flex-wrap gap-x-2 gap-y-1 h-[7.25rem] mt-3 mb-2 ml-2">';
+    let splitHandsHTML = '';
 
     player.hands.forEach((hand, index) => {
         if (index !== player.currentHandIndex) {
@@ -746,8 +746,6 @@ function updateSplitHandsArea() {
             splitHandsHTML += '</div>';
         }
     });
-
-    splitHandsHTML += '</div>';
 
     const splitHandsArea = document.querySelector('.splitHandsArea');
     splitHandsArea.innerHTML = splitHandsHTML;
