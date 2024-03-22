@@ -1,64 +1,27 @@
 // Unshuffled deck
-let deck = [
-    { card: 'twoHearts', value: 2 },
-    { card: 'threeHearts', value: 3 },
-    { card: 'fourHearts', value: 4 },
-    { card: 'fiveHearts', value: 5 },
-    { card: 'sixHearts', value: 6 },
-    { card: 'sevenHearts', value: 7 },
-    { card: 'eightHearts', value: 8 },
-    { card: 'nineHearts', value: 9 },
-    { card: 'tenHearts', value: 10 },
-    { card: 'jackHearts', value: 10 },
-    { card: 'queenHearts', value: 10 },
-    { card: 'kingHearts', value: 10 },
-    { card: 'aceHearts', value: 11 },
-    { card: 'twoDiamonds', value: 2 },
-    { card: 'threeDiamonds', value: 3 },
-    { card: 'fourDiamonds', value: 4 },
-    { card: 'fiveDiamonds', value: 5 },
-    { card: 'sixDiamonds', value: 6 },
-    { card: 'sevenDiamonds', value: 7 },
-    { card: 'eightDiamonds', value: 8 },
-    { card: 'nineDiamonds', value: 9 },
-    { card: 'tenDiamonds', value: 10 },
-    { card: 'jackDiamonds', value: 10 },
-    { card: 'queenDiamonds', value: 10 },
-    { card: 'kingDiamonds', value: 10 },
-    { card: 'aceDiamonds', value: 11 },
-    { card: 'twoClubs', value: 2 },
-    { card: 'threeClubs', value: 3 },
-    { card: 'fourClubs', value: 4 },
-    { card: 'fiveClubs', value: 5 },
-    { card: 'sixClubs', value: 6 },
-    { card: 'sevenClubs', value: 7 },
-    { card: 'eightClubs', value: 8 },
-    { card: 'nineClubs', value: 9 },
-    { card: 'tenClubs', value: 10 },
-    { card: 'jackClubs', value: 10 },
-    { card: 'queenClubs', value: 10 },
-    { card: 'kingClubs', value: 10 },
-    { card: 'aceClubs', value: 11 },
-    { card: 'twoSpades', value: 2 },
-    { card: 'threeSpades', value: 3 },
-    { card: 'fourSpades', value: 4 },
-    { card: 'fiveSpades', value: 5 },
-    { card: 'sixSpades', value: 6 },
-    { card: 'sevenSpades', value: 7 },
-    { card: 'eightSpades', value: 8 },
-    { card: 'nineSpades', value: 9 },
-    { card: 'tenSpades', value: 10 },
-    { card: 'jackSpades', value: 10 },
-    { card: 'queenSpades', value: 10 },
-    { card: 'kingSpades', value: 10 },
-    { card: 'aceSpades', value: 11 }
-];
+let deck = [];
+const suits = ['clubs', 'diamonds', 'hearts', 'spades'];
+suits.forEach((suit) => {
+    deck.push({ suit: suit, rank: 'two', value: 2 });
+    deck.push({ suit: suit, rank: 'three', value: 3 });
+    deck.push({ suit: suit, rank: 'four', value: 4 });
+    deck.push({ suit: suit, rank: 'five', value: 5 });
+    deck.push({ suit: suit, rank: 'six', value: 6 });
+    deck.push({ suit: suit, rank: 'seven', value: 7 });
+    deck.push({ suit: suit, rank: 'eight', value: 8 });
+    deck.push({ suit: suit, rank: 'nine', value: 9 });
+    deck.push({ suit: suit, rank: 'ten', value: 10 });
+    deck.push({ suit: suit, rank: 'jack', value: 10 });
+    deck.push({ suit: suit, rank: 'queen', value: 10 });
+    deck.push({ suit: suit, rank: 'king', value: 10 });
+    deck.push({ suit: suit, rank: 'ace', value: 11 });
+});
 
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cardObjects: [], cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
-let dealer = { cardObjects: [], cards: [], handValue: 0 };
+let player = { hands: [{ cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
+let dealer = { cards: [], handValue: 0 };
 
 // Round phases
 function playFirstHand() {
@@ -83,7 +46,7 @@ function playFirstHand() {
         if (player.hands[0].handValue === 21) {
             announce('.playerBlackjack');
 
-            if (dealer.cardObjects[1].value === 11) {
+            if (dealer.cards[1].value === 11) {
                 setTimeout(toggleEvenMoneyButtons, 2750);
             } else {
                 setTimeout(resolveBlackjack, 3000);
@@ -118,7 +81,7 @@ function playNextHand() {
         deal(player.hands[player.currentHandIndex]);
         updateDisplay('player', player.hands[player.currentHandIndex], false);
 
-        if (player.hands[player.currentHandIndex].cardObjects[0].value === 11 || player.hands[player.currentHandIndex].handValue === 21) {
+        if (player.hands[player.currentHandIndex].cards[0].value === 11 || player.hands[player.currentHandIndex].handValue === 21) {
             setTimeout(determineIfAllHandsPlayed, 1000);
         } else {
             setTimeout(showButtons, 250);
@@ -246,11 +209,11 @@ function finishResolvingHand(playerHand) {
 
 function prepareNewRound() {
     if (player.wallet > 0) {
-        player.hands = [{ cardObjects: [], cards: [], handValue: 0, doubled: false }];
+        player.hands = [{ cards: [], handValue: 0, doubled: false }];
         updateDisplay('player', player.hands[0], false);
         player.currentHandIndex = 0;
         player.insured = false;
-        dealer.cardObjects = [];
+        dealer.cards = [];
         updateDisplay('dealer', dealer, true);
         currentCard = -1;
         toggleBetVsPlayScreens();
@@ -285,37 +248,30 @@ function shuffle(deck) {
 function deal(hand) {
     currentCard++;
     const dealtCard = deck[currentCard];
-    hand.cardObjects.push(dealtCard);
-    hand.cards = updateCards(hand.cardObjects);
+    hand.cards.push(dealtCard);
     hand.handValue = updateHandValue(hand);
     document.querySelector('.deckCounter').textContent = 51 - currentCard;
 }
 
-function updateCards(cardObjects) {
-    const cards = cardObjects.map((cardObject) => {
-        return cardObject.card;
-    });
-    return cards;
-}
-
 function updateHandValue(hand) {
-    const cardValues = hand.cardObjects.map((cardObject) => {
-        return cardObject.value;
-    });
-    const handValue = cardValues.reduce((accumulator, currentValue) => {
-        return accumulator + currentValue;
-    }, 0);
+    let handValue = 0;
+    hand.cards.forEach((card) => {
+        handValue += card.value;
+    })
 
-    return resolveAces(handValue, hand.cards);
+    return resolveAces(hand, handValue);
 }
 
-function resolveAces(handValue, cards) {
+function resolveAces(hand, handValue) {
     if (handValue > 21) {
-        const aceIndex = cards.findIndex((card) => card.includes('ace'));
-        if (aceIndex !== -1) {
-            handValue -= 10;
-            let cardsWithoutAce = cards.toSpliced(aceIndex, 1);
-            return resolveAces(handValue, cardsWithoutAce);
+        for (let i = 0; i < hand.cards.length; i++) {
+            if (hand.cards[i].rank === 'ace') {
+                handValue -= 10;
+            }
+
+            if (handValue < 22) {
+                break;
+            }
         }
     }
 
@@ -325,15 +281,15 @@ function resolveAces(handValue, cards) {
 function updateDisplay(person, hand, firstCardHidden) {
     let cardsHTML = '';
 
-    hand.cardObjects.forEach((cardObject, index) => {
+    hand.cards.forEach((card, index) => {
         if (firstCardHidden) {
             if (index === 0) {
-                cardsHTML += '<img src="images/cards/backRed.svg" class="absolute h-28" />';
+                cardsHTML += '<img src="images/cards/backRed.svg" alt="Back of card" class="absolute h-28" />';
             } else {
-                cardsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-28 offset-1" />';
+                cardsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-28 offset-1" />';
             }
         } else {
-            cardsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-28 offset-' + index + '" />';
+            cardsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-28 offset-' + index + '" />';
         }
 
         if (index === 0) {
@@ -346,20 +302,14 @@ function updateDisplay(person, hand, firstCardHidden) {
     document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
 
     if (firstCardHidden) {
-        if (dealer.cardObjects[1]) {
-            document.querySelector('.dealerScore').textContent = dealer.cardObjects[1].value;
+        if (dealer.cards[1]) {
+            document.querySelector('.dealerScore').textContent = dealer.cards[1].value;
         } else {
             document.querySelector('.dealerScore').textContent = 0;
         }
     } else {
         document.querySelector('.' + person + 'Score').textContent = hand.handValue;
     }
-
-    console.log('------------------');
-    console.log("Player's cards (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].cards);
-    console.log("Player's score (hand " + (player.currentHandIndex + 1) + '): ' + player.hands[player.currentHandIndex].handValue);
-    console.log("Dealer's cards: " + dealer.cards);
-    console.log("Dealer's score: " + dealer.handValue);
 }
 
 // Event listeners
@@ -553,11 +503,9 @@ function handleSubsequentBet() {
 
 function splitHand(player) {
     const currentHand = player.hands[player.currentHandIndex];
-    player.hands.push({ cardObjects: [currentHand.cardObjects.pop()], cards: [], handValue: 0 });
-    currentHand.cards = updateCards(currentHand.cardObjects);
+    player.hands.push({ cards: [currentHand.cards.pop()], handValue: 0, doubled: false });
     currentHand.handValue = updateHandValue(currentHand);
     const newHand = player.hands[player.currentHandIndex + 1];
-    newHand.cards = updateCards(newHand.cardObjects);
     newHand.handValue = updateHandValue(newHand);
 }
 
@@ -672,7 +620,7 @@ function showButtons() {
     if (player.wallet >= player.bet) {
         const currentHand = player.hands[player.currentHandIndex];
 
-        if (currentHand.cardObjects[0].value === currentHand.cardObjects[1].value && player.hands.length < 4) {
+        if (currentHand.cards[0].value === currentHand.cards[1].value && player.hands.length < 4) {
             document.querySelector('.splitButton').classList.remove('hidden');
         }
 
@@ -681,7 +629,7 @@ function showButtons() {
         }
     }
 
-    if (dealer.cardObjects[1].value === 11 && !player.insured && player.hands.length === 1 && player.wallet >= 0.5 * player.bet && player.bet > 1) {
+    if (dealer.cards[1].value === 11 && !player.insured && player.hands.length === 1 && player.wallet >= 0.5 * player.bet && player.bet > 1) {
         document.querySelector('.insuranceButton').classList.remove('hidden');
     }
 }
@@ -781,11 +729,11 @@ function updateSplitHandsArea() {
         if (index !== player.currentHandIndex) {
             splitHandsHTML += '<div class="relative flex">';
 
-            hand.cardObjects.forEach((cardObject, index) => {
+            hand.cards.forEach((card, index) => {
                 if (index % 2 === 0) {
-                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-' + index / 2 + '" />';
+                    splitHandsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-14 offset-' + index / 2 + '" />';
                 } else {
-                    splitHandsHTML += '<img src="images/cards/' + cardObject.card + '.svg" class="absolute h-14 offset-half-' + index + '" />';
+                    splitHandsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-14 offset-half-' + index + '" />';
                 }
 
                 if (index === 0) {
