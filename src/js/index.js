@@ -17,7 +17,7 @@ suits.forEach((suit) => {
     deck.push({ suit: suit, rank: 'ace', value: 11 });
 });
 
-let currentCard = -1;
+let currentCard = 0;
 
 // Initial (empty) hands
 let player = {
@@ -31,7 +31,7 @@ let dealer = { cards: [], handValue: 0 };
 
 // Round phases and associated logic functions
 function playFirstHand() {
-    document.querySelector('.deckCounter').textContent = 52;
+    updateDeckCounterVisual();
     shuffle(deck);
     setTimeout(() => {
         deal(player.hands[0]);
@@ -73,11 +73,11 @@ function shuffle(deck) {
 }
 
 function deal(hand) {
-    currentCard++;
     const dealtCard = deck[currentCard];
     hand.cards.push(dealtCard);
     hand.handValue = updateHandValue(hand);
-    document.querySelector('.deckCounter').textContent = 51 - currentCard;
+    currentCard++;
+    updateDeckCounterVisual();
 }
 
 function updateHandValue(hand) {
@@ -266,7 +266,7 @@ function prepareNewRound() {
         player.insured = false;
         dealer.cards = [];
         updateCardsAndScoreVisuals('dealer', dealer, true);
-        currentCard = -1;
+        currentCard = 0;
         toggleBetVsPlayScreens();
 
         if (player.bet > player.wallet) {
@@ -619,6 +619,10 @@ function colourButtonRed(button) {
 function colourButtonWhite(button) {
     document.querySelector(button).classList.remove('bg-red-500');
     document.querySelector(button).classList.add('bg-slate-100', 'hover:bg-white');
+}
+
+function updateDeckCounterVisual() {
+    document.querySelector('.deckCounter').textContent = 52 - currentCard;
 }
 
 function updateCardsAndScoreVisuals(person, hand, firstCardHidden) {
