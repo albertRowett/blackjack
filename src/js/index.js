@@ -20,31 +20,37 @@ suits.forEach((suit) => {
 let currentCard = -1;
 
 // Initial (empty) hands
-let player = { hands: [{ cards: [], handValue: 0, doubled: false }], currentHandIndex: 0, wallet: 900, bet: 100, insured: false };
+let player = {
+    hands: [{ cards: [], handValue: 0, doubled: false }],
+    currentHandIndex: 0,
+    wallet: 900,
+    bet: 100,
+    insured: false
+};
 let dealer = { cards: [], handValue: 0 };
 
-// Round phases
+// Round phases and associated logic functions
 function playFirstHand() {
     document.querySelector('.deckCounter').textContent = 52;
     shuffle(deck);
     setTimeout(() => {
         deal(player.hands[0]);
-        updateDisplay('player', player.hands[0], false);
+        updateCardsAndScoreVisuals('player', player.hands[0], false);
     }, 500);
     setTimeout(() => {
         deal(dealer);
-        updateDisplay('dealer', dealer, true);
+        updateCardsAndScoreVisuals('dealer', dealer, true);
     }, 1000);
     setTimeout(() => {
         deal(player.hands[0]);
-        updateDisplay('player', player.hands[0], false);
+        updateCardsAndScoreVisuals('player', player.hands[0], false);
     }, 1500);
     setTimeout(() => {
         deal(dealer);
-        updateDisplay('dealer', dealer, true);
+        updateCardsAndScoreVisuals('dealer', dealer, true);
 
         if (player.hands[0].handValue === 21) {
-            announce('.playerBlackjackPopUp');
+            playAnimation('.playerBlackjackPopUp');
 
             if (dealer.cards[1].value === 11) {
                 setTimeout(toggleEvenMoneyButtons, 2750);
@@ -57,185 +63,6 @@ function playFirstHand() {
     }, 2000);
 }
 
-function determineIfAllHandsPlayed() {
-    if (player.currentHandIndex + 1 < player.hands.length) {
-        playNextHand();
-    } else {
-        updateDisplay('dealer', dealer, false);
-
-        if (dealer.handValue === 21) {
-            announce('.dealerBlackjackPopUp');
-            setTimeout(resolveHand, 2500);
-        } else {
-            setTimeout(resolveHand, 1000);
-        }
-    }
-}
-
-function playNextHand() {
-    player.currentHandIndex++;
-    updateDisplay('player', player.hands[player.currentHandIndex], false);
-    updateBet('$' + player.bet);
-    updateSplitHandsSection();
-    setTimeout(() => {
-        deal(player.hands[player.currentHandIndex]);
-        updateDisplay('player', player.hands[player.currentHandIndex], false);
-
-        if (player.hands[player.currentHandIndex].cards[0].value === 11 || player.hands[player.currentHandIndex].handValue === 21) {
-            setTimeout(determineIfAllHandsPlayed, 1000);
-        } else {
-            setTimeout(showButtons, 250);
-        }
-    }, 500);
-}
-
-function resolveBlackjack() {
-    updateDisplay('dealer', dealer, false);
-
-    if (dealer.handValue === 21) {
-        announce('.dealerBlackjackPopUp');
-        setTimeout(() => {
-            announceResult('Push');
-            player.wallet += player.bet;
-            setTimeout(updateWallet, 500);
-            setTimeout(prepareNewRound, 2000);
-        }, 2500);
-    } else {
-        setTimeout(() => {
-            announceResult('You win');
-
-            if (player.bet % 2 === 1) {
-                player.wallet += 2.5 * player.bet - 0.5;
-            } else {
-                player.wallet += 2.5 * player.bet;
-            }
-
-            setTimeout(updateWallet, 500);
-            setTimeout(prepareNewRound, 2000);
-        }, 1000);
-    }
-}
-
-function resolveHand() {
-    const playerHand = player.hands[player.currentHandIndex];
-
-    if (playerHand.handValue > 21) {
-        announceResult('Dealer wins');
-        setTimeout(determineIfAllHandsResolved, 2000);
-    } else {
-        resolveDealerHand(playerHand);
-    }
-}
-
-function determineIfAllHandsResolved() {
-    if (player.currentHandIndex === 0) {
-        prepareNewRound();
-    } else {
-        resolveNextHand();
-    }
-}
-
-function resolveNextHand() {
-    player.currentHandIndex--;
-    const playerHand = player.hands[player.currentHandIndex];
-    updateDisplay('player', playerHand, false);
-
-    if (playerHand.doubled) {
-        updateBet('$' + 2 * player.bet);
-    } else {
-        updateBet('$' + player.bet);
-    }
-
-    updateSplitHandsSection();
-    setTimeout(resolveHand, 1000);
-}
-
-function resolveDealerHand(playerHand) {
-    if (dealer.handValue < 17) {
-            deal(dealer);
-            updateDisplay('dealer', dealer, false);
-
-            if (dealer.handValue > 21) {
-                announce('.dealerBustPopUp');
-                setTimeout(() => {
-                    finishResolvingHand(playerHand);
-                }, 2500);
-            } else {
-                setTimeout(() => {
-                    resolveDealerHand(playerHand);
-                }, 1000);
-            }
-    } else {
-        finishResolvingHand(playerHand);
-    }
-}
-
-function finishResolvingHand(playerHand) {
-    if (dealer.handValue > 21) {
-        announceResult('You win');
-
-        if (playerHand.doubled) {
-            player.wallet += 4 * player.bet;
-        } else {
-            player.wallet += 2 * player.bet;
-        }
-    } else if (dealer.handValue === 21 && dealer.cards.length === 2) {
-        announceResult('Dealer wins');
-    } else {
-        if (dealer.handValue > playerHand.handValue) {
-            announceResult('Dealer wins');
-        } else if (dealer.handValue < playerHand.handValue) {
-            announceResult('You win');
-
-            if (playerHand.doubled) {
-                player.wallet += 4 * player.bet;
-            } else {
-                player.wallet += 2 * player.bet;
-            }
-        } else {
-            announceResult('Push');
-
-            if (playerHand.doubled) {
-                player.wallet += 2 * player.bet;
-            } else {
-                player.wallet += player.bet;
-            }
-        }
-    }
-
-    setTimeout(updateWallet, 500);
-    setTimeout(determineIfAllHandsResolved, 2000);
-}
-
-function prepareNewRound() {
-    if (player.wallet > 0) {
-        player.hands = [{ cards: [], handValue: 0, doubled: false }];
-        updateDisplay('player', player.hands[0], false);
-        player.currentHandIndex = 0;
-        player.insured = false;
-        dealer.cards = [];
-        updateDisplay('dealer', dealer, true);
-        currentCard = -1;
-        toggleBetVsPlayScreens();
-
-        if (player.bet > player.wallet) {
-            player.bet = player.wallet;
-            updateBet('$' + player.bet);
-        }
-
-        player.wallet -= player.bet;
-        colourBetAdjustmentButtons();
-        console.log('------------------');
-        console.log('Wallet: ' + player.wallet);
-        updateWallet();
-        updateBet('$' + player.bet);
-    } else {
-        document.querySelector('.instructionsModal').close();
-        endGame('outOfMoney');
-    }
-}
-
-// Key game functions
 function shuffle(deck) {
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -257,7 +84,7 @@ function updateHandValue(hand) {
     let handValue = 0;
     hand.cards.forEach((card) => {
         handValue += card.value;
-    })
+    });
 
     return resolveAces(hand, handValue);
 }
@@ -278,37 +105,182 @@ function resolveAces(hand, handValue) {
     return handValue;
 }
 
-function updateDisplay(person, hand, firstCardHidden) {
-    let cardsHTML = '';
+function determineIfAllHandsPlayed() {
+    if (player.currentHandIndex + 1 < player.hands.length) {
+        playNextHand();
+    } else {
+        updateCardsAndScoreVisuals('dealer', dealer, false);
 
-    hand.cards.forEach((card, index) => {
-        if (firstCardHidden) {
-            if (index === 0) {
-                cardsHTML += '<img src="images/cards/backRed.svg" alt="Back of card" class="absolute h-28" />';
+        if (dealer.handValue === 21) {
+            playAnimation('.dealerBlackjackPopUp');
+            setTimeout(resolveHand, 2500);
+        } else {
+            setTimeout(resolveHand, 1000);
+        }
+    }
+}
+
+function playNextHand() {
+    player.currentHandIndex++;
+    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+    updateBetVisual('$' + player.bet);
+    updateSplitHandsVisual();
+    setTimeout(() => {
+        deal(player.hands[player.currentHandIndex]);
+        updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+
+        if (
+            player.hands[player.currentHandIndex].cards[0].value === 11 ||
+            player.hands[player.currentHandIndex].handValue === 21
+        ) {
+            setTimeout(determineIfAllHandsPlayed, 1000);
+        } else {
+            setTimeout(showButtons, 250);
+        }
+    }, 500);
+}
+
+function resolveBlackjack() {
+    updateCardsAndScoreVisuals('dealer', dealer, false);
+
+    if (dealer.handValue === 21) {
+        playAnimation('.dealerBlackjackPopUp');
+        setTimeout(() => {
+            playResultAnimation('Push');
+            player.wallet += player.bet;
+            setTimeout(updateWalletVisual, 500);
+            setTimeout(prepareNewRound, 2000);
+        }, 2500);
+    } else {
+        setTimeout(() => {
+            playResultAnimation('You win');
+
+            if (player.bet % 2 === 1) {
+                player.wallet += 2.5 * player.bet - 0.5;
             } else {
-                cardsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-28 offset-1" />';
+                player.wallet += 2.5 * player.bet;
             }
+
+            setTimeout(updateWalletVisual, 500);
+            setTimeout(prepareNewRound, 2000);
+        }, 1000);
+    }
+}
+
+function resolveHand() {
+    const playerHand = player.hands[player.currentHandIndex];
+
+    if (playerHand.handValue > 21) {
+        playResultAnimation('Dealer wins');
+        setTimeout(determineIfAllHandsResolved, 2000);
+    } else {
+        resolveDealerHand(playerHand);
+    }
+}
+
+function determineIfAllHandsResolved() {
+    if (player.currentHandIndex === 0) {
+        prepareNewRound();
+    } else {
+        resolveNextHand();
+    }
+}
+
+function resolveNextHand() {
+    player.currentHandIndex--;
+    const playerHand = player.hands[player.currentHandIndex];
+    updateCardsAndScoreVisuals('player', playerHand, false);
+
+    if (playerHand.doubled) {
+        updateBetVisual('$' + 2 * player.bet);
+    } else {
+        updateBetVisual('$' + player.bet);
+    }
+
+    updateSplitHandsVisual();
+    setTimeout(resolveHand, 1000);
+}
+
+function resolveDealerHand(playerHand) {
+    if (dealer.handValue < 17) {
+        deal(dealer);
+        updateCardsAndScoreVisuals('dealer', dealer, false);
+
+        if (dealer.handValue > 21) {
+            playAnimation('.dealerBustPopUp');
+            setTimeout(() => {
+                finishResolvingHand(playerHand);
+            }, 2500);
         } else {
-            cardsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-28 offset-' + index + '" />';
-        }
-
-        if (index === 0) {
-            cardsHTML += '<div class="w-[6.5208rem] h-28"></div>';
-        } else if (index > 1) {
-            cardsHTML += '<div class="w-[1.375rem]"></div>';
-        }
-    });
-
-    document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
-
-    if (firstCardHidden) {
-        if (dealer.cards[1]) {
-            document.querySelector('.dealerScore').textContent = dealer.cards[1].value;
-        } else {
-            document.querySelector('.dealerScore').textContent = 0;
+            setTimeout(() => {
+                resolveDealerHand(playerHand);
+            }, 1000);
         }
     } else {
-        document.querySelector('.' + person + 'Score').textContent = hand.handValue;
+        finishResolvingHand(playerHand);
+    }
+}
+
+function finishResolvingHand(playerHand) {
+    if (dealer.handValue > 21) {
+        playResultAnimation('You win');
+
+        if (playerHand.doubled) {
+            player.wallet += 4 * player.bet;
+        } else {
+            player.wallet += 2 * player.bet;
+        }
+    } else if (dealer.handValue === 21 && dealer.cards.length === 2) {
+        playResultAnimation('Dealer wins');
+    } else {
+        if (dealer.handValue > playerHand.handValue) {
+            playResultAnimation('Dealer wins');
+        } else if (dealer.handValue < playerHand.handValue) {
+            playResultAnimation('You win');
+
+            if (playerHand.doubled) {
+                player.wallet += 4 * player.bet;
+            } else {
+                player.wallet += 2 * player.bet;
+            }
+        } else {
+            playResultAnimation('Push');
+
+            if (playerHand.doubled) {
+                player.wallet += 2 * player.bet;
+            } else {
+                player.wallet += player.bet;
+            }
+        }
+    }
+
+    setTimeout(updateWalletVisual, 500);
+    setTimeout(determineIfAllHandsResolved, 2000);
+}
+
+function prepareNewRound() {
+    if (player.wallet > 0) {
+        player.hands = [{ cards: [], handValue: 0, doubled: false }];
+        updateCardsAndScoreVisuals('player', player.hands[0], false);
+        player.currentHandIndex = 0;
+        player.insured = false;
+        dealer.cards = [];
+        updateCardsAndScoreVisuals('dealer', dealer, true);
+        currentCard = -1;
+        toggleBetVsPlayScreens();
+
+        if (player.bet > player.wallet) {
+            player.bet = player.wallet;
+            updateBetVisual('$' + player.bet);
+        }
+
+        player.wallet -= player.bet;
+        colourBetAdjustmentButtons();
+        updateWalletVisual();
+        updateBetVisual('$' + player.bet);
+    } else {
+        document.querySelector('.instructionsModal').close();
+        showGameEndModal('outOfMoney');
     }
 }
 
@@ -316,10 +288,12 @@ function updateDisplay(person, hand, firstCardHidden) {
 document.querySelector('.playButton').addEventListener('click', handlePlayClick);
 document.querySelector('.instructionsButton').addEventListener('click', handleInstructionsClick);
 document.querySelector('.instructionsModalCloseButton').addEventListener('click', handleInstructionsModalCloseClick);
-document.querySelector('.instructionsModal').addEventListener('click', handleOutsideInstructionsModalClick)
+document.querySelector('.instructionsModal').addEventListener('click', handleOutsideInstructionsModalClick);
 document.querySelector('.cashOutButton').addEventListener('click', handleCashOutClick);
 document.querySelector('.cancelCashOutButton').addEventListener('click', handleCancelCashOutClick);
-document.querySelector('.cashOutConfirmationModal').addEventListener('click', handleOutsideCashOutConfirmationModalClick);
+document
+    .querySelector('.cashOutConfirmationModal')
+    .addEventListener('click', handleOutsideCashOutConfirmationModalClick);
 document.querySelector('.confirmCashOutButton').addEventListener('click', handleConfirmCashOutClick);
 document.querySelector('.gameEndModal').addEventListener('keydown', handleGameEndEscPress);
 document.querySelector('.playAgainButton').addEventListener('click', handlePlayAgainClick);
@@ -338,7 +312,7 @@ document.querySelector('.standButton').addEventListener('click', handleStandClic
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
 document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
 
-// Event handlers
+// Event handlers and associated logic functions
 function handlePlayClick() {
     document.querySelector('.coverPage').classList.add('hidden');
 }
@@ -375,19 +349,7 @@ function handleOutsideCashOutConfirmationModalClick(event) {
 
 function handleConfirmCashOutClick() {
     document.querySelector('.cashOutConfirmationModal').close();
-    endGame('cashedOut');
-}
-
-function endGame(outcome) {
-    if (outcome === 'outOfMoney') {
-        document.querySelector('.gameEndHeader').textContent = 'Game over';
-        document.querySelector('.gameEndMain').textContent = 'You lost all your money';
-    } else {
-        document.querySelector('.gameEndHeader').textContent = 'Congratulations';
-        document.querySelector('.gameEndMain').innerHTML = 'You finished with <span class="text-green-800">$' + (player.wallet + player.bet) + '</span>';
-    }
-
-    document.querySelector('.gameEndModal').showModal();
+    showGameEndModal('cashedOut');
 }
 
 function handleGameEndEscPress(event) {
@@ -404,8 +366,8 @@ function handlePlayAgainClick() {
     } else {
         player.wallet = 900;
         player.bet = 100;
-        updateWallet();
-        updateBet('$' + player.bet);
+        updateWalletVisual();
+        updateBetVisual('$' + player.bet);
         colourBetAdjustmentButtons();
     }
 
@@ -451,8 +413,8 @@ function handleAdd100Click() {
 function adjustBet(adjustment) {
     player.bet += adjustment;
     player.wallet -= adjustment;
-    updateBet('$' + player.bet);
-    updateWallet();
+    updateBetVisual('$' + player.bet);
+    updateWalletVisual();
     colourBetAdjustmentButtons();
 }
 
@@ -465,13 +427,13 @@ function handleHitClick() {
     hideSplitDoubleDownButtons();
     hideInsuranceButton();
     deal(player.hands[player.currentHandIndex]);
-    updateDisplay('player', player.hands[player.currentHandIndex], false);
+    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
 
     if (player.hands[player.currentHandIndex].handValue >= 21) {
         hideHitStandButtons();
 
         if (player.hands[player.currentHandIndex].handValue > 21) {
-            announce('.playerBustPopUp');
+            playAnimation('.playerBustPopUp');
             setTimeout(determineIfAllHandsPlayed, 3000);
         } else {
             setTimeout(determineIfAllHandsPlayed, 1000);
@@ -498,7 +460,7 @@ function handleSplitClick() {
 
 function handleSubsequentBet() {
     player.wallet -= player.bet;
-    updateWallet();
+    updateWalletVisual();
 }
 
 function splitHand(player) {
@@ -514,10 +476,10 @@ function handleDoubleDownClick() {
     hideHitStandButtons();
     hideInsuranceButton();
     handleSubsequentBet();
-    updateBet('$' + 2 * player.bet);
+    updateBetVisual('$' + 2 * player.bet);
     player.hands[player.currentHandIndex].doubled = true;
     deal(player.hands[player.currentHandIndex]);
-    updateDisplay('player', player.hands[player.currentHandIndex], false);
+    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
     setTimeout(determineIfAllHandsPlayed, 1000);
 }
 
@@ -538,8 +500,8 @@ function handleInsuranceClick() {
 function handleSideBet() {
     const sideBet = calculateSideBet();
     player.wallet -= sideBet;
-    updateWallet();
-    updateSideBet('$' + sideBet);
+    updateWalletVisual();
+    updateSideBetVisual('$' + sideBet);
     return sideBet;
 }
 
@@ -555,21 +517,21 @@ function calculateSideBet() {
 
 function handleSuccessfulInsurance(sideBet) {
     setTimeout(() => {
-        updateDisplay('dealer', dealer, false);
-        announce('.dealerBlackjackPopUp');
+        updateCardsAndScoreVisuals('dealer', dealer, false);
+        playAnimation('.dealerBlackjackPopUp');
         setTimeout(() => {
             player.wallet += player.bet + sideBet;
-            updateWallet();
-            updateSideBet('');
+            updateWalletVisual();
+            updateSideBetVisual('');
             setTimeout(resolveHand, 500);
         }, 2750);
     }, 500);
 }
 
 function handleUnsuccessfulInsurance() {
-    announce('.dealerNoBlackjackPopUp');
+    playAnimation('.dealerNoBlackjackPopUp');
     setTimeout(() => {
-        updateSideBet('');
+        updateSideBetVisual('');
         showButtons();
     }, 2750);
 }
@@ -577,17 +539,17 @@ function handleUnsuccessfulInsurance() {
 function handleAcceptEvenMoneyClick() {
     toggleEvenMoneyButtons();
     player.wallet += 2 * player.bet;
-    updateBet('');
-    updateWallet();
+    updateBetVisual('');
+    updateWalletVisual();
 
     setTimeout(() => {
-        updateDisplay('dealer', dealer, false);
+        updateCardsAndScoreVisuals('dealer', dealer, false);
 
         if (dealer.handValue === 21) {
-            announce('.dealerBlackjackPopUp');
+            playAnimation('.dealerBlackjackPopUp');
             setTimeout(prepareNewRound, 2750);
         } else {
-            announce('.dealerNoBlackjackPopUp');
+            playAnimation('.dealerNoBlackjackPopUp');
             setTimeout(prepareNewRound, 2750);
         }
     }, 1000);
@@ -598,19 +560,187 @@ function handleRejectEvenMoneyClick() {
     resolveBlackjack();
 }
 
-// HTML element appearance toggling
+// Visual functions
 function toggleBetVsPlayScreens() {
     document.querySelector('.deckCounter').classList.toggle('hidden');
     document.querySelector('.dealButton').classList.toggle('hidden');
     document.querySelector('.dealerCards').classList.toggle('hidden');
-    document.querySelector('.dealerCards').classList.toggle('flex');
     document.querySelector('.dealerScore').classList.toggle('hidden');
     document.querySelector('.playerCards').classList.toggle('hidden');
-    document.querySelector('.playerCards').classList.toggle('flex');
     document.querySelector('.playerScore').classList.toggle('hidden');
     document.querySelector('.cashOutButton').classList.toggle('hidden');
     document.querySelector('.betAdjustmentSection').classList.toggle('hidden');
     document.querySelector('.splitHandsSection').classList.add('hidden');
+}
+
+function colourBetAdjustmentButtons() {
+    if (player.bet < 2) {
+        colourButtonRed('.subtract1Button');
+    } else {
+        colourButtonWhite('.subtract1Button');
+    }
+
+    if (player.bet > 499 || player.wallet < 1) {
+        colourButtonRed('.add1Button');
+    } else {
+        colourButtonWhite('.add1Button');
+    }
+
+    if (player.bet < 11) {
+        colourButtonRed('.subtract10Button');
+    } else {
+        colourButtonWhite('.subtract10Button');
+    }
+
+    if (player.bet > 490 || player.wallet < 10) {
+        colourButtonRed('.add10Button');
+    } else {
+        colourButtonWhite('.add10Button');
+    }
+
+    if (player.bet < 101) {
+        colourButtonRed('.subtract100Button');
+    } else {
+        colourButtonWhite('.subtract100Button');
+    }
+
+    if (player.bet > 400 || player.wallet < 100) {
+        colourButtonRed('.add100Button');
+    } else {
+        colourButtonWhite('.add100Button');
+    }
+}
+
+function colourButtonRed(button) {
+    document.querySelector(button).classList.remove('bg-slate-100', 'hover:bg-white');
+    document.querySelector(button).classList.add('bg-red-500');
+}
+
+function colourButtonWhite(button) {
+    document.querySelector(button).classList.remove('bg-red-500');
+    document.querySelector(button).classList.add('bg-slate-100', 'hover:bg-white');
+}
+
+function updateCardsAndScoreVisuals(person, hand, firstCardHidden) {
+    let cardsHTML = '';
+
+    hand.cards.forEach((card, index) => {
+        if (firstCardHidden) {
+            if (index === 0) {
+                cardsHTML += '<img src="images/cards/backRed.svg" alt="Back of card" class="absolute h-28" />';
+            } else {
+                cardsHTML +=
+                    '<img src="images/cards/' +
+                    card.rank +
+                    card.suit.charAt(0).toUpperCase() +
+                    card.suit.slice(1) +
+                    '.svg" alt="' +
+                    card.rank.charAt(0).toUpperCase() +
+                    card.rank.slice(1) +
+                    ' of ' +
+                    card.suit +
+                    ' card" class="absolute h-28 offset-1" />';
+            }
+        } else {
+            cardsHTML +=
+                '<img src="images/cards/' +
+                card.rank +
+                card.suit.charAt(0).toUpperCase() +
+                card.suit.slice(1) +
+                '.svg" alt="' +
+                card.rank.charAt(0).toUpperCase() +
+                card.rank.slice(1) +
+                ' of ' +
+                card.suit +
+                ' card" class="absolute h-28 offset-' +
+                index +
+                '" />';
+        }
+
+        if (index === 0) {
+            cardsHTML += '<div class="w-[6.5208rem] h-28"></div>';
+        } else if (index > 1) {
+            cardsHTML += '<div class="w-[1.375rem]"></div>';
+        }
+    });
+
+    document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
+
+    if (firstCardHidden) {
+        if (dealer.cards[1]) {
+            document.querySelector('.dealerScore').textContent = dealer.cards[1].value;
+        } else {
+            document.querySelector('.dealerScore').textContent = 0;
+        }
+    } else {
+        document.querySelector('.' + person + 'Score').textContent = hand.handValue;
+    }
+}
+
+function updateSplitHandsVisual() {
+    let splitHandsHTML = '';
+
+    player.hands.forEach((hand, index) => {
+        if (index !== player.currentHandIndex) {
+            splitHandsHTML += '<div class="relative flex">';
+
+            hand.cards.forEach((card, index) => {
+                if (index % 2 === 0) {
+                    splitHandsHTML +=
+                        '<img src="images/cards/' +
+                        card.rank +
+                        card.suit.charAt(0).toUpperCase() +
+                        card.suit.slice(1) +
+                        '.svg" alt="' +
+                        card.rank.charAt(0).toUpperCase() +
+                        card.rank.slice(1) +
+                        ' of ' +
+                        card.suit +
+                        ' card" class="absolute h-14 offset-' +
+                        index / 2 +
+                        '" />';
+                } else {
+                    splitHandsHTML +=
+                        '<img src="images/cards/' +
+                        card.rank +
+                        card.suit.charAt(0).toUpperCase() +
+                        card.suit.slice(1) +
+                        '.svg" alt="' +
+                        card.rank.charAt(0).toUpperCase() +
+                        card.rank.slice(1) +
+                        ' of ' +
+                        card.suit +
+                        ' card" class="absolute h-14 offset-half-' +
+                        index +
+                        '" />';
+                }
+
+                if (index === 0) {
+                    splitHandsHTML += '<div class="w-[2.5729rem] h-14"></div>';
+                } else {
+                    splitHandsHTML += '<div class="w-[0.6875rem] h-14"></div>';
+                }
+            });
+
+            splitHandsHTML += '</div>';
+        }
+    });
+
+    const splitHandsSection = document.querySelector('.splitHandsSection');
+    splitHandsSection.innerHTML = splitHandsHTML;
+    splitHandsSection.classList.remove('hidden');
+}
+
+function updateWalletVisual() {
+    document.querySelector('.wallet').textContent = '$' + player.wallet;
+}
+
+function updateBetVisual(betText) {
+    document.querySelector('.bet').textContent = betText;
+}
+
+function updateSideBetVisual(sideBetText) {
+    document.querySelector('.sideBet').textContent = sideBetText;
 }
 
 function showButtons() {
@@ -629,7 +759,13 @@ function showButtons() {
         }
     }
 
-    if (dealer.cards[1].value === 11 && !player.insured && player.hands.length === 1 && player.wallet >= 0.5 * player.bet && player.bet > 1) {
+    if (
+        dealer.cards[1].value === 11 &&
+        !player.insured &&
+        player.hands.length === 1 &&
+        player.wallet >= 0.5 * player.bet &&
+        player.bet > 1
+    ) {
         document.querySelector('.insuranceButton').classList.remove('hidden');
     }
 }
@@ -653,55 +789,7 @@ function toggleEvenMoneyButtons() {
     document.querySelector('.rejectEvenMoneyButton').classList.toggle('hidden');
 }
 
-function colourBetAdjustmentButtons() {
-    if (player.bet < 2) {
-        makeButtonRed('.subtract1Button');
-    } else {
-        makeButtonWhite('.subtract1Button');
-    }
-
-    if (player.bet > 499 || player.wallet < 1) {
-        makeButtonRed('.add1Button');
-    } else {
-        makeButtonWhite('.add1Button');
-    }
-
-    if (player.bet < 11) {
-        makeButtonRed('.subtract10Button');
-    } else {
-        makeButtonWhite('.subtract10Button');
-    }
-
-    if (player.bet > 490 || player.wallet < 10) {
-        makeButtonRed('.add10Button');
-    } else {
-        makeButtonWhite('.add10Button');
-    }
-
-    if (player.bet < 101) {
-        makeButtonRed('.subtract100Button');
-    } else {
-        makeButtonWhite('.subtract100Button');
-    }
-
-    if (player.bet > 400 || player.wallet < 100) {
-        makeButtonRed('.add100Button');
-    } else {
-        makeButtonWhite('.add100Button');
-    }
-}
-
-function makeButtonRed(button) {
-    document.querySelector(button).classList.remove('bg-slate-100', 'hover:bg-white');
-    document.querySelector(button).classList.add('bg-red-500');
-}
-
-function makeButtonWhite(button) {
-    document.querySelector(button).classList.remove('bg-red-500');
-    document.querySelector(button).classList.add('bg-slate-100', 'hover:bg-white');
-}
-
-function announce(targetElement) {
+function playAnimation(targetElement) {
     setTimeout(() => {
         document.querySelector(targetElement).classList.remove('hidden');
         document.querySelector(targetElement).classList.add('animate-popUpOut');
@@ -712,7 +800,7 @@ function announce(targetElement) {
     }, 2500);
 }
 
-function announceResult(messageText) {
+function playResultAnimation(messageText) {
     document.querySelector('.resultMessage').textContent = messageText;
     document.querySelector('.handResultPopUp').classList.remove('hidden');
     document.querySelector('.handResultPopUp').classList.add('animate-popUp');
@@ -722,44 +810,15 @@ function announceResult(messageText) {
     }, 2000);
 }
 
-function updateSplitHandsSection() {
-    let splitHandsHTML = '';
+function showGameEndModal(outcome) {
+    if (outcome === 'outOfMoney') {
+        document.querySelector('.gameEndHeader').textContent = 'Game over';
+        document.querySelector('.gameEndMain').textContent = 'You lost all your money';
+    } else {
+        document.querySelector('.gameEndHeader').textContent = 'Congratulations';
+        document.querySelector('.gameEndMain').innerHTML =
+            'You finished with <span class="text-green-800">$' + (player.wallet + player.bet) + '</span>';
+    }
 
-    player.hands.forEach((hand, index) => {
-        if (index !== player.currentHandIndex) {
-            splitHandsHTML += '<div class="relative flex">';
-
-            hand.cards.forEach((card, index) => {
-                if (index % 2 === 0) {
-                    splitHandsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-14 offset-' + index / 2 + '" />';
-                } else {
-                    splitHandsHTML += '<img src="images/cards/' + card.rank + card.suit.charAt(0).toUpperCase() + card.suit.slice(1) + '.svg" alt="' + card.rank.charAt(0).toUpperCase() + card.rank.slice(1) + ' of ' + card.suit + ' card" class="absolute h-14 offset-half-' + index + '" />';
-                }
-
-                if (index === 0) {
-                    splitHandsHTML += '<div class="w-[2.5729rem] h-14"></div>';
-                } else {
-                    splitHandsHTML += '<div class="w-[0.6875rem] h-14"></div>';
-                }
-            });
-
-            splitHandsHTML += '</div>';
-        }
-    });
-
-    const splitHandsSection = document.querySelector('.splitHandsSection');
-    splitHandsSection.innerHTML = splitHandsHTML;
-    splitHandsSection.classList.remove('hidden');
-}
-
-function updateWallet() {
-    document.querySelector('.wallet').textContent = '$' + player.wallet;
-}
-
-function updateBet(betText) {
-    document.querySelector('.bet').textContent = betText;
-}
-
-function updateSideBet(sideBetText) {
-    document.querySelector('.sideBet').textContent = sideBetText;
+    document.querySelector('.gameEndModal').showModal();
 }
