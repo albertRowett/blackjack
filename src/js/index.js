@@ -116,6 +116,7 @@ function determineIfAllHandsPlayed() {
 
         if (dealer.handValue === 21) {
             playAnimation('.dealerBlackjackPopUp');
+            // Wait for blackjack pop-up animation to complete
             setTimeout(resolveHand, 2500);
         } else {
             setTimeout(resolveHand, 1000);
@@ -463,7 +464,7 @@ function handleSplitClick() {
     hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
     handleSubsequentBet();
-    splitHand(player);
+    splitHand();
     player.currentHandIndex--;
     playNextHand();
 }
@@ -473,7 +474,7 @@ function handleSubsequentBet() {
     updateWalletVisual();
 }
 
-function splitHand(player) {
+function splitHand() {
     const currentHand = player.hands[player.currentHandIndex];
     // Move second card in hand to new (second) hand
     player.hands.push({ cards: [currentHand.cards.pop()], handValue: 0, doubled: false });
@@ -696,34 +697,22 @@ function updateSplitHandsVisual() {
             splitHandsHTML += '<div class="relative flex">';
 
             hand.cards.forEach((card, index) => {
+                splitHandsHTML +=
+                    '<img src="images/cards/' +
+                    card.rank +
+                    card.suit.charAt(0).toUpperCase() +
+                    card.suit.slice(1) +
+                    '.svg" alt="' +
+                    card.rank.charAt(0).toUpperCase() +
+                    card.rank.slice(1) +
+                    ' of ' +
+                    card.suit +
+                    ' card" class="absolute h-14 ';
+
                 if (index % 2 === 0) {
-                    splitHandsHTML +=
-                        '<img src="images/cards/' +
-                        card.rank +
-                        card.suit.charAt(0).toUpperCase() +
-                        card.suit.slice(1) +
-                        '.svg" alt="' +
-                        card.rank.charAt(0).toUpperCase() +
-                        card.rank.slice(1) +
-                        ' of ' +
-                        card.suit +
-                        ' card" class="absolute h-14 offset-' +
-                        index / 2 +
-                        '" />';
+                    splitHandsHTML += 'offset-' + index / 2 + '" />';
                 } else {
-                    splitHandsHTML +=
-                        '<img src="images/cards/' +
-                        card.rank +
-                        card.suit.charAt(0).toUpperCase() +
-                        card.suit.slice(1) +
-                        '.svg" alt="' +
-                        card.rank.charAt(0).toUpperCase() +
-                        card.rank.slice(1) +
-                        ' of ' +
-                        card.suit +
-                        ' card" class="absolute h-14 offset-half-' +
-                        index +
-                        '" />';
+                    splitHandsHTML += 'offset-half-' + index + '" />';
                 }
 
                 if (index === 0) {
@@ -814,7 +803,7 @@ function playAnimation(targetElement) {
 }
 
 function playResultAnimation(resultText) {
-    document.querySelector('.resultMessage').textContent = resultText;
+    document.querySelector('.resultText').textContent = resultText;
     document.querySelector('.handResultPopUp').classList.remove('hidden');
     document.querySelector('.handResultPopUp').classList.add('animate-popUp');
     setTimeout(() => {
