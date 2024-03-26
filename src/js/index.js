@@ -52,6 +52,7 @@ function playFirstHand() {
         if (player.hands[0].handValue === 21) {
             playAnimation('.playerBlackjackPopUp');
 
+            // Timers account for blackjack pop-up animation length (2500 ms)
             if (dealer.cards[1].value === 11) {
                 setTimeout(toggleEvenMoneyButtons, 2750);
             } else {
@@ -64,6 +65,7 @@ function playFirstHand() {
 }
 
 function shuffle(deck) {
+    // Fisher-Yates shuffle algorithm
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -93,6 +95,7 @@ function resolveAces(hand, handValue) {
     if (handValue > 21) {
         for (let i = 0; i < hand.cards.length; i++) {
             if (hand.cards[i].rank === 'ace') {
+                // Count ace as 1 instead of 11
                 handValue -= 10;
             }
 
@@ -122,17 +125,16 @@ function determineIfAllHandsPlayed() {
 
 function playNextHand() {
     player.currentHandIndex++;
-    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+    const currentHand = player.hands[player.currentHandIndex];
+    updateCardsAndScoreVisuals('player', currentHand, false);
     updateBetVisual('$' + player.bet);
     updateSplitHandsVisual();
     setTimeout(() => {
-        deal(player.hands[player.currentHandIndex]);
-        updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+        deal(currentHand);
+        updateCardsAndScoreVisuals('player', currentHand, false);
 
-        if (
-            player.hands[player.currentHandIndex].cards[0].value === 11 ||
-            player.hands[player.currentHandIndex].handValue === 21
-        ) {
+        // Hitting/resplitting split aces not permitted
+        if (currentHand.cards[0].value === 11 || currentHand.handValue === 21) {
             setTimeout(determineIfAllHandsPlayed, 1000);
         } else {
             setTimeout(showButtons, 250);
@@ -145,10 +147,12 @@ function resolveBlackjack() {
 
     if (dealer.handValue === 21) {
         playAnimation('.dealerBlackjackPopUp');
+        // Wait for blackjack pop-up animation to complete
         setTimeout(() => {
             playResultAnimation('Push');
             player.wallet += player.bet;
             setTimeout(updateWalletVisual, 500);
+            // Wait for result animation to complete
             setTimeout(prepareNewRound, 2000);
         }, 2500);
     } else {
@@ -162,6 +166,7 @@ function resolveBlackjack() {
             }
 
             setTimeout(updateWalletVisual, 500);
+            // Wait for result animation to complete
             setTimeout(prepareNewRound, 2000);
         }, 1000);
     }
@@ -172,6 +177,7 @@ function resolveHand() {
 
     if (playerHand.handValue > 21) {
         playResultAnimation('Dealer wins');
+        // Wait for result animation to complete
         setTimeout(determineIfAllHandsResolved, 2000);
     } else {
         resolveDealerHand(playerHand);
@@ -208,6 +214,7 @@ function resolveDealerHand(playerHand) {
 
         if (dealer.handValue > 21) {
             playAnimation('.dealerBustPopUp');
+            // Wait for bust pop-up animation to complete
             setTimeout(() => {
                 finishResolvingHand(playerHand);
             }, 2500);
@@ -255,29 +262,29 @@ function finishResolvingHand(playerHand) {
     }
 
     setTimeout(updateWalletVisual, 500);
+    // Wait for result animation to complete
     setTimeout(determineIfAllHandsResolved, 2000);
 }
 
 function prepareNewRound() {
     if (player.wallet > 0) {
+        currentCard = 0;
         player.hands = [{ cards: [], handValue: 0, doubled: false }];
         updateCardsAndScoreVisuals('player', player.hands[0], false);
         player.currentHandIndex = 0;
         player.insured = false;
         dealer.cards = [];
         updateCardsAndScoreVisuals('dealer', dealer, true);
-        currentCard = 0;
         toggleBetVsPlayScreens();
 
         if (player.bet > player.wallet) {
             player.bet = player.wallet;
-            updateBetVisual('$' + player.bet);
         }
 
         player.wallet -= player.bet;
-        colourBetAdjustmentButtons();
         updateWalletVisual();
         updateBetVisual('$' + player.bet);
+        colourBetAdjustmentButtons();
     } else {
         document.querySelector('.instructionsModal').close();
         showGameEndModal('outOfMoney');
@@ -304,13 +311,13 @@ document.querySelector('.add10Button').addEventListener('click', handleAdd10Clic
 document.querySelector('.subtract100Button').addEventListener('click', handleSubtract100Click);
 document.querySelector('.add100Button').addEventListener('click', handleAdd100Click);
 document.querySelector('.dealButton').addEventListener('click', handleDealClick);
-document.querySelector('.acceptEvenMoneyButton').addEventListener('click', handleAcceptEvenMoneyClick);
-document.querySelector('.rejectEvenMoneyButton').addEventListener('click', handleRejectEvenMoneyClick);
-document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
 document.querySelector('.hitButton').addEventListener('click', handleHitClick);
 document.querySelector('.standButton').addEventListener('click', handleStandClick);
 document.querySelector('.splitButton').addEventListener('click', handleSplitClick);
 document.querySelector('.doubleDownButton').addEventListener('click', handleDoubleDownClick);
+document.querySelector('.insuranceButton').addEventListener('click', handleInsuranceClick);
+document.querySelector('.acceptEvenMoneyButton').addEventListener('click', handleAcceptEvenMoneyClick);
+document.querySelector('.rejectEvenMoneyButton').addEventListener('click', handleRejectEvenMoneyClick);
 
 // Event handlers and associated logic functions
 function handlePlayClick() {
@@ -326,9 +333,9 @@ function handleInstructionsModalCloseClick() {
 }
 
 function handleOutsideInstructionsModalClick(event) {
-    const modal = document.querySelector('.instructionsModal');
-    if (event.target === modal) {
-        modal.close();
+    const instructionsModal = document.querySelector('.instructionsModal');
+    if (event.target === instructionsModal) {
+        instructionsModal.close();
     }
 }
 
@@ -341,9 +348,9 @@ function handleCancelCashOutClick() {
 }
 
 function handleOutsideCashOutConfirmationModalClick(event) {
-    const modal = document.querySelector('.cashOutConfirmationModal');
-    if (event.target === modal) {
-        modal.close();
+    const cashOutConfirmationModal = document.querySelector('.cashOutConfirmationModal');
+    if (event.target === cashOutConfirmationModal) {
+        cashOutConfirmationModal.close();
     }
 }
 
@@ -359,6 +366,7 @@ function handleGameEndEscPress(event) {
 }
 
 function handlePlayAgainClick() {
+    // If game ended by running out of money
     if (document.querySelector('.cashOutButton').classList.contains('hidden')) {
         player.wallet = 1000;
         player.bet = 100;
@@ -411,10 +419,10 @@ function handleAdd100Click() {
 }
 
 function adjustBet(adjustment) {
-    player.bet += adjustment;
     player.wallet -= adjustment;
-    updateBetVisual('$' + player.bet);
+    player.bet += adjustment;
     updateWalletVisual();
+    updateBetVisual('$' + player.bet);
     colourBetAdjustmentButtons();
 }
 
@@ -424,16 +432,18 @@ function handleDealClick() {
 }
 
 function handleHitClick() {
-    hideSplitDoubleDownButtons();
+    hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
-    deal(player.hands[player.currentHandIndex]);
-    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+    const currentHand = player.hands[player.currentHandIndex];
+    deal(currentHand);
+    updateCardsAndScoreVisuals('player', currentHand, false);
 
-    if (player.hands[player.currentHandIndex].handValue >= 21) {
-        hideHitStandButtons();
+    if (currentHand.handValue >= 21) {
+        hideHitAndStandButtons();
 
-        if (player.hands[player.currentHandIndex].handValue > 21) {
+        if (currentHand.handValue > 21) {
             playAnimation('.playerBustPopUp');
+            // Timer accounts for bust pop-up animation length (2500 ms)
             setTimeout(determineIfAllHandsPlayed, 3000);
         } else {
             setTimeout(determineIfAllHandsPlayed, 1000);
@@ -442,15 +452,15 @@ function handleHitClick() {
 }
 
 function handleStandClick() {
-    hideSplitDoubleDownButtons();
-    hideHitStandButtons();
+    hideHitAndStandButtons();
+    hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
     determineIfAllHandsPlayed();
 }
 
 function handleSplitClick() {
-    hideSplitDoubleDownButtons();
-    hideHitStandButtons();
+    hideHitAndStandButtons();
+    hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
     handleSubsequentBet();
     splitHand(player);
@@ -465,6 +475,7 @@ function handleSubsequentBet() {
 
 function splitHand(player) {
     const currentHand = player.hands[player.currentHandIndex];
+    // Move second card in hand to new (second) hand
     player.hands.push({ cards: [currentHand.cards.pop()], handValue: 0, doubled: false });
     currentHand.handValue = updateHandValue(currentHand);
     const newHand = player.hands[player.currentHandIndex + 1];
@@ -472,20 +483,21 @@ function splitHand(player) {
 }
 
 function handleDoubleDownClick() {
-    hideSplitDoubleDownButtons();
-    hideHitStandButtons();
+    hideHitAndStandButtons();
+    hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
     handleSubsequentBet();
     updateBetVisual('$' + 2 * player.bet);
-    player.hands[player.currentHandIndex].doubled = true;
-    deal(player.hands[player.currentHandIndex]);
-    updateCardsAndScoreVisuals('player', player.hands[player.currentHandIndex], false);
+    const currentHand = player.hands[player.currentHandIndex];
+    currentHand.doubled = true;
+    deal(currentHand);
+    updateCardsAndScoreVisuals('player', currentHand, false);
     setTimeout(determineIfAllHandsPlayed, 1000);
 }
 
 function handleInsuranceClick() {
-    hideHitStandButtons();
-    hideSplitDoubleDownButtons();
+    hideHitAndStandButtons();
+    hideSplitAndDoubleDownButtons();
     hideInsuranceButton();
     const sideBet = handleSideBet();
     player.insured = true;
@@ -519,6 +531,7 @@ function handleSuccessfulInsurance(sideBet) {
     setTimeout(() => {
         updateCardsAndScoreVisuals('dealer', dealer, false);
         playAnimation('.dealerBlackjackPopUp');
+        // Timer accounts for blackjack pop-up animation length (2500 ms)
         setTimeout(() => {
             player.wallet += player.bet + sideBet;
             updateWalletVisual();
@@ -530,6 +543,7 @@ function handleSuccessfulInsurance(sideBet) {
 
 function handleUnsuccessfulInsurance() {
     playAnimation('.dealerNoBlackjackPopUp');
+    // Timer accounts for noBlackjack pop-up animation length (2500 ms)
     setTimeout(() => {
         updateSideBetVisual('');
         showButtons();
@@ -547,9 +561,11 @@ function handleAcceptEvenMoneyClick() {
 
         if (dealer.handValue === 21) {
             playAnimation('.dealerBlackjackPopUp');
+            // Timer accounts for blackjack pop-up animation length (2500 ms)
             setTimeout(prepareNewRound, 2750);
         } else {
             playAnimation('.dealerNoBlackjackPopUp');
+            // Timer accounts for noBlackjack pop-up animation length (2500 ms)
             setTimeout(prepareNewRound, 2750);
         }
     }, 1000);
@@ -629,22 +645,8 @@ function updateCardsAndScoreVisuals(person, hand, firstCardHidden) {
     let cardsHTML = '';
 
     hand.cards.forEach((card, index) => {
-        if (firstCardHidden) {
-            if (index === 0) {
-                cardsHTML += '<img src="images/cards/backRed.svg" alt="Back of card" class="absolute h-28" />';
-            } else {
-                cardsHTML +=
-                    '<img src="images/cards/' +
-                    card.rank +
-                    card.suit.charAt(0).toUpperCase() +
-                    card.suit.slice(1) +
-                    '.svg" alt="' +
-                    card.rank.charAt(0).toUpperCase() +
-                    card.rank.slice(1) +
-                    ' of ' +
-                    card.suit +
-                    ' card" class="absolute h-28 offset-1" />';
-            }
+        if (firstCardHidden && index === 0) {
+            cardsHTML += '<img src="images/cards/backRed.svg" alt="Back of card" class="absolute h-28" />';
         } else {
             cardsHTML +=
                 '<img src="images/cards/' +
@@ -662,23 +664,28 @@ function updateCardsAndScoreVisuals(person, hand, firstCardHidden) {
         }
 
         if (index === 0) {
+            // 6.5208rem is the width of the first two cards
             cardsHTML += '<div class="w-[6.5208rem] h-28"></div>';
         } else if (index > 1) {
+            // 1.375rem is the offset for subsequent cards
             cardsHTML += '<div class="w-[1.375rem]"></div>';
         }
     });
 
     document.querySelector('.' + person + 'Cards').innerHTML = cardsHTML;
 
+    let scoreToShow = hand.handValue;
+
     if (firstCardHidden) {
+        // If dealer's second card has been dealt
         if (dealer.cards[1]) {
-            document.querySelector('.dealerScore').textContent = dealer.cards[1].value;
+            scoreToShow = dealer.cards[1].value;
         } else {
-            document.querySelector('.dealerScore').textContent = 0;
+            scoreToShow = 0;
         }
-    } else {
-        document.querySelector('.' + person + 'Score').textContent = hand.handValue;
     }
+
+    document.querySelector('.' + person + 'Score').textContent = scoreToShow;
 }
 
 function updateSplitHandsVisual() {
@@ -720,8 +727,10 @@ function updateSplitHandsVisual() {
                 }
 
                 if (index === 0) {
+                    // 2.5729rem is the width of the first card
                     splitHandsHTML += '<div class="w-[2.5729rem] h-14"></div>';
                 } else {
+                    // 0.6875rem is the offset for subsequent cards
                     splitHandsHTML += '<div class="w-[0.6875rem] h-14"></div>';
                 }
             });
@@ -774,12 +783,12 @@ function showButtons() {
     }
 }
 
-function hideHitStandButtons() {
+function hideHitAndStandButtons() {
     document.querySelector('.hitButton').classList.add('hidden');
     document.querySelector('.standButton').classList.add('hidden');
 }
 
-function hideSplitDoubleDownButtons() {
+function hideSplitAndDoubleDownButtons() {
     document.querySelector('.splitButton').classList.add('hidden');
     document.querySelector('.doubleDownButton').classList.add('hidden');
 }
@@ -804,8 +813,8 @@ function playAnimation(targetElement) {
     }, 2500);
 }
 
-function playResultAnimation(messageText) {
-    document.querySelector('.resultMessage').textContent = messageText;
+function playResultAnimation(resultText) {
+    document.querySelector('.resultMessage').textContent = resultText;
     document.querySelector('.handResultPopUp').classList.remove('hidden');
     document.querySelector('.handResultPopUp').classList.add('animate-popUp');
     setTimeout(() => {
