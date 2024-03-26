@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <title>Blackjack game</title>
+
+        <meta name="description" content="Free-to-play online blackjack game" />
+        <meta name="author" content="Albert Rowett" />
+
+        <link rel="icon" href="images/suits/spade.svg" sizes="192x192" />
+        <link rel="shortcut icon" href="images/suits/spade.svg" />
+        <link rel="apple-touch-icon" href="images/suits/spade.svg" />
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/output.css" />
+
+        <script defer src="js/index.js"></script>
+        <script src="https://kit.fontawesome.com/27a7576e1a.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body class="h-screen flex justify-center bg-green-700 font-sans text-slate-100">
+        <section class="coverPage fixed z-40 w-full h-full flex flex-col justify-center items-center bg-green-700">
+            <h1 class="mb-5 text-6xl font-semibold"><span class="text-neutral-900">Black</span>jack</h1>
+            <img src="images/blackjackLogo.svg" alt="" class="w-52 mb-5" />
+            <button class="playButton mb-8 px-2 py-1 bg-slate-100 hover:bg-white rounded-lg text-xl text-neutral-900
+             font-semibold">
+                <i class="fa-solid fa-play"></i> Play
+            </button>
+        </section>
+        <dialog class="instructionsModal sm:h-auto sm:m-[1.6875rem] md:h-4/5 md:my-auto lg:max-w-[76.625rem]
+         xl:max-h-[70.375rem] xl:mx-auto bg-slate-100 rounded-lg backdrop:bg-neutral-900 backdrop:opacity-35
+         animate-popUpFast origin-top-right lg:origin-center">
+            <div class="instructionsModalContainer w-full h-full p-2 text-neutral-900">
+                <div class="w-full flex justify-end">
+                    <i class="instructionsModalCloseButton fa-solid fa-xmark fixed w-[1.125rem] bg-red-600
+                     hover:bg-red-500 rounded-md text-lg text-slate-100 font-bold text-center hover:cursor-pointer"
+                     title="Close instructions">
+                    </i>
+                </div>
+                <div>
+                    <div class="mb-2">
+                        <p class="font-bold">Aim of the Game</p>
+                        <p class="text-sm">
+                            Blackjack is a card-based gambling game played over multiple rounds. In each round, the aim
+                            is to beat the dealer by collecting a hand of cards that sum to as close to 21 as possible
+                            without exceeding it.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Card Values</p>
+                        <p class="text-sm">
+                            Numbered cards are worth their printed values and 'face cards' (jack, queen, king) are worth
+                            10. Aces can be worth 1 or 11: normally they're worth 11, unless this would result in a hand
+                            value over 21, in which case they're worth 1.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Betting</p>
+                        <p class="text-sm">
+                            Before each round is dealt, you must place a bet on the round's outcome. The maximum bet is
+                            $500.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Shuffling and Dealing</p>
+                        <p class="text-sm">
+                            A standard 52-card deck is used, which will be shuffled at the start of each round. During
+                            the initial deal you'll be dealt two cards face up, while the dealer will receive one face
+                            up and one face down.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Blackjack</p>
+                        <p class="text-sm">
+                            If your first two cards are an ace and a '10-card' (a ten or a face card), resulting in a
+                            hand value of 21, this is a 'blackjack'. Unless the dealer has a face-up ace (see 'Even
+                            Money' below), you'll win the round and the dealer will pay out on your bet at a rate of
+                            3-to-2 (e.g. a bet of $100 would yield a return of the $100 staked + $150 profit = $250
+                            total).*
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Your Play</p>
+                        <p class="text-sm">
+                            After the initial deal, you must decide whether to 'hit' (request another card in order to
+                            get closer to 21) or 'stand' (receive no further cards). You may continue to hit until
+                            either you decide to stand or you go 'bust' (have a hand value over 21). A combination of an
+                            ace and a non-10 card is known as a 'soft hand', because the ace can count as 1 or 11. If
+                            hitting on a soft hand takes your hand value over 21, the ace will be counted as 1 and you
+                            can continue to play.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">The Dealer's Play</p>
+                        <p class="text-sm">
+                            After you've decided to stand or gone bust, the dealer's face-down card will be revealed. If
+                            the dealer's hand value is 17 or higher, the dealer will stand, irrespective of your score.
+                            If the dealer's hand value is below 17, the dealer will draw cards until reaching at least
+                            17. The dealer will stand on 'soft-17' (when counting an ace as 11 results in a hand value
+                            of 17).
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Settlement</p>
+                        <p class="text-sm">
+                            If you go bust, you'll lose the hand and the bet associated with it will be collected by the
+                            dealer, even if the dealer also subsequently goes bust. However, if the dealer goes bust and
+                            you've stood on a hand value of 21 or less, the dealer will pay out on your bet at a rate of
+                            1-to-1 (e.g. a bet of $100 would yield a return of the $100 staked + $100 profit = $200
+                            total). If the dealer stands on a total of 21 or less, the dealer will pay out if you have a
+                            higher hand value (and avoided going bust) or collect the bet if you have a lower hand
+                            value. In the event of a draw (also known as a 'push', where your hand value is the same as
+                            the dealer's), your bet will be returned with no additional payout.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Splitting</p>
+                        <p class="text-sm">
+                            If your first two cards are of equal value (e.g. two sixes or two 10-cards), you can choose
+                            to 'split' and play them as two separate hands. Your original bet will remain on the first
+                            hand and a second, equal bet will be placed on the second hand. You'll then play each hand
+                            in turn, not starting the second hand until you've either stood or gone bust on the first.
+                            The two hands will be settled separately, meaning it's possible to win one hand and lose the
+                            other. Split hands may be resplit if another card of the same value (e.g. a third six) is
+                            dealt. Resplitting is possible up to four hands. If a pair of aces are split, only one
+                            additional card will be dealt to each hand and resplitting will not be possible if further
+                            aces are dealt. Furthermore, if the additional card is a 10-card, the hand won't be
+                            considered a blackjack and will be paid out at the normal rate of 1-to-1 if it wins.
+                            Similarly, if an ace is dealt as the second card after splitting a pair of 10-cards, this
+                            isn't considered a blackjack either.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Doubling Down</p>
+                        <p class="text-sm">
+                            If your first two cards sum to 9, 10 or 11, you can choose to 'double down'. The bet staked
+                            on the hand will be doubled and you'll be dealt one additional card, after which you must
+                            stand, irrespective of your new hand value.
+                        </p>
+                    </div>
+                    <div class="mb-2">
+                        <p class="font-bold">Insurance</p>
+                        <p class="text-sm">
+                            If the dealer's face-up card is an ace, you can make a side-bet of half your original bet
+                            that the dealer's face-down card is a 10-card (i.e. that the dealer has a blackjack). If
+                            this is the case, the face-down card will be revealed and your side-bet will be paid out at
+                            a rate of 2-to-1 (e.g. a side-bet of $50 would yield a return of the $50 staked + $100
+                            profit = $150 total). This 'insures' the loss of your original bet, preventing a net loss in
+                            the round. If the dealer doesn't have a blackjack, the dealer will collect your lost
+                            side-bet, but your original bet will remain and you can continue to play.†
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <p class="font-bold">Even Money</p>
+                        <p class="text-sm">
+                            In the rare event that you have a blackjack but the dealer's face-up card is an ace, you'll
+                            be offered 'even money'. If you accept, your bet will be paid out at the normal rate of
+                            1-to-1 before the dealer's face-down card is revealed and irrespective of the outcome. If
+                            you reject the offer, the dealer's card will be revealed and the round will be resolved as
+                            normal: if the dealer doesn't have a blackjack, your bet will be paid out at the blackjack
+                            rate of 3-to-2, but if the dealer does have a blackjack, the result is a push and your bet
+                            will be returned with no additional payout. The offer of even money can therefore be
+                            considered an insurance of your blackjack.
+                        </p>
+                    </div>
+                    <p class="mb-2 text-xs leading-tight">
+                        * Odd bets are paid out at $0.5 less than 3-to-2. Bets of $1 are therefore only paid out at
+                        1-to-1.
+                    </p>
+                    <p class="mb-2 text-xs leading-tight">
+                        † Insurance for odd bets costs $0.5 more than half your original bet and is paid out at $1 less
+                        than 2-to-1 (i.e. exactly making up for the loss of your original bet). Insurance will not be
+                        offered for bets of $1.
+                    </p>
+                </div>
+            </div>
+        </dialog>
+        <dialog class="cashOutConfirmationModal bg-slate-100 rounded-lg backdrop:bg-neutral-900 backdrop:opacity-35
+         animate-popUpFast">
+            <div class="cashOutConfirmationModalContainer w-full h-full p-3">
+                <p class="mb-3 text-xl font-medium text-center">Cash out?</p>
+                <div class="flex gap-3">
+                    <button class="cancelCashOutButton p-1 bg-red-600 hover:bg-red-500 rounded-lg text-slate-50
+                     font-semibold">
+                        Cancel
+                    </button>
+                    <button class="confirmCashOutButton p-1 bg-green-800 hover:bg-green-700 rounded-lg text-slate-100
+                     font-semibold">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </dialog>
+        <dialog class="gameEndModal w-72 h-44 bg-slate-100 rounded-lg backdrop:bg-neutral-900 backdrop:opacity-35
+         animate-popUpFast">
+            <div class="gameEndModalContainer w-full h-full flex flex-col justify-between items-center p-5">
+                <!-- Game end modal text content inserted by JS -->
+                <p class="gameEndHeader text-3xl font-bold"></p>
+                <p class="gameEndMain"></p>
+                <button class="playAgainButton mt-4 p-1 bg-blue-900 hover:bg-blue-800 rounded-lg text-slate-100
+                 font-semibold">
+                    Play again
+                </button>
+            </div>
+        </dialog>
+        <main class="w-full max-w-screen-lg flex flex-col">
+            <section class="topSection relative flex justify-between m-2 sm:m-4 sm:mb-2">
+                <div class="w-24 relative">
+                    <div class="absolute z-30 flex flex-col items-center">
+                        <img src="images/cards/backRed.svg" alt="" class="h-28 mb-1" />
+                        <button class="dealButton p-1 bg-slate-100 hover:bg-white rounded-lg text-neutral-900
+                         font-semibold">
+                            Deal
+                        </button>
+                    </div>
+                    <!-- Deck counter positioned in centre of card back image; controlled by JS -->
+                    <p class="deckCounter absolute top-[2.375rem] left-[1.448rem] z-40 hidden w-9 p-1 bg-slate-100/75
+                     rounded-full text-xl text-neutral-900 font-bold text-center">
+                    </p>
+                </div>
+                <button class="instructionsButton z-50 p-1 bg-slate-100 hover:bg-white rounded-lg text-neutral-900
+                 font-semibold">
+                    Instructions
+                </button>
+            </section>
+            <section class="middleSection basis-[78%] flex">
+                <div class="middleSectionContainer relative w-full flex flex-col justify-around items-center mt-8">
+                    <!-- Payout rates to appear as though printed on table in centre of middle section -->
+                    <section class="payoutRates absolute z-0 text-2xl text-slate-100 opacity-25 font-medium">
+                        <p class="text-center">Insurance pays 2-to-1</p>
+                        <p class="text-center">BLACKJACK PAYS 3-TO-2</p>
+                    </section>
+                    <!-- Pop-up visibility/animation controlled by JS -->
+                    <section class="handResultPopUp absolute z-40 w-52 hidden outline outline-4 outline-slate-100 border-4
+                     border-neutral-900 bg-slate-100 rounded-xl text-3xl text-neutral-900 origin-center">
+                        <div class="flex justify-between">
+                            <img src="images/suits/club.svg" alt="" class="w-6 h-9 ml-1" />
+                            <img src="images/suits/diamond.svg" alt="" class="w-6 h-9 mr-1" />
+                        </div>
+                        <p class="resultText my-1.5 font-semibold text-center"></p>
+                        <div class="flex justify-between">
+                            <img src="images/suits/heart.svg" alt="" class="w-6 h-9 ml-1" />
+                            <img src="images/suits/spade.svg" alt="" class="w-6 h-9 mr-1" />
+                        </div>
+                    </section>
+                    <!-- Empty div required to ensure correct vertical spacing of elements in middle section -->
+                    <div class="min-h-10"></div>
+                    <div class="dealerSection w-full grid grid-cols-8">
+                        <div></div>
+                        <div class="relative col-span-6 h-28 flex justify-center">
+                            <!-- Box slightly taller than cards and slightly narrower than two overlapping cards -->
+                            <div class="cardBox absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0
+                             w-[5.6458rem] h-[7.5rem] rounded-xl border-2">
+                            </div>
+                            <!-- Pop-up visibilities/animations controlled by JS -->
+                            <p class="dealerBlackjackPopUp absolute top-1/2 left-1/2 translate-x-[-50%]
+                             translate-y-[-50%] z-40 w-32 hidden outline outline-neutral-900 border-2 p-1 bg-neutral-900
+                             rounded-xl text-lg text-slate-100 font-bold text-center origin-top-left">
+                                BLACKJACK
+                            </p>
+                            <p class="dealerNoBlackjackPopUp absolute top-1/2 left-1/2 translate-x-[-50%]
+                             translate-y-[-50%] z-40 w-40 hidden outline outline-neutral-600 border-2 p-1 bg-neutral-600
+                             rounded-xl text-lg text-slate-100 font-bold text-center origin-top-left">
+                                NO BLACKJACK
+                            </p>
+                            <p class="dealerBustPopUp absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
+                             z-40 w-32 hidden outline outline-red-600 border-2 p-1 bg-red-600 rounded-xl text-lg
+                             text-slate-100 font-bold text-center origin-top-left">
+                                BUST
+                            </p>
+                            <!-- Cards inserted and controlled by JS -->
+                            <div class="dealerCards relative z-30 hidden flex"></div>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- Score inserted and controlled by JS -->
+                            <p class="dealerScore min-w-8 hidden text-2xl font-bold text-center"></p>
+                        </div>
+                    </div>
+                    <div class="min-h-12 flex items-center">
+                        <!-- Button(s) and side bet not ever visible at same time -->
+                        <button class="acceptEvenMoneyButton hidden m-2 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Accept even money
+                        </button>
+                        <button class="rejectEvenMoneyButton hidden m-2 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Reject even money
+                        </button>
+                        <button class="insuranceButton hidden m-2 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Insurance
+                        </button>
+                        <!-- Side bet value inserted and controlled by JS -->
+                        <p class="sideBet text-2xl font-bold"></p>
+                    </div>
+                    <!-- Bet value controlled by JS -->
+                    <p class="bet z-30 min-h-10 text-4xl font-extrabold">$100</p>
+                    <div class="min-h-12 flex items-center">
+                        <button class="hitButton w-14 hidden m-2 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Hit
+                        </button>
+                        <!-- Min div width ensures consistent positioning of hit and stand buttons -->
+                        <div class="min-w-[6.7156rem] m-2">
+                            <button class="doubleDownButton hidden p-1 bg-slate-100 hover:bg-white rounded-lg
+                             text-neutral-900 font-semibold">
+                                Double down
+                            </button>
+                        </div>
+                        <button class="standButton w-14 hidden m-2 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Stand
+                        </button>
+                    </div>
+                    <div class="playerSection w-full grid grid-cols-8">
+                        <div></div>
+                        <div class="relative col-span-6 h-28 flex justify-center">
+                            <!-- Box slightly taller than cards and slightly narrower than two overlapping cards -->
+                            <div class="cardBox absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] z-0
+                             w-[5.6458rem] h-[7.5rem] rounded-xl border-2">
+                            </div>
+                            <!-- Pop-up visibilities/animations controlled by JS -->
+                            <p class="playerBlackjackPopUp absolute top-1/2 left-1/2 translate-x-[-50%]
+                             translate-y-[-50%] z-40 w-32 hidden p-1 outline outline-neutral-900 border-2 bg-neutral-900
+                             rounded-xl text-lg text-slate-100 font-bold text-center origin-top-left">
+                                BLACKJACK
+                            </p>
+                            <p class="playerBustPopUp absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]
+                             z-40 w-32 hidden p-1 outline outline-red-600 border-2 bg-red-600 rounded-xl text-lg
+                             text-slate-100 font-bold text-center origin-top-left">
+                                BUST
+                            </p>
+                            <!-- Cards inserted and controlled by JS -->
+                            <div class="playerCards relative z-30 hidden flex"></div>
+                        </div>
+                        <div class="flex items-center">
+                            <!-- Score inserted and controlled by JS -->
+                            <p class="playerScore min-w-8 hidden text-2xl font-bold text-center"></p>
+                        </div>
+                    </div>
+                    <div class="min-h-10 flex items-center">
+                        <button class="splitButton w-14 hidden m-2 mb-0 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Split
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="bottomSection flex justify-around basis-[22%]">
+                <!-- Defined width ensures consistent positioning of header and paragraph when button hidden -->
+                <div class="walletSection w-[5.725rem] flex flex-col justify-center items-center">
+                    <h2 class="opacity-50 text-lg font-medium">Wallet</h2>
+                    <p class="wallet text-2xl font-bold">$900</p>
+                    <!-- Defined height ensures consistent positioning of header and paragraph when button hidden -->
+                    <div class="min-h-[3.375rem]">
+                        <button class="cashOutButton m-2 mt-3.5 p-1 bg-slate-100 hover:bg-white rounded-lg
+                         text-neutral-900 font-semibold">
+                            Cash out
+                        </button>
+                    </div>
+                </div>
+                <!-- Defined width ensures consistent positioning of wallet section -->
+                <div class="w-48 flex items-center">
+                    <div class="betAdjustmentSection flex flex-col items-center">
+                        <h2 class="opacity-50 text-lg font-medium">Adjust bet</h2>
+                        <div class="flex">
+                            <div class="flex flex-col items-center m-2">
+                                <p class="1DollarChip w-11 h-11 flex justify-center items-center border-8
+                                 border-neutral-900 border-dashed bg-slate-100 rounded-full drop-shadow-rb text-xs
+                                 text-neutral-900 font-semibold">
+                                    1
+                                </p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract1Button w-[1.375rem] pb-0.5 bg-slate-100 hover:bg-white
+                                     rounded-lg text-sm text-neutral-900 font-semibold">
+                                        -
+                                    </button>
+                                    <button class="add1Button w-[1.375rem] pb-0.5 bg-slate-100 hover:bg-white rounded-lg
+                                     text-sm text-neutral-900 font-semibold">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Button colours controlled by JS -->
+                            <div class="flex flex-col items-center m-2">
+                                <p class="10DollarChip w-11 h-11 flex justify-center items-center border-8
+                                 border-slate-100 border-dashed bg-blue-900 rounded-full drop-shadow-rb text-xs
+                                 text-slate-100 font-semibold">
+                                    10
+                                </p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract10Button w-[1.375rem] pb-0.5 bg-slate-100 hover:bg-white
+                                     rounded-lg text-sm text-neutral-900 font-semibold">
+                                        -
+                                    </button>
+                                    <button class="add10Button w-[1.375rem] pb-0.5 bg-slate-100 hover:bg-white
+                                     rounded-lg text-sm text-neutral-900 font-semibold">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center m-2">
+                                <p class="100DollarChip w-11 h-11 flex justify-center items-center border-8
+                                 border-slate-100 border-dashed bg-neutral-900 rounded-full drop-shadow-rb text-xs
+                                 text-slate-100 font-semibold">
+                                    100
+                                </p>
+                                <div class="flex gap-1 mt-1">
+                                    <button class="subtract100Button w-[1.375rem] pb-0.5 bg-red-500 rounded-lg text-sm
+                                     text-neutral-900 font-semibold">
+                                        -
+                                    </button>
+                                    <button class="add100Button w-[1.375rem] pb-0.5 bg-slate-100 hover:bg-white
+                                     rounded-lg text-sm text-neutral-900 font-semibold">
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Hands inserted and controlled by JS -->
+                    <div class="splitHandsSection h-[7.25rem] hidden flex flex-wrap gap-x-2 gap-y-1 mt-3 mb-2 ml-2">
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="fixed bottom-0 z-50 w-full">
+            <p class="opacity-50 text-xs font-light text-center">&copy 2024 Albert Rowett</p>
+        </footer>
+    </body>
+</html>
