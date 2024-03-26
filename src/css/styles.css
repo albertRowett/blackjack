@@ -4,10 +4,7 @@
   box-sizing: border-box;
 }
 
-.hidden {
-  display: none;
-}
-
+/* Inserting Tailwind classes (e.g. left-[0.6875rem]) with JS didn't work for card offsets */
 .offset-half-1 {
   left: 0.6875rem;
 }
