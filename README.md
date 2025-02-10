@@ -10,7 +10,7 @@ Grab a seat at the virtual table, it’s time to play blackjack!
 
 The aim of this project was to improve my JavaScript proficiency through building a fun and visually-appealing online version of this classic casino game. While blackjack may seem like a relatively simple game at first glance, I thought its nuanced rules would pose an interesting challenge from a game logic perspective.
 
-I used HTML and TailwindCSS for the visuals and plain JavaScript for the game logic and manipulation of visual elements. Foregoing a framework allowed me to focus on writing efficient game functions, while keeping the codebase simple and lightweight.
+I used HTML and Tailwind CSS for the visuals and plain JavaScript for the game logic and manipulation of visual elements. Foregoing a framework allowed me to focus on writing efficient game functions, while keeping the codebase simple and lightweight.
 
 The biggest challenge I faced was implementing the ability to ‘split’ hands, which required a substantial rewrite of the existing code. It was also my first time working with modals and CSS animations.
 
