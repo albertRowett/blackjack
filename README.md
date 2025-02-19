@@ -1,6 +1,6 @@
 # Blackjack - JavaScript Game
 
-A simple, free-to-play online blackjack game built using HTML, CSS and JavaScript.
+A dynamic, free-to-play online blackjack game built using HTML, CSS and JavaScript.
 
 [Live site](https://blackjack.2023-bertr.dev.io-academy.uk/)
 
@@ -10,9 +10,9 @@ Grab a seat at the virtual table, it’s time to play blackjack!
 
 The aim of this project was to improve my JavaScript proficiency through building a fun and visually-appealing online version of this classic casino game. While blackjack may seem like a relatively simple game at first glance, I thought its nuanced rules would pose an interesting challenge from a game logic perspective.
 
-I used HTML and Tailwind CSS for the visuals and plain JavaScript for the game logic and manipulation of visual elements. Foregoing a framework allowed me to focus on writing efficient game functions, while keeping the codebase simple and lightweight.
+I used HTML and Tailwind CSS for the interface, and plain JavaScript for game logic and DOM manipulation. Foregoing a framework allowed me to focus on writing efficient game functions, while keeping the codebase simple and lightweight.
 
-The biggest challenge I faced was implementing the ability to ‘split’ hands, which required a substantial rewrite of the existing code. It was also my first time working with modals and CSS animations.
+The biggest challenge I faced was implementing the ability to ‘split’ hands, which required substantial refactoring of the existing code. It was also my first time working with modals and CSS animations.
 
 I hope you enjoy my efforts; may the cards be in your favour!
 
@@ -28,9 +28,23 @@ I hope you enjoy my efforts; may the cards be in your favour!
 
 ## Screenshots
 
-<img src="screenshots/coverScreen.png" alt="The game's cover page" width="144" height="304" />&nbsp;&nbsp;&nbsp;
-<img src="screenshots/betScreen.png" alt="Placing a bet in the game" width="144" height="304" />&nbsp;&nbsp;&nbsp;
-<img src="screenshots/playScreen.png" alt="Playing a hand in the game" width="144" height="304" />
+### Mobile
+
+<img src="./README_screenshots/mobile_cover.png" alt="Mobile view of the game's title screen" width="155.25" height="276" /> &nbsp;
+<img src="./README_screenshots/mobile_bet.png" alt="Mobile view of wagering" width="155.25" height="276" /> &nbsp;
+<img src="./README_screenshots/mobile_play.png" alt="Mobile view of playing a split hand" width="155.25" height="276" /> &nbsp;
+<img src="./README_screenshots/mobile_result.png" alt="Mobile view of a hand result" width="155.25" height="276" /> &nbsp;
+<img src="./README_screenshots/mobile_cashout.png" alt="Mobile view of cashing out" width="155.25" height="276" /> &nbsp;
+<img src="./README_screenshots/mobile_end.png" alt="Mobile view of the game end pop-up" width="155.25" height="276" />
+
+### Desktop
+
+<img src="./README_screenshots/desktop_cover.png" alt="Desktop view of the game's title screen" width="360" height="225" /> &nbsp;
+<img src="./README_screenshots/desktop_bet.png" alt="Desktop view of wagering" width="360" height="225" /> &nbsp;
+<img src="./README_screenshots/desktop_play.png" alt="Desktop view of playing a split hand" width="360" height="225" /> &nbsp;
+<img src="./README_screenshots/desktop_result.png" alt="Desktop view of a hand result" width="360" height="225" /> &nbsp;
+<img src="./README_screenshots/desktop_cashout.png" alt="Desktop view of cashing out" width="360" height="225" /> &nbsp;
+<img src="./README_screenshots/desktop_end.png" alt="Desktop view of the game end pop-up" width="360" height="225" />
 
 ## Installation
 
@@ -48,7 +62,7 @@ I hope you enjoy my efforts; may the cards be in your favour!
 
 4. Access the game:
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open **/blackjack/index.html** in a browser or launch a local development server.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Open `index.html` (found in the `src` directory) in a browser or use a local development server.
 
 ## Contributing
 
