@@ -1,6 +1,6 @@
 # Blackjack - JavaScript Game
 
-A dynamic, free-to-play online blackjack game built using HTML, CSS and JavaScript.
+Dynamic, free-to-play online blackjack game built using HTML, CSS and JavaScript.
 
 [Live site](https://blackjack.2023-bertr.dev.io-academy.uk/)
 
