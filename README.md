@@ -2,7 +2,7 @@
 
 Dynamic, free-to-play online blackjack game built using HTML, CSS and JavaScript.
 
-[Live site](https://blackjack.2023-bertr.dev.io-academy.uk/)
+[Live site](https://blackjack-albertrowett.vercel.app/)
 
 ## Introduction
 
